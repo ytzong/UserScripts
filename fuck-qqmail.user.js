@@ -7,4 +7,4 @@
 // @copyright  2014+, ytzong
 // ==/UserScript==
 
-window.location.href = document.getElementsByClassName('safety-url')[0].innerHTML;
+goUrl(1);
