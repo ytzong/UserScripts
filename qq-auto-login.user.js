@@ -7,6 +7,7 @@
 // @copyright  2014+, ytzong
 // ==/UserScript==
 
+document.getElementById('u').value = ''; //后面引号里输入你的QQ号码
 document.getElementById('p').value = ''; //后面引号里输入你的密码
 
 function ytFunc(){
