@@ -3,7 +3,7 @@
 // @namespace  http://twitter.com/ytzong
 // @version    0.1
 // @description  FFH6 Auto Download
-// @match      http://www.ffh6.com/bt*
+// @match      http://www.ffh6.com/*
 // @match      http://www.yyyy1.info/bt*
 // @match      http://www.rmdown.com/link.php*
 // @copyright  2014+, ytzong
