@@ -19,7 +19,7 @@ function addJQuery(callback) {
     document.body.appendChild(script);
 }
 function main() {
-
+/*
 	var css = "img, input{max-width:100%}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}#commentarea{display:none;}.intro img{width:900px}.torrent_files{left: 0;position: absolute;top: 31px;background-color:yellow}.torrent_files li{font-weight:bold;font-size:14px}.download{position: absolute;  top: 25px; left: 345px;}.bd{position:relative}";
 	var heads = document.getElementsByTagName("head");
 	if (heads.length > 0) {
@@ -27,7 +27,7 @@ function main() {
 		node.appendChild(document.createTextNode(css));
 		heads[0].appendChild(node); 
 	}
-
+*/
     var bdIndex = 0;
     var url = document.location.href;
     var urls = url.split('/');
