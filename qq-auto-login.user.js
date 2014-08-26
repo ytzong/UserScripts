@@ -7,6 +7,10 @@
 // @match      http://xui.ptlogin2.qq.com/cgi-bin/xlogin*
 // @match      http://ui.ptlogin2.tengpay.com/cgi-bin/login*
 // @match      http://xui.ptlogin2.tenpay.com/cgi-bin/xlogin*
+// @match      https://ui.ptlogin2.qq.com/cgi-bin/login*
+// @match      https://xui.ptlogin2.qq.com/cgi-bin/xlogin*
+// @match      https://ui.ptlogin2.tengpay.com/cgi-bin/login*
+// @match      https://xui.ptlogin2.tenpay.com/cgi-bin/xlogin*
 // @copyright  2014+, ytzong
 // ==/UserScript==
 
