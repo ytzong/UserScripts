@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       QQ Auto Login
 // @namespace  QQ Auto Login
-// @version    0.1
+// @version    0.2
 // @description  QQ Auto Login
 // @match      http://ui.ptlogin2.qq.com/cgi-bin/login*
 // @match      http://xui.ptlogin2.qq.com/cgi-bin/xlogin*
