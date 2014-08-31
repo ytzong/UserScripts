@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       T66Y Torrent Auto Download
 // @namespace  http://twitter.com/ytzong
-// @version    0.1
+// @version    0.2
 // @description  FFH6 Auto Download
 // @match      http://www.ffh6.com/*
 // @match      http://www.yyyy1.info/*
