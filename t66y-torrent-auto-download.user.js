@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       T66Y Torrent Auto Download
 // @namespace  http://twitter.com/ytzong
-// @version    0.2
+// @version    0.3
 // @description  FFH6 Auto Download
 // @match      http://www.ffh6.com/*
 // @match      http://www.yyyy1.info/*
@@ -16,4 +16,4 @@ function ytDownloadTorrent(){
     if (strDomain == 'www.rmdown.com')
         document.forms[0].submit.click();
 }
-window.setTimeout(ytDownloadTorrent, 3000);
+window.setTimeout(ytDownloadTorrent, 2000);
