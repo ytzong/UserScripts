@@ -3,7 +3,7 @@
 // @namespace      Douban Movie Download Search
 // @description    Douban Movie Download Search
 // @match        http://movie.douban.com/subject/*
-// @version    0.2
+// @version    0.3
 // @copyright  2012+, ytzong
 // ==/UserScript==
 
@@ -21,7 +21,7 @@ function addJQuery(callback) {
 function main() {
     try {
     	var movieTitle = jQuery('h1 span:eq(0)').text();
-		jQuery('#info').append('<div><span class="pl">下载链接:</span> <a href="http://simplecd.me/search/entry/?query=' + movieTitle + '" target="_balnk">SimpleCD</a> / <a href="http://btmee.net/search/?q=' + movieTitle + '" target="_balnk">BTmee</a> / <a href="http://www.mp4ba.com/search.php?keyword=' + movieTitle + '" target="_balnk">MP4BA</a><br><span class="pl">字幕链接:</span> <a href="http://shooter.cn/search/' + movieTitle + '" target="_balnk">Shooter</a><div>');
+		jQuery('#info').append('<div><span class="pl">下载链接:</span> <a href="http://dianying.fm/category/key_' + movieTitle + '" target="_balnk">电影FM</a> / <a href="http://btmee.net/search/?q=' + movieTitle + '" target="_balnk">BTmee</a> / <a href="https://www.google.com/search?sourceid=chrome&ie=UTF-8&q=' + movieTitle + '+720p" target="_balnk">百度云</a><br><span class="pl">字幕链接:</span> <a href="http://subhd.com/search/' + movieTitle + '" target="_balnk">SubHD</a><div>');
     }
     catch (e) { }
 }
