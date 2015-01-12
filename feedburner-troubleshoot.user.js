@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       feedburner-troubleshoot
 // @namespace  http://twitter.com/ytzong
-// @version    0.3
+// @version    0.4
 // @description  feedburner-troubleshoot
 // @match      https://feedburner.google.com/fb/a/troubleshoot?id=*
 // @copyright  2015+, ytzong
@@ -13,4 +13,4 @@ function YTFunc(){
     else
     	window.location.href = document.querySelector('#thingActions a').getAttribute('href');
 }
-window.setTimeout(YTFunc, 2000);
+window.setTimeout(YTFunc, 1000);
