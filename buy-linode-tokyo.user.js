@@ -3,7 +3,7 @@
 // @namespace      Buy Linode Tokyo
 // @description    Buy Linode Tokyo
 // @match        https://manager.linode.com/linodes/add*
-// @version    0.1
+// @version    0.2
 // @copyright  2015+, ytzong
 // ==/UserScript==
 
@@ -20,8 +20,8 @@ function addJQuery(callback) {
 
 function main() {
     try {
-    	$('#linode1024.4').attr('checked', 'checked')
-        $("#DatacenterID option[text='Tokyo, JP']").attr("selected","selected") ;
+    	document.getElementById('linode1024.4').checked = true;
+        document.getElementById('DatacenterID').value = 8;
     }
     catch (e) { }
 }
