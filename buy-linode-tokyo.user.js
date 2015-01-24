@@ -3,26 +3,16 @@
 // @namespace      Buy Linode Tokyo
 // @description    Buy Linode Tokyo
 // @match        https://manager.linode.com/linodes/add*
-// @version    0.2
+// @version    0.3
 // @copyright  2015+, ytzong
 // ==/UserScript==
 
-function addJQuery(callback) {
-    var script = document.createElement("script");
-    script.setAttribute("src", "about:blank");
-    script.addEventListener('load', function () {
-        var script = document.createElement("script");
-        script.textContent = "(" + callback.toString() + ")();";
-        document.head.appendChild(script);
-    }, false);
-    document.head.appendChild(script);
-}
-
-function main() {
+function YTFunc() {
     try {
     	document.getElementById('linode1024.4').checked = true;
         document.getElementById('DatacenterID').value = 8;
+        document.getElementById('signup').submit()
     }
     catch (e) { }
 }
-addJQuery(main);
+window.setTimeout(YTFunc, 2000);
