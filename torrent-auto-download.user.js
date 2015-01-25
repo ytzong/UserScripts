@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Torrent Auto Download
 // @namespace  http://twitter.com/ytzong
-// @version    0.6
+// @version    0.7
 // @description  Torrent Auto Download
 // @match      http://www.ffh6.com/*
 // @match      http://www.yyyy1.info/*
@@ -18,7 +18,9 @@ function ytDownloadTorrent(){
     	document.getElementsByClassName('button')[0].click();
     if (strDomain == 'www.rmdown.com')
         document.forms[0].submit.click();
-    if (strDomain == 'www.jandown.com' || strDomain == 'www.xahka.com' || strDomain == 'www.222888.info')
+    if (strDomain == 'www.jandown.com' || strDomain == 'www.xahka.com')
         document.forms[0].submit();
+    if (strDomain == 'www.222888.info')
+    	document.getElementsByClassName('button')[0].click()
 }
 window.setTimeout(ytDownloadTorrent, 2000);
