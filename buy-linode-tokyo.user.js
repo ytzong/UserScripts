@@ -3,7 +3,7 @@
 // @namespace      Buy Linode Tokyo
 // @description    Buy Linode Tokyo
 // @match        https://manager.linode.com/linodes/add*
-// @version    0.3
+// @version    0.4
 // @copyright  2015+, ytzong
 // ==/UserScript==
 
@@ -15,4 +15,4 @@ function YTFunc() {
     }
     catch (e) { }
 }
-window.setTimeout(YTFunc, 2000);
+window.setTimeout(YTFunc, 5000);
