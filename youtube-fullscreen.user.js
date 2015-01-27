@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.2
+// @version     0.3
 // @grant       none
 // ==/UserScript==
 
@@ -20,10 +20,16 @@ function addJQuery(callback) {
 
 function main() {
     //
-    function download(){
+    function fullscreen(){
         $('div[title="Expand"]').click()
     }
-    window.setTimeout(download, 3000);
+    window.setTimeout(fullscreen, 3000);
+
+    $(document).keydown(function(e) {
+		if(e.keyCode == 70) {
+			fullscreen()
+		}
+	})
 }
 
 addJQuery(main);
