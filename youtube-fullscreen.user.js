@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.4
+// @version     0.5
 // @grant       none
 // ==/UserScript==
 
@@ -26,6 +26,7 @@ function main() {
     window.setTimeout(fullscreen, 2000);
 
     $(document).keydown(function(e) {
+    	//F
 		if(e.keyCode == 70) {
 			fullscreen()
 		}
@@ -36,9 +37,10 @@ function main() {
 	}
 	var degree = 0;
 	$(document).keydown(function(e) {
+		//R
 		if(e.keyCode == 82) {
-			rotate(degree)
 			degree += 90
+			rotate(degree)
 		}
 	})
 }
