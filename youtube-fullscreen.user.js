@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.3
+// @version     0.4
 // @grant       none
 // ==/UserScript==
 
@@ -23,11 +23,22 @@ function main() {
     function fullscreen(){
         $('div[title="Expand"]').click()
     }
-    window.setTimeout(fullscreen, 3000);
+    window.setTimeout(fullscreen, 2000);
 
     $(document).keydown(function(e) {
 		if(e.keyCode == 70) {
 			fullscreen()
+		}
+	})
+
+	function rotate(deg) {
+		$('.html5-main-video').css('transform', 'rotate(' + deg + 'deg)')
+	}
+	var degree = 0;
+	$(document).keydown(function(e) {
+		if(e.keyCode == 82) {
+			rotate(degree)
+			degree += 90
 		}
 	})
 }
