@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.5
+// @version     0.6
 // @grant       none
 // ==/UserScript==
 
@@ -33,7 +33,8 @@ function main() {
 	})
 
 	function rotate(deg) {
-		$('.html5-main-video').css('transform', 'rotate(' + deg + 'deg)')
+		var parent = $('.html5-video-player')
+		$('.html5-main-video').css('transform', 'rotate(' + deg + 'deg)').width(parent.width()).height(parent.height())
 	}
 	var degree = 0;
 	$(document).keydown(function(e) {
