@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.6
+// @version     0.7
 // @grant       none
 // ==/UserScript==
 
@@ -22,6 +22,7 @@ function main() {
     //
     function fullscreen(){
         $('div[title="Expand"]').click()
+        $("iframe[id*='watch7']").attr('style', 'display: none !important;')
     }
     window.setTimeout(fullscreen, 2000);
 
@@ -33,8 +34,7 @@ function main() {
 	})
 
 	function rotate(deg) {
-		var parent = $('.html5-video-player')
-		$('.html5-main-video').css('transform', 'rotate(' + deg + 'deg)').width(parent.width()).height(parent.height())
+		$('.html5-main-video').css('transform', 'rotate(' + deg + 'deg)')
 	}
 	var degree = 0;
 	$(document).keydown(function(e) {
