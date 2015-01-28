@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.7
+// @version     0.8
 // @grant       none
 // ==/UserScript==
 
@@ -27,8 +27,8 @@ function main() {
     window.setTimeout(fullscreen, 2000);
 
     $(document).keydown(function(e) {
-    	//F
-		if(e.keyCode == 70) {
+    	//B
+		if(e.keyCode == 66) {
 			fullscreen()
 		}
 	})
