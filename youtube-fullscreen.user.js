@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.8
+// @version     0.9
 // @grant       none
 // ==/UserScript==
 
@@ -34,9 +34,16 @@ function main() {
 	})
 
 	function rotate(deg) {
-		$('.html5-main-video').css('transform', 'rotate(' + deg + 'deg)')
+        var height = 100;
+        var top = 0;
+        if (deg % 360 == 90 || deg % 360 == 270) {
+            height = 60;
+            top = 10;
+        }
+        $('.html5-main-video').attr('style', 'transform:rotate(' + deg + 'deg);width:100% !important;height:' + height + '% !important;left:0 !important;top:0 !important;margin-top:' + top + '% !important');
 	}
 	var degree = 0;
+    
 	$(document).keydown(function(e) {
 		//R
 		if(e.keyCode == 82) {
