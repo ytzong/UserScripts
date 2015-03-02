@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         WeChat Preload Images
 // @namespace    http://twitter.com/ytzong
-// @version      0.2
+// @version      0.3
 // @description  WeChat Preload Images
 // @author       ytzong
 // @match        http://mp.weixin.qq.com/*
@@ -21,6 +21,7 @@ function addJQuery(callback) {
     document.body.appendChild(script);
 }
 function main() {
+    $('title').text($('#activity-name:eq(0)').text());
     $('img').each(function(){
         var dataSrc = $(this).attr('data-src');
         if (dataSrc)
