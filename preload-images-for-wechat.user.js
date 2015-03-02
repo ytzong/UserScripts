@@ -1,8 +1,8 @@
 // ==UserScript==
-// @name         WeChat Preload Images
+// @name         Preload Images for WeChat
 // @namespace    http://twitter.com/ytzong
-// @version      0.5
-// @description  WeChat Preload Images
+// @version      0.1
+// @description  Preload Images for WeChat
 // @author       ytzong
 // @match        http://mp.weixin.qq.com/*
 // @match        https://mp.weixin.qq.com/*
