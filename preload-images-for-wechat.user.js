@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Preload Images for WeChat
 // @namespace    http://twitter.com/ytzong
-// @version      0.2
+// @version      0.3
 // @description  Preload Images for WeChat
 // @author       ytzong
 // @match        http://mp.weixin.qq.com/*
@@ -12,7 +12,7 @@
 
 function addJQuery(callback) {
     var script = document.createElement("script");
-    script.setAttribute("src", "//code.jquery.com/jquery-2.1.3.min.js");
+    script.setAttribute("src", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js");
     script.addEventListener('load', function () {
         var script = document.createElement("script");
         script.textContent = "(" + callback.toString() + ")();";
