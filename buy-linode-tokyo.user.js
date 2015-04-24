@@ -15,4 +15,4 @@ function YTFunc() {
     }
     catch (e) { }
 }
-window.setTimeout(YTFunc, 5000);
+window.setTimeout(YTFunc, 3000);
