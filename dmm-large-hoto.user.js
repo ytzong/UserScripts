@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    http://twitter.com/ytzong
-// @version      0.3
+// @version      0.4
 // @description  DMM Large Photo
 // @author       ytzong
 // @match        http://www.dmm.co.jp/*
@@ -9,7 +9,7 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('.d-item li {float:none !important; width:auto !important} #main-src .tmb:hover .img img{opacity:1 !important} #main-src[class*="digital"] .sample { top: 0!important;  left: 0!important;  margin-left: 0!important;}');
+GM_addStyle('.d-item .list li {float:none !important; width:auto !important} #main-src .tmb:hover .img img{opacity:1 !important} #main-src[class*="digital"] .sample { top: 0!important;  left: 0!important;  margin-left: 0!important;}');
 
 
 function YTFunc(){
