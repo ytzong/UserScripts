@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    http://twitter.com/ytzong
-// @version      0.2
+// @version      0.3
 // @description  DMM Large Photo
 // @author       ytzong
 // @match        http://www.dmm.co.jp/*
@@ -27,8 +27,12 @@ function YTFunc(){
         var img = $(this).attr('src');
         img = img.replace('-', 'jp-');
         $(this).attr('src', img);
-        $(this).attr('style', 'display:block;margin-left:auto;margin-right:auto');
+        $(this).attr('style', 'display:block;position:static; margin-left:auto;margin-right:auto;width:auto ;height:auto;cursor:default;');
     })
+    $('#sample-image-block a').each(function(){
+        $(this).attr('style', 'width:auto ;height:auto;').attr('onmouseup', '');
+    })
+    $('#sample-image-block').attr('class', '');
 }
 
 // Content Script Injection, see http://wiki.greasespot.net/Content_Script_Injection
