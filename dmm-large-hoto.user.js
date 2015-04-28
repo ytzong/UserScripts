@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    http://twitter.com/ytzong
-// @version      0.4
+// @version      0.5
 // @description  DMM Large Photo
 // @author       ytzong
 // @match        http://www.dmm.co.jp/*
@@ -19,7 +19,7 @@ function YTFunc(){
         $(this).attr('src', img);
         $(this).attr('style', 'max-width:none;max-height:none;margin-left:12px');
     })
-    $('.d-item a').each(function(){
+    $('.d-item .list a').each(function(){
         $(this).attr('target', '_blank');
     })
     
