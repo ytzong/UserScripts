@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BTKitty Magnet to Torrent
 // @namespace    http://twitter.com//ytzong
-// @version      0.2
+// @version      0.3
 // @description  BTKitty Magnet to Torrent
 // @author       ytzong
 // @match        http://btkitty.org/t/*
@@ -26,7 +26,7 @@ function main() {
     }
     else {
         var sort = $('.search-option a:nth-last-child(2)');
-        if (sort.attr('class') != 'active') {
+        if (sort && sort.attr('class') != 'active') {
             window.location.href = sort.attr('href');
         }
         $('.detail a').each(function(){
