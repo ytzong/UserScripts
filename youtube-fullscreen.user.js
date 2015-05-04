@@ -3,13 +3,15 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     0.9
-// @grant       none
+// @version     1.0
+// @grant       GM_addStyle
 // ==/UserScript==
+
+GM_addStyle('.html5-progress-bar {width: 100% !important}');
 
 function addJQuery(callback) {
 	var script = document.createElement("script");
-	script.setAttribute("src", "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js");
+	script.setAttribute("src", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js");
 	script.addEventListener('load', function() {
 		var script = document.createElement("script");
 		script.textContent = "(" + callback.toString() + ")();";
