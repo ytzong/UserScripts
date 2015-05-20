@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         BTKitty Magnet to Torrent
 // @namespace    http://twitter.com//ytzong
-// @version      0.4
+// @version      0.5
 // @description  BTKitty Magnet to Torrent
 // @author       ytzong
 // @match        http://btkitty.org/*
@@ -24,6 +24,7 @@ function addJQuery(callback) {
 function main() {
     if (document.domain == 'storebt.com') {
         window.location.href = $('.down a').attr('href');
+        window.setInterval(window.close, 3000);
     }
     else {
         $('#kwd').focus();
