@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         BTKitty Magnet to Torrent
 // @namespace    http://twitter.com//ytzong
-// @version      0.5
+// @version      0.6
 // @description  BTKitty Magnet to Torrent
 // @author       ytzong
 // @match        http://btkitty.org/*
+// @match        http://btkitty.me/*
 // @match        http://storebt.com/torrent/*
 // @grant        GM_addStyle
 // ==/UserScript==
