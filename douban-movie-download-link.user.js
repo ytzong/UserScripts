@@ -6,7 +6,7 @@
 // @match        http://book.douban.com/subject/*
 // @match        https://movie.douban.com/subject/*
 // @match        https://book.douban.com/subject/*
-// @version    0.5
+// @version    0.6
 // @copyright  2012+, ytzong
 // ==/UserScript==
 
@@ -21,4 +21,4 @@ else {
 	downloadContent = '<div><span class="pl">下载链接:</span> <a href="http://dianying.fm/category/key_' + movieTitle + '" target="_balnk">电影FM</a> / <a href="http://btmee.net/search/?q=' + movieTitle + '" target="_balnk">BTmee</a> / <a href="http://www.btexe.com/search?kw=' + movieTitle + '" target="_balnk">BT磁力</a> / <a href="https://www.google.com/search?sourceid=chrome&ie=UTF-8&q=' + movieTitle + '+1080p" target="_balnk">Google</a><br><span class="pl">字幕链接:</span> <a href="http://subhd.com/search/' + movieTitle + '" target="_balnk">SubHD</a><div>';
 }
 
-jQuery('#info').append();
+jQuery('#info').append(downloadContent);
