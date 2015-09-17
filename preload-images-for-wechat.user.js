@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Preload Images for WeChat
 // @namespace    http://twitter.com/ytzong
-// @version      0.3
+// @version      0.4
 // @description  Preload Images for WeChat
 // @author       ytzong
 // @match        http://mp.weixin.qq.com/*
@@ -21,11 +21,11 @@ function addJQuery(callback) {
     document.body.appendChild(script);
 }
 function main() {
-    $('title').text($('#activity-name:eq(0)').text());
+    //$('title').text($('#activity-name:eq(0)').text());
     $('img').each(function(){
         var dataSrc = $(this).attr('data-src');
         if (dataSrc)
-            $(this).attr('src', dataSrc).attr('style', '');
+            $(this).attr('src', dataSrc).removeAttr('style').removeAttr('data-s').removeAttr('data-w').removeAttr('data-ratio');
     })
 }
 addJQuery(window.setTimeout(main, 2000));
