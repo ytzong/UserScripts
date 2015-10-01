@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         BTKitty Magnet to Torrent
 // @namespace    http://twitter.com//ytzong
-// @version      0.9
+// @version      1.0
 // @description  BTKitty Magnet to Torrent
 // @author       ytzong
 // @match        http://btkitty.org/*
 // @match        http://btkitty.la/*
+// @match        http://btkitty.so/*
 // @match        http://btkitty.me/*
 // @match        http://storebt.com/torrent/*
 // @grant        GM_addStyle
@@ -36,9 +37,7 @@ function main() {
             window.location.href = sort.attr('href');
         }
         $('.detail a').each(function(){
-            if ($(this).text() == '[下载BT种子]') {
-                window.location.href = $(this).attr('href');
-            }   
+            window.location.href = $(this).attr('href');
         })  
     }
 }
