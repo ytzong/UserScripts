@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    http://twitter.com/ytzong
-// @version      0.9
+// @version      1.0
 // @description  DMM Large Photo
 // @author       ytzong
 // @match        http://www.dmm.co.jp/*
@@ -34,7 +34,9 @@ function YTFunc(){
     })
     $('#sample-image-block').attr('class', '');
     
-    var numObj = $('table.mg-b20 tr:nth-last-child(4) td:nth-last-child(1)');
+    var numObj = $('table.mg-b20 tr:nth-last-child(3) td:nth-last-child(1)');
+    if ($('#main-ppm').length > 0) numObj = $('table.mg-b20 tr:nth-last-child(4) td:nth-last-child(1)');
+
     var num = numObj.text();
     var mid = num.substring(num.length - 5, num.length - 5 + 2);
     if (mid == '00') num = num.substring(0, num.length - 5) + '-' + num.substring(num.length - 3);;
