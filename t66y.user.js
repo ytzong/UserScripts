@@ -2,6 +2,8 @@
 // @name           t66y
 // @namespace      t66y
 // @description    t66y
+// @version        0.1
+// @author         ytzong
 // @include        http://www.t66y.com/*
 // @include        http://t66y.com/*
 // @include        http://cl.eye.rs/*
@@ -10,7 +12,11 @@
 // @include        http://cl.babi.info/*
 // @include        http://cl.tedx.ee/*
 // @include        http://cl.cn.mu/*
+// @include        http://cl.bearhk.info/*
+// @grant          GM_addStyle
 // ==/UserScript==
+
+GM_addStyle('img, input{max-width:1000px;height:auto !important}#text1, .tips{display:none}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}.bd table, .bd tbody, .bd tr, .bd th, .bd td{display:block!important; width:100%!important;padding:0 !important}.bd h4{font-size:2em !important;margin-top:0 !important;}.bd h4, .bd .tpc_content{ text-align:center!important}.bd .r_two,.bd .tiptop{display:none!important}');
 
 function addJQuery(callback) {
 	var script = document.createElement("script");
@@ -24,13 +30,7 @@ function addJQuery(callback) {
 }
 
 function main() {
-    var css = "img, input{max-width:1000px;height:auto !important}#text1, .tips{display:none}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}.bd table, .bd tbody, .bd tr, .bd th, .bd td{display:block!important; width:100%!important;padding:0 !important}.bd h4{font-size:2em !important;margin-top:0 !important;}.bd h4, .bd .tpc_content{ text-align:center!important}.bd .r_two,.bd .tiptop{display:none!important}";
-	var heads = document.getElementsByTagName("head");
-	if(heads.length > 0) {
-		var node = document.createElement("style");
-		node.appendChild(document.createTextNode(css));
-		heads[0].appendChild(node);
-	}
+    $('#iframe1').prev().prev().click()
 
 	function resetImages() {
 		$('.tpc_content a').each(function() {
