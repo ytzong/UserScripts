@@ -2,7 +2,7 @@
 // @name           t66y
 // @namespace      t66y
 // @description    t66y
-// @version        0.1
+// @version        0.2
 // @author         ytzong
 // @include        http://www.t66y.com/*
 // @include        http://t66y.com/*
@@ -16,7 +16,7 @@
 // @grant          GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('img, input{max-width:1000px;height:auto !important}#text1, .tips{display:none}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}.bd table, .bd tbody, .bd tr, .bd th, .bd td{display:block!important; width:100%!important;padding:0 !important}.bd h4{font-size:2em !important;margin-top:0 !important;}.bd h4, .bd .tpc_content{ text-align:center!important}.bd .r_two,.bd .tiptop{display:none!important}');
+GM_addStyle('img, input{max-width:1000px;height:auto !important}#text1, .tips{display:none}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}.bd table, .bd tbody, .bd tr, .bd th, .bd td{display:block!important; width:100%!important;padding:0 !important}.bd h4{font-size:2em !important;margin-top:0 !important;}.bd h4, .bd .tpc_content{ text-align:center!important}.bd .r_two,.bd .tiptop{display:none!important}.tpc_content.do_not_catch:first-child{min-height:1000px}#iframe1{margin-top:90px}');
 
 function addJQuery(callback) {
 	var script = document.createElement("script");
@@ -30,7 +30,30 @@ function addJQuery(callback) {
 }
 
 function main() {
+	$(".tpc_content").first().css('min-height', '1000px');
     $('#iframe1').prev().prev().click()
+    function rotate(deg) {
+        var height = 100;
+        var top = 0;
+        if (deg % 360 == 90 || deg % 360 == 270) {
+            height = 60;
+            top = 10;
+        }
+        else {
+            height = 100;
+            top = 0;
+        }
+        $('#iframe1').attr('style', 'transform:rotate(' + deg + 'deg);');
+	}
+	var degree = 0;
+    
+	$(document).keydown(function(e) {
+		//R
+		if(e.keyCode == 82) {
+			degree += 90
+			rotate(degree)
+		}
+	})
 
 	function resetImages() {
 		$('.tpc_content a').each(function() {
