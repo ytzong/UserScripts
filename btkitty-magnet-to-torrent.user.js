@@ -1,16 +1,12 @@
 // ==UserScript==
 // @name         BTKitty Magnet to Torrent
 // @namespace    http://twitter.com/ytzong
-// @version      1.2
+// @version      1.3
 // @description  BTKitty Magnet to Torrent
 // @author       ytzong
-// @match        http://btkitty.org/*
-// @match        http://btkitty.la/*
-// @match        http://btkitty.so/*
-// @match        http://btkitty.me/*
-// @match        http://btkitty.pw/*
-// @match        http://btkitty.*/*
-// @match        http://storebt.com/torrent/*
+
+// @include      http://btkitty.*/*
+// @include      http://storebt.com/torrent/*
 // @grant        GM_addStyle
 // ==/UserScript==
 
@@ -18,7 +14,7 @@ GM_addStyle('#abcffddafae, .list-box .list dl:nth-child(1), .topbar{display: non
 
 function addJQuery(callback) {
     var script = document.createElement("script");
-    script.setAttribute("src", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js");
+    script.setAttribute("src", "//code.jquery.com/jquery-2.1.4.min.js");
     script.addEventListener('load', function () {
         var script = document.createElement("script");
         script.textContent = "(" + callback.toString() + ")();";
@@ -29,7 +25,7 @@ function addJQuery(callback) {
 function main() {
     if (document.domain == 'storebt.com') {
         window.location.href = $('.down a').attr('href');
-        window.setInterval(window.close, 3000);
+        window.setInterval(window.close, 4000);
     }
     else {
         $('#kwd').focus();
@@ -43,4 +39,4 @@ function main() {
         })  
     }
 }
-addJQuery(window.setTimeout(main, 1000));
+addJQuery(window.setTimeout(main, 1500));

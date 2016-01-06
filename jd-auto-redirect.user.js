@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JD Auto Redirect
 // @namespace    http://twitter.com/ytzong
-// @version      0.2
+// @version      0.3
 // @description  JD Auto Redirect
 // @author       ytzong
 // @match        http://re.jd.com/cps/item/*
@@ -18,7 +18,7 @@ if (domain == 'm.jd.com') {
 }
 
 if (domain == 're.jd.com') {
-    window.location.href = $('.l_info_b a').attr('href');
+    window.location.href = $('.gobuy a').attr('href');
 }
 
 if (domain == 'list.jd.com') {

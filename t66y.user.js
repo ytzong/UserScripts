@@ -2,7 +2,7 @@
 // @name           t66y
 // @namespace      t66y
 // @description    t66y
-// @version        0.2
+// @version        0.3
 // @author         ytzong
 // @include        http://www.t66y.com/*
 // @include        http://t66y.com/*
@@ -13,10 +13,12 @@
 // @include        http://cl.tedx.ee/*
 // @include        http://cl.cn.mu/*
 // @include        http://cl.bearhk.info/*
+// @match        http://videowood.me/embed/*
+// @match        http://videowood.tv/embed/*
 // @grant          GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('img, input{max-width:1000px;height:auto !important}#text1, .tips{display:none}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}.bd table, .bd tbody, .bd tr, .bd th, .bd td{display:block!important; width:100%!important;padding:0 !important}.bd h4{font-size:2em !important;margin-top:0 !important;}.bd h4, .bd .tpc_content{ text-align:center!important}.bd .r_two,.bd .tiptop{display:none!important}.tpc_content.do_not_catch:first-child{min-height:1000px}#iframe1{margin-top:90px}');
+GM_addStyle('img, input{max-width:1000px;height:auto !important}#tbl1, #text1, .tips{display:none !important}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}.bd table, .bd tbody, .bd tr, .bd th, .bd td{display:block!important; width:100%!important;padding:0 !important}.bd h4{font-size:2em !important;margin-top:0 !important;}.bd h4, .bd .tpc_content{ text-align:center!important}.bd .r_two,.bd .tiptop{display:none!important}.tpc_content.do_not_catch:first-child{min-height:1000px}#iframe1{margin-top:90px}');
 
 function addJQuery(callback) {
 	var script = document.createElement("script");

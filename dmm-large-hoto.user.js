@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    http://twitter.com/ytzong
-// @version      1.0
+// @version      1.1
 // @description  DMM Large Photo
 // @author       ytzong
 // @match        http://www.dmm.co.jp/*
@@ -40,7 +40,7 @@ function YTFunc(){
     var num = numObj.text();
     var mid = num.substring(num.length - 5, num.length - 5 + 2);
     if (mid == '00') num = num.substring(0, num.length - 5) + '-' + num.substring(num.length - 3);;
-    numObj.append('<form action="http://btkitty.so/" method="post" name="search"><input type="text" name="keyword" id="kwd" value="' + num + '"> <button type="submit">搜索BT种子</button></form>');
+    numObj.append('<form action="http://btkitty.pw/" method="post" name="search"><input type="text" name="keyword" id="kwd" value="' + num + '"> <button type="submit">搜索BT种子</button></form>');
 }
 
 // Content Script Injection, see http://wiki.greasespot.net/Content_Script_Injection
