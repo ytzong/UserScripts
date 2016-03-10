@@ -1,8 +1,9 @@
 // ==UserScript==
 // @name        doubanIMDb
 // @namespace   http://notimportant.org
-// @version     v1.6.2
+// @version     v1.6.3
 // @include     http://movie.douban.com/subject/*
+// @include     https://movie.douban.com/subject/*
 // @author      iseansay@gmail.com
 // @description 在豆瓣的电影条目下显示IMDb和烂番茄相关数据
 // ==/UserScript==
