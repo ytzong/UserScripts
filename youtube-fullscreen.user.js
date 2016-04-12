@@ -3,7 +3,7 @@
 // @namespace   Youtube Fullscreen
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     1.1
+// @version     1.2
 // @grant       GM_addStyle
 // ==/UserScript==
 
@@ -21,12 +21,12 @@ function addJQuery(callback) {
 }
 
 function main() {
-    //
-    function fullscreen(){
+    //$('#watch-header').append('<input class="yt-uix-form-input-text share-panel-url" style="margin:5px 0" value="u2bbest ' + window.location.href + '">');
+    function fullscreen(){;
         $('div[title="Expand"]').click()
-        $("iframe[id*='watch7']").attr('style', 'display: none !important;')
+        $('iframe').attr('style', 'display: none !important;')
     }
-    window.setTimeout(fullscreen, 2000);
+    window.setTimeout(fullscreen, 3000);
 
     $(document).keydown(function(e) {
     	//B
