@@ -4,9 +4,9 @@
 // @author       ytzong
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     1.3
+// @version     1.4
 // @grant       GM_addStyle
-// @run-at      document-end
+// @run-at      document-idle
 // ==/UserScript==
 
 /* depends on https://chrome.google.com/webstore/detail/magic-actions-for-youtube/abjcfabbhafbcdfjoecdgepllmpfceif */
