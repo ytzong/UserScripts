@@ -1,11 +1,15 @@
 // ==UserScript==
 // @name        Youtube Fullscreen
 // @namespace   Youtube Fullscreen
+// @author       ytzong
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     1.2
+// @version     1.3
 // @grant       GM_addStyle
+// @run-at      document-end
 // ==/UserScript==
+
+/* depends on https://chrome.google.com/webstore/detail/magic-actions-for-youtube/abjcfabbhafbcdfjoecdgepllmpfceif */
 
 GM_addStyle('.html5-progress-bar {width: 100% !important}.html5-video-container{width: 100% !important;height: 100% !important}');
 
@@ -22,41 +26,37 @@ function addJQuery(callback) {
 
 function main() {
     //$('#watch-header').append('<input class="yt-uix-form-input-text share-panel-url" style="margin:5px 0" value="u2bbest ' + window.location.href + '">');
-    function fullscreen(){;
-        $('div[title="Expand"]').click()
-        $('iframe').attr('style', 'display: none !important;')
+    function fullscreen(){
+        $('div[title="Expand"]').click();
+        $('iframe').attr('style', 'display: none !important;');
     }
-    window.setTimeout(fullscreen, 3000);
+    window.setTimeout(fullscreen, 1000);
 
     $(document).keydown(function(e) {
     	//B
 		if(e.keyCode == 66) {
-			fullscreen()
+			fullscreen();
 		}
-	})
+	});
 
 	function rotate(deg) {
-        var height = 100;
-        var top = 0;
+        var zoom = 1;
         if (deg % 360 == 90 || deg % 360 == 270) {
-            height = 60;
-            top = 10;
+            zoom = $(window).height()/$(window).width();
         }
         else {
-            height = 100;
-            top = 0;
+            zoom = 1;
         }
-        $('.html5-main-video').attr('style', 'transform:rotate(' + deg + 'deg);width:100% !important;height:' + height + '% !important;left:0 !important;top:0 !important;margin-top:' + top + '% !important');
+        $('.html5-video-container').attr('style', 'transform:rotate(' + deg + 'deg) scale(' + zoom + ', ' + zoom + ') !important;transform-origin:50% 50%;width:100% !important;height: 100% !important;left:0 !important;top:0 !important;');
 	}
 	var degree = 0;
-    
 	$(document).keydown(function(e) {
 		//R
 		if(e.keyCode == 82) {
-			degree += 90
-			rotate(degree)
+			degree += 90;
+			rotate(degree);
 		}
-	})
+	});
 }
 
 addJQuery(main);
