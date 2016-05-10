@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name       Fuck GD10000
-// @namespace  http://twitter.com/ytzong/
+// @namespace  http://twitter.com/ytzong
 // @version    0.1
 // @description  enter something useful
 // @match      *

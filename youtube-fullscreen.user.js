@@ -4,25 +4,15 @@
 // @author       ytzong
 // @description Youtube Fullscreen
 // @include     https://www.youtube.com/watch*
-// @version     1.4
+// @version     1.5
 // @grant       GM_addStyle
 // @run-at      document-idle
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
 
 /* depends on https://chrome.google.com/webstore/detail/magic-actions-for-youtube/abjcfabbhafbcdfjoecdgepllmpfceif */
 
 GM_addStyle('.html5-progress-bar {width: 100% !important}.html5-video-container{width: 100% !important;height: 100% !important}');
-
-function addJQuery(callback) {
-	var script = document.createElement("script");
-	script.setAttribute("src", "//ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.3.min.js");
-	script.addEventListener('load', function() {
-		var script = document.createElement("script");
-		script.textContent = "(" + callback.toString() + ")();";
-		document.body.appendChild(script);
-	}, false);
-	document.body.appendChild(script);
-}
 
 function main() {
     //$('#watch-header').append('<input class="yt-uix-form-input-text share-panel-url" style="margin:5px 0" value="u2bbest ' + window.location.href + '">');
@@ -58,5 +48,4 @@ function main() {
 		}
 	});
 }
-
-addJQuery(main);
+main();

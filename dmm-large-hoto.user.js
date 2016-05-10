@@ -1,11 +1,10 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    https://twitter.com/ytzong
-// @version      1.2
+// @version      1.3
 // @description  DMM Large Photo
 // @author       ytzong
-// @match        http://www.dmm.co.jp/*
-// @match        http://dmm.co.jp/*
+// @include      http://*dmm.co.jp/*
 // @grant        GM_addStyle
 // ==/UserScript==
 

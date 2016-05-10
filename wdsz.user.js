@@ -4,6 +4,7 @@
 // @name           discuz
 // @namespace      discuz
 // @description    discuz
+// @version        0.1
 // @include        http://www.wdsz.net/thread*
 // @include        http://www.liangyingjie.com/thread*
 // @include        http://www.rilee.cn/forum*
@@ -11,29 +12,13 @@
 // @include        http://www.yhx256.com/forum*
 // @include        http://www.wet123.net/forumdisplay*
 // @include        http://www.sexinsex.net/bbs/forum*
-
+// @grant        GM_addStyle
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
 
-function addJQuery(callback) {
-    var script = document.createElement("script");
-    script.setAttribute("src", "http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js");
-    script.addEventListener('load', function () {
-        var script = document.createElement("script");
-        script.textContent = "(" + callback.toString() + ")();";
-        document.body.appendChild(script);
-    }, false);
-    document.body.appendChild(script);
-}
+GM_addStyle('img, input{max-width:100%}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}#scrollBar, #imgList_0_small, .imgList h4{display:none}#imgList_0_all{display:block !important}');
+
 function main() {
-
-	var css = "img, input{max-width:100%}.bd{position:relative;}.bd-link{position:absolute;bottom:6px;right:12px;background-color:yellow}#scrollBar, #imgList_0_small, .imgList h4{display:none}#imgList_0_all{display:block !important}";
-	var heads = document.getElementsByTagName("head");
-	if (heads.length > 0) {
-		var node = document.createElement("style");
-		node.appendChild(document.createTextNode(css));
-		heads[0].appendChild(node); 
-	}
-
     var bdIndex = 0;
     var url = document.location.href;
     var urls = url.split('/');
@@ -149,4 +134,4 @@ $('#bd' + i).append('<a class="bd-link" target="_blank" href=' + bdLink +'>' + b
         }
     })
 }
-addJQuery(main);
+main();

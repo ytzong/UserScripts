@@ -6,24 +6,12 @@
 // @include     https://vimeo.com/*
 // @include     http://www.vimeo.com/*
 // @include     https://www.vimeo.com/*
-// @version     1
+// @version     1.1
 // @grant       none
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
 
-function addJQuery(callback) {
-	var script = document.createElement("script");
-	script.setAttribute("src", "//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js");
-	script.addEventListener('load', function() {
-		var script = document.createElement("script");
-		script.textContent = "(" + callback.toString() + ")();";
-		document.body.appendChild(script);
-	}, false);
-	document.body.appendChild(script);
-}
-
 function main() {
-
-    //
     function download(){
         var b = document.createElement('a');
         var linkText = document.createTextNode("Download");
@@ -41,5 +29,4 @@ function main() {
     }
     window.setTimeout(download, 3000);
 }
-
-addJQuery(main);
+main();
