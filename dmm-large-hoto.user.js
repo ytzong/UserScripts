@@ -1,20 +1,21 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    https://twitter.com/ytzong
-// @version      1.3
+// @version      1.5
 // @description  DMM Large Photo
 // @author       ytzong
 // @include      http://*dmm.co.jp/*
 // @grant        GM_addStyle
+// @run-at       document-idle
 // ==/UserScript==
 
-GM_addStyle('.d-item #list li {float:none !important; width:auto !important} #main-src .tmb:hover .img img{opacity:1 !important} #main-src[class*="digital"] .sample { top: 0!important;  left: 0!important;  margin-left: 0!important;}#main-src .tmb .img {display:inline-block !important;width:auto !important;height:auto !important;margin:auto !important;}#main-src .tmb .img img{display:inline-block !important}');
+GM_addStyle('#sample-video img{width:800px !important;height:auto !important}.d-item #list li {float:none !important; width:auto !important} #main-src .tmb:hover .img img{opacity:1 !important} #main-src[class*="digital"] .sample { top: 0!important;  left: 0!important;  margin-left: 0!important;}#main-src .tmb .img {display:inline-block !important;width:auto !important;height:auto !important;margin:auto !important;}#main-src .tmb .img img{display:inline-block !important}');
 
 
 function YTFunc(){
     $('#sample-video img').each(function(){
         var img = $(this).parent().attr('href');
-        img = img.replace('ps.jpg', 'pl.jpg');
+        //img = img.replace('ps.jpg', 'pl.jpg');
         $(this).attr('src', img);
         //$(this).attr('style', 'max-width:none;max-height:none;margin-left:12px');
     });
@@ -45,19 +46,7 @@ function YTFunc(){
     var num = numObj.text();
     var mid = num.substring(num.length - 5, num.length - 5 + 2);
     if (mid == '00') num = num.substring(0, num.length - 5) + '-' + num.substring(num.length - 3);
-    numObj.append('<form action="http://btkitty.biz/" method="post" name="search"><input type="text" name="keyword" id="kwd" value="' + num + '"> <button type="submit">搜索BT种子</button></form>');
+    numObj.append('<form action="http://btkitty.uno/" method="post" name="search"><input type="text" name="keyword" id="kwd" value="' + num + '"> <button type="submit">搜索BT种子</button></form>');
 }
 
-// Content Script Injection, see http://wiki.greasespot.net/Content_Script_Injection
-function contentEval( source ) {
-    if ('function' == typeof source) {
-        source = '(' + source + ')();';
-    }
-    var script = document.createElement('script');
-    script.setAttribute("type", "application/javascript");
-    script.textContent = source;
-    document.body.appendChild(script);
-    document.body.removeChild(script);
-}
-
-contentEval(YTFunc);
+YTFunc();
