@@ -2,7 +2,7 @@
 // @name           discuz
 // @namespace      discuz
 // @description    discuz
-// @version        0.1
+// @version        0.2
 // @author         ytzong
 // @include        http://www.wdsz.net/thread*
 // @include        http://www.liangyingjie.com/thread*
@@ -68,7 +68,7 @@ function loadBd() {
         $('#bd' + bdIndex).show();
         link = links[0] + '#bd' + bdIndex.toString();
         if (bdIndex + 1 > linkCount)
-            link = nextPage;
+            window.location.href = nextPage;
         currentBdLink = linkSelector.get(bdIndex);
         for (var i = bdIndex; i < bdIndex + 5; i++) {
             if ($('#bd' + i).length < 1) {
@@ -107,6 +107,7 @@ $(document).keydown(function (e) {
             else {
                 bdIndex = num - 1;
                 $('.bd').hide();
+                currentBdLink = linkSelector.get(bdIndex);
                 for (var i = bdIndex; i < bdIndex + 1; i++) {
                     if ($('#bd' + i).length < 1) {
                         $('#bd-1').append('<div id="bd' + i + '" class="bd" style="display:none"><div id="bd-inner' + i + '"></div></div>');
