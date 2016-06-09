@@ -2,9 +2,8 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/watch*
-// @version     0.1
+// @version     0.2
 // @grant       GM_addStyle
-// @run-at      document-idle
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
 
@@ -32,4 +31,4 @@ function main() {
 		}
 	});
 }
-main();
+window.setTimeout(main, 1500);

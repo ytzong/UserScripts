@@ -1,14 +1,14 @@
 // ==UserScript==
 // @name         BTKitty Magnet to Torrent
 // @namespace    http://twitter.com/ytzong
-// @version      1.4
+// @version      1.5
 // @description  BTKitty Magnet to Torrent
 // @author       ytzong
-
 // @include      http://btkitty.*/*
 // @include      http://storebt.com/torrent/*
 // @grant        GM_addStyle
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
+// @run-at       document-start
 // ==/UserScript==
 
 GM_addStyle('#abcffddafae, .list-box .list dl:nth-child(1), .topbar{display: none !important} .midbox .search .searchBox .kwd input {margin-top:0 !important;font-size:20px !important;padding-left:1% !important}');
@@ -16,7 +16,7 @@ GM_addStyle('#abcffddafae, .list-box .list dl:nth-child(1), .topbar{display: non
 function main() {
     if (document.domain == 'storebt.com') {
         window.location.href = $('.down a').attr('href');
-        window.setInterval(window.close, 4000);
+        window.setInterval(window.close, 3000);
     }
     else {
         $('#kwd').focus();
@@ -29,4 +29,4 @@ function main() {
         });
     }
 }
-window.setTimeout(main, 1500);
+window.setTimeout(main, 1000);
