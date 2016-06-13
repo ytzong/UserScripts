@@ -2,7 +2,7 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/watch*
-// @version     0.3
+// @version     0.4
 // @grant       GM_addStyle
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
@@ -22,7 +22,7 @@ function main() {
         $('iframe').attr('style', 'display: none !important;');
     }
     window.setTimeout(fullscreen, 1000);
-	function rotate(deg) {
+    function rotate(deg) {
         var zoom = 1;
         if (deg % 360 == 90 || deg % 360 == 270) {
             zoom = $(window).height()/$(window).width();
@@ -31,18 +31,34 @@ function main() {
             zoom = 1;
         }
         $('.html5-video-container').attr('style', 'transform:rotate(' + deg + 'deg) scale(' + zoom + ', ' + zoom + ') !important;transform-origin:50% 50%;width:100% !important;height: 100% !important;left:0 !important;top:0 !important;');
-	}
-	var degree = 0;
-	$(document).keydown(function(e) {
-		//R
-		if(e.keyCode == 82) {
-			degree += 90;
-			rotate(degree);
-		}
+    }
+    var degree = 0;
+    $(document).keydown(function(e) {
+        //R
+        if(e.keyCode == 82) {
+            degree += 90;
+            rotate(degree);
+        }
         //B
         if(e.keyCode == 66) {
-			fullscreen();
-		}
-	});
+            fullscreen();
+        }
+        var video = $('video')[0];
+        //P
+        if (e.keyCode == 80) {
+            if (video.paused) video.play();
+            else video.pause();
+        }
+        //右箭头
+        if (e.keyCode == 39) {
+            if (e.metaKey) video.volume = video.volume + 0.1;
+            else video.currentTime = video.currentTime + 10;
+        }
+        //左箭头
+        if (e.keyCode == 37) {
+            if (e.metaKey) video.volume = 0.1;
+            else video.currentTime = video.currentTime - 10;
+        }
+    });
 }
 window.setTimeout(main, 1500);
