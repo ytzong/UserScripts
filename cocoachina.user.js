@@ -1,11 +1,13 @@
 // ==UserScript==
 // @name         CocoaChina
 // @namespace    https://twitter.com/ytzong
-// @version      0.2
+// @version      0.3
 // @author       ytzong
-// @include      http://www.cocoachina.com/bbs/thread.php?*
-// @grant        none
+// @include      http://www.cocoachina.com/bbs/*
+// @grant        GM_addStyle
 // ==/UserScript==
+
+GM_addStyle('#feedback,.tpc_content .fr,.tips,.r_one iframe,#ads_c_tpc,#newjob {display:none !important}# read_tpc, .tpc_content{max-width:650px;}');
 
 (function() {
     'use strict';
