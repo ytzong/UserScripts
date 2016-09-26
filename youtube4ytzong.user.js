@@ -2,26 +2,29 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/watch*
-// @version     0.6
+// @version     0.7
 // @grant       GM_addStyle
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
 
-/* depends on https://chrome.google.com/webstore/detail/nkdalpbojfdilmiboaiedicdbigdabpb */
-
-GM_addStyle('#masthead-positioner{position:absolute!important}');
-
-/* depends on https://chrome.google.com/webstore/detail/magic-actions-for-youtube/abjcfabbhafbcdfjoecdgepllmpfceif */
-
-GM_addStyle('.html5-progress-bar {width: 100% !important}.html5-video-container{width: 100% !important;height: 100% !important}');
-
-
+GM_addStyle('#masthead-positioner{position:absolute!important}.watch-stage-mode .player-width, video.video-stream.html5-main-video,.ytp-chrome-bottom{width:100%!important;margin-left:0!important;left:0!important;}');
+var h = document.body.clientHeight;
+var css = '.watch-stage-mode .player-height{height:' + h + 'px !important}',
+head = document.head || document.getElementsByTagName('head')[0],
+style = document.createElement('style');
+style.type = 'text/css';
+if (style.styleSheet){
+    style.styleSheet.cssText = css;
+} else {
+    style.appendChild(document.createTextNode(css));
+}
+head.appendChild(style);
+document.querySelectorAll('video')[0].setAttribute('loop', 'loop');
+scrollToVideo();
+function scrollToVideo() {
+    document.getElementById('page-container').scrollIntoView();
+}
 function main() {
-    function fullscreen(){
-        $('div[title="Expand"]').click();
-        $('iframe').attr('style', 'display: none !important;');
-    }
-    window.setTimeout(fullscreen, 1000);
     function rotate(deg) {
         var zoom = 1;
         if (deg % 360 == 90 || deg % 360 == 270) {
@@ -31,6 +34,7 @@ function main() {
             zoom = 1;
         }
         $('.html5-video-container').attr('style', 'transform:rotate(' + deg + 'deg) scale(' + zoom + ', ' + zoom + ') !important;transform-origin:50% 50%;width:100% !important;height: 100% !important;left:0 !important;top:0 !important;');
+        scrollToVideo();
     }
     var degree = 0;
     $(document).keydown(function(e) {
