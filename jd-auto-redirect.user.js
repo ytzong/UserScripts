@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JD Auto Redirect
 // @namespace    http://twitter.com/ytzong
-// @version      0.8
+// @version      0.9
 // @description  JD Auto Redirect
 // @author       ytzong
 // @include      http*://www.jd.com/*
@@ -10,7 +10,7 @@
 // @include      http*://m.jd.com/sale/act/*
 // @include      http*://item.m.jd.com/product/*
 // @include      http*://item.jd.com/*
-// @run-at       document-idle
+// @run-at       document-end
 // @grant        GM_addStyle
 // ==/UserScript==
 
