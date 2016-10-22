@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Torrent Auto Download
 // @namespace  http://twitter.com/ytzong
-// @version    1.0
+// @version    1.1
 // @description  Torrent Auto Download
 // @match      http://www.ffh6.com/*
 // @match      http://www.yyyy1.info/*
@@ -11,7 +11,8 @@
 // @match      http://www.222888.info/*
 // @match      http://www.bforu.info/*
 // @match      http://www.viidii.info/*
-// @include    http://www.btbbt.*/attach-dialog*
+// @include    http://*.btbbt.*/attach-dialog*
+// @include    http://*.btbtt.*/attach-dialog*
 // @copyright  2014+, ytzong
 
 // ==/UserScript==
@@ -19,14 +20,14 @@
 function ytDownloadTorrent(){
     var strDomain = window.location.hostname;
     if (strDomain == 'www.ffh6.com' || strDomain == 'www.yyyy1.info' || strDomain == 'www.222888.info' || strDomain == 'www.bforu.info')
-    	document.getElementsByClassName('button')[0].click();
+        document.getElementsByClassName('button')[0].click();
     if (strDomain == 'www.rmdown.com')
         document.forms[0].submit.click();
     if (strDomain == 'www.jandown.com' || strDomain == 'www.xahka.com')
         document.forms[0].submit();
     if (strDomain == 'www.viidii.info')
         document.getElementsByClassName('bglink')[0].click();
-    if (strDomain == 'www.btbbt.cc') {
+    if (strDomain.includes('btbbt') || strDomain.includes('btbtt')) {
         window.location = $('.icon-download').parent().attr('href');
         window.setInterval(window.close, 4000);
     }
