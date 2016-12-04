@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JD Auto Redirect
 // @namespace    http://twitter.com/ytzong
-// @version      0.9
+// @version      1.0
 // @description  JD Auto Redirect
 // @author       ytzong
 // @include      http*://www.jd.com/*
@@ -21,12 +21,12 @@ if (window.location.href == 'http://www.jd.com/') {
 }
 if (domain == 'm.jd.com') {
     var pathnames = location.pathname.split('/');
-    location.href = 'http://sale.jd.com/act/' + pathnames[pathnames.length - 1];
+    location.href = 'https://sale.jd.com/act/' + pathnames[pathnames.length - 1];
 }
 if (domain == 'item.m.jd.com' || domain == 're.jd.com' || domain == 're.m.jd.com') {
     var pathnames = location.pathname.split('/');
-    location.href = 'http://item.jd.com/' + pathnames[pathnames.length - 1];
+    location.href = 'https://item.jd.com/' + pathnames[pathnames.length - 1];
 }
 if (domain == 'item.jd.com') {
-    $('#choose-btns').append('<div class="btn"><a class="btn-append" href="http://gate.jd.com/InitCart.aspx?pid=' + window.location.pathname.replace('/', '').replace('.html', '') + '&pcount=1&ptype=1">加入购物车</a></div>');
+    $('#name').append('<div class="p-ad"><a href="https://cart.jd.com/gate.action?pid=' + window.location.pathname.replace('/', '').replace('.html', '') + '&pcount=1&ptype=1">加入购物车</a></div>');
 }

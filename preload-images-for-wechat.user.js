@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Preload Images for WeChat
 // @namespace    http://twitter.com/ytzong
-// @version      0.6
+// @version      0.7
 // @description  Preload Images for WeChat
 // @author       ytzong
 // @match        http://mp.weixin.qq.com/*
@@ -9,7 +9,7 @@
 // @match        http://rd.wechat.com/*
 // @match        https://rd.wechat.com/*
 // @grant        GM_addStyle
-// @run-at       document-start
+// @run-at       document-end
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
 
@@ -24,11 +24,11 @@ function main() {
         var dataSrc = $(this).attr('data-src');
         if (dataSrc)
             $(this).attr('src', dataSrc);
-			//.removeAttr('style').removeAttr('data-s').removeAttr('data-w').removeAttr('data-ratio');
+            //.removeAttr('style').removeAttr('data-s').removeAttr('data-w').removeAttr('data-ratio');
     });
-	if (window.location.host == 'rd.wechat.com') {
+    if (window.location.host == 'rd.wechat.com') {
         //gotoURL();
-		window.location.href = $('#url').text();
-	}
+        window.location.href = $('#url').text();
+    }
 }
-window.setTimeout(main, 1500);
+window.setTimeout(main, 500);
