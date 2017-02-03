@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         Preload Images for WeChat
 // @namespace    http://twitter.com/ytzong
-// @version      0.8
+// @version      0.9
 // @description  Preload Images for WeChat
 // @author       ytzong
 // @match        http://mp.weixin.qq.com/*
@@ -17,7 +17,7 @@ Object.defineProperty(navigator, 'userAgent', {
     value: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12) AppleWebKit/602.1.50 (KHTML, like Gecko) Version/10.0 Safari/602.1.50'
 });
 
-GM_addStyle('@media screen and (min-width: 1024px) {.rich_media,.not_in_mm .qr_code_pc_inner {width:80% !important}}.rich_media_content {overflow:visible !important}.rich_media_content p, .rich_media_content p *{font-size:16px !important;line-leight:1.6 !important}.rich_media_content img{max-width:100% !important;width:auto !important;height:auto !important} .not_in_mm .qr_code_pc{position:fixed !important;top:auto !important;bottom:0 !important;right:0 !important;padding: 10px 0px !important;}');
+GM_addStyle('@media screen and (min-width: 1024px) {.rich_media,.not_in_mm .qr_code_pc_inner {width:80% !important}}.rich_media_content {overflow:visible !important}.rich_media_content p, .rich_media_content p *{font-size:16px !important;line-leight:1.6 !important}.rich_media_content img, .rich_media_thumb{margin-left: auto !important;margin-right: auto !important;display: inherit !important;max-width:100% !important;width:auto !important;height:auto !important} .not_in_mm .qr_code_pc{position:fixed !important;top:auto !important;bottom:0 !important;right:0 !important;padding: 10px 0px !important;}');
 function main() {
     //$('title').text($('#activity-name:eq(0)').text());
     
@@ -27,8 +27,8 @@ function main() {
         if(typeof dataSrc !== "undefined")
             if (dataSrc.indexOf('?') !== -1) ext = '&';
         ext = ext + 'tp=png&wxfrom=5&wx_lazy=1';
-            $(this).attr('src', dataSrc ).removeAttr('style');
-            //.removeAttr('data-s').removeAttr('data-w').removeAttr('data-ratio');
+        $(this).attr('src', dataSrc).removeAttr('style');
+        //.attr('srcset', dataSrc + ' 2x').removeAttr('data-s').removeAttr('data-w').removeAttr('data-ratio');
     });
     
     if (window.location.host == 'rd.wechat.com') {
