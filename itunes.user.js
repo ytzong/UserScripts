@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iTunes
-// @namespace    http://twitter.com/ytzong
-// @version      0.3
+// @namespace    https://twitter.com/ytzong
+// @version      0.4
 // @author       ytzong
 // @include      https://itunes.apple.com/*
 // @grant        GM_addStyle
@@ -13,4 +13,5 @@ GM_addStyle('.truncate{height:auto !important}.price, .release-date, .in-app-pur
 var coverURL = $('.product img').attr('src');
 console.log(coverURL);
 coverURL = coverURL.replace(/175x175/, "1024x1024");
-$('.product img').closest('a').attr('href', coverURL);
+coverURL = coverURL.replace(/.jpg/, ".png");
+$('.product img').closest('a').attr('href', coverURL).attr('target', '_blank');
