@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    https://twitter.com/ytzong
-// @version      1.5
+// @version      1.6
 // @description  DMM Large Photo
 // @author       ytzong
 // @include      http://*dmm.co.jp/*
+// @include      http://unblockdmm.com/*
 // @grant        GM_addStyle
 // @run-at       document-idle
 // ==/UserScript==
@@ -46,7 +47,7 @@ function YTFunc(){
     var num = numObj.text();
     var mid = num.substring(num.length - 5, num.length - 5 + 2);
     if (mid == '00') num = num.substring(0, num.length - 5) + '-' + num.substring(num.length - 3);
-    numObj.append('<form action="http://btkitty.uno/" method="post" name="search"><input type="text" name="keyword" id="kwd" value="' + num + '"> <button type="submit">搜索BT种子</button></form>');
+    numObj.append('<form action="http://btkitty.bid/" method="post" name="search"><input type="text" name="keyword" id="kwd" value="' + num + '"> <button type="submit">搜索BT种子</button></form>');
 }
 
 YTFunc();
