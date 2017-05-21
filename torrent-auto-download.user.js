@@ -29,7 +29,7 @@ function ytDownloadTorrent(){
         document.getElementsByClassName('bglink')[0].click();
     if (strDomain.includes('btbbt') || strDomain.includes('btbtt')) {
         window.location = $('.icon-download').parent().attr('href');
-        window.setInterval(window.close, 4000);
+        window.setInterval(window.close, 10000);
     }
 }
 window.setTimeout(ytDownloadTorrent, 2000);

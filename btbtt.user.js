@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         BTBTT
-// @version      0.1
+// @version      0.2
 // @author       ytzong
 // @description  BTBTT
 // @include    http://*.btbbt.*/*
@@ -10,4 +10,4 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('.width{width:auto !important}');
+GM_addStyle('body {background-image:none !important}.width{width:auto !important}');
