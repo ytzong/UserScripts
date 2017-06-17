@@ -1,13 +1,13 @@
 // ==UserScript==
 // @name         SMZDM
-// @version      0.1
+// @version      0.4
 // @author       ytzong
 // @description  SMZDM
-// @include    http://*.btbbt.*/*
-// @include    http://*.btbtt.*/*
+// @include      http://*.smzdm.*/*
+// @include      https://*.smzdm.*/*
 // @copyright    2017+
 // @run-at       document-start
 // @grant        GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('body {background-image:none !important}.width{width:auto !important}');
+GM_addStyle('#focus-notice{display:none !important}.zan,.price-btn-up,.good {background-color:yellow !important}');
