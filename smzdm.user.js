@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         SMZDM
-// @version      0.4
+// @version      0.5
 // @author       ytzong
 // @description  SMZDM
 // @include      http://*.smzdm.*/*
@@ -10,4 +10,4 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('#focus-notice{display:none !important}.zan,.price-btn-up,.good {background-color:yellow !important}');
+GM_addStyle('#focus-notice,.seaAll{display:none !important}.zan,.price-btn-up,.good,.J_zhi_like_fav {background-color:yellow !important}.comment_con{height:auto!important}');
