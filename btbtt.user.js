@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         BTBTT
-// @version      0.2
+// @version      0.3
 // @author       ytzong
 // @description  BTBTT
-// @include    http://*.btbbt.*/*
-// @include    http://*.btbtt.*/*
+// @include    http://*btbbt.*/*
+// @include    http://*btbtt.*/*
 // @copyright    2017+
 // @run-at       document-start
 // @grant        GM_addStyle
