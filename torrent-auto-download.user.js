@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name       Torrent Auto Download
 // @namespace  http://twitter.com/ytzong
-// @version    1.1
+// @version    1.3
 // @description  Torrent Auto Download
 // @match      http://www.ffh6.com/*
 // @match      http://www.yyyy1.info/*
@@ -13,6 +13,8 @@
 // @match      http://www.viidii.info/*
 // @include    http://*.btbbt.*/attach-dialog*
 // @include    http://*.btbtt.*/attach-dialog*
+
+// @match      http://*.dfpan.com/file/down/*
 // @copyright  2014+, ytzong
 
 // ==/UserScript==
@@ -27,9 +29,8 @@ function ytDownloadTorrent(){
         document.forms[0].submit();
     if (strDomain == 'www.viidii.info')
         document.getElementsByClassName('bglink')[0].click();
-    if (strDomain.includes('btbbt') || strDomain.includes('btbtt')) {
-        window.location = $('.icon-download').parent().attr('href');
-        window.setInterval(window.close, 10000);
+    if (strDomain.includes('dfpan')) {
+        downSubmit(2);
     }
 }
 window.setTimeout(ytDownloadTorrent, 2000);
