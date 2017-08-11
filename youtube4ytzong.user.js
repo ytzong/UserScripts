@@ -2,12 +2,14 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/watch*
-// @version     0.8
+// @version     0.9
 // @grant       GM_addStyle
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
+//new
 GM_addStyle('#masthead-container.ytd-app {display:none !important; position:absolute!important;top:100vh !important}#page-manager.ytd-app{margin-top:0 !important}@media (min-width: 882px) {ytd-watch[theater] #player.ytd-watch {height: 100vh !important;max-height:none !important}}');
-
+//old
+GM_addStyle('.appbar-hidden #masthead-positioner-height-offset{display:none !important}#masthead-positioner{position:static !important;}#page.watch .content-alignment{max-width:none!important;}.watch-stage-mode .player-height, .watch-stage-mode .player-width, video{top:0 !important;left:0 !important;margin-left:0 !important;width:100% !important; height: 100vh !important;}');
 function main() {
     $('video').attr('loop', 'loop');
     function rotate(deg) {
@@ -19,7 +21,7 @@ function main() {
             zoom = 1;
         }
         $('.html5-video-container').attr('style', 'transform:rotate(' + deg + 'deg) scale(' + zoom + ', ' + zoom + ') !important;transform-origin:50% 50%;width:100% !important;height: 100% !important;left:0 !important;top:0 !important;');
-        //document.getElementById('page-container').scrollIntoView();
+        document.getElementById('page-container').scrollIntoView();
     }
     var degree = 0;
     $(document).keydown(function(e) {
