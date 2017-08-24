@@ -2,7 +2,7 @@
 // @name         BTBTT
 // @version      0.4
 // @author       ytzong
-// @description  BTBTT
+// @description  Auto download torrent
 // @include    http://*btbbt.*/*
 // @include    http://*btbtt.*/*
 // @copyright    2017+
