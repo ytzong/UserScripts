@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JD Auto Redirect
 // @namespace    http://twitter.com/ytzong
-// @version      1.0
+// @version      1.1
 // @description  JD Auto Redirect
 // @author       ytzong
 // @include      http*://www.jd.com/*
@@ -10,12 +10,15 @@
 // @include      http*://m.jd.com/sale/act/*
 // @include      http*://item.m.jd.com/product/*
 // @include      http*://item.jd.com/*
+// @include      http*://pcashier.jd.com/*
 // @run-at       document-end
 // @grant        GM_addStyle
 // ==/UserScript==
 
 var domain = window.location.hostname;
-
+if (domain == 'pcashier.jd.com') {
+    GM_addStyle('.paybox-bankCard{display:block !important}');
+}
 if (window.location.href == 'http://www.jd.com/') {
     location.href = 'https://www.jd.com/';
 }
