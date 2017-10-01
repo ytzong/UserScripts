@@ -2,7 +2,7 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/watch*
-// @version     0.9
+// @version     1.0
 // @grant       GM_addStyle
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
@@ -40,7 +40,6 @@ function main() {
             if (video.paused) video.play();
             else video.pause();
         }
-        /*
         var jump = 7;
         //右箭头
         if (e.keyCode == 39) {
@@ -52,7 +51,7 @@ function main() {
             if (e.metaKey) video.volume = 0.1;
             else video.currentTime = video.currentTime - jump;
         }
-        */
+
         var longjump = 15;
         //ALT + 右箭头
         if (e.altKey && e.keyCode == 39) {
