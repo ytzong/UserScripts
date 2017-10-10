@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Just998
-// @version      0.2
+// @version      0.3
 // @author       ytzong
 // @description  Just998
 // @include      http://*just998.com/*
@@ -11,12 +11,20 @@
 // ==/UserScript==
 
 $('.content a').each(function(i){
-	var href = $(this).text();
-	if (href.indexOf('...')) {
-	
-	} 
-	else {
-		if (href.indexOf('http'))
-			$(this).attr('href', href).removeAttr('onclick');
+	var real = $(this).attr('onclick');
+	var reals = real.split(',');
+	real = reals[reals.length - 1];
+	reals = real.split("'");
+	var href = '';
+	if (reals.length > 2) {
+		href = reals[1];
 	}
-}); 
+	else {
+		var text = $(this).text();
+		if (text.includes('http') && !text.includes('...')) {
+			href = text;
+		}
+	}
+	$(this).attr('href', href);
+	$(this).removeAttr('onclick');
+});

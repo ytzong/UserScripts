@@ -1,14 +1,15 @@
 // ==UserScript==
 // @name         iTunes
 // @namespace    https://twitter.com/ytzong
-// @version      0.5
+// @version      0.6
 // @author       ytzong
 // @include      https://itunes.apple.com/*
 // @grant        GM_addStyle
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
+// @description Show large icon
 // ==/UserScript==
 
-GM_addStyle('.truncate{height:auto !important}.price, .release-date, .in-app-purchases {background-color:yellow !important}');
+GM_addStyle('.truncate{height:auto !important}.price, .release-date, .in-app-purchases {background-color:yellow !important}.view-in-itunes{display:inline-block !important}');
 
 var coverURL = $('.product img').attr('src');
 console.log(coverURL);
