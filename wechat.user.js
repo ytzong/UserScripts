@@ -1,7 +1,7 @@
 // ==UserScript==
-// @name         Preload Images for WeChat
+// @name         WeChat for ytzong
 // @namespace    http://twitter.com/ytzong
-// @version      1.0
+// @version      1.1
 // @description  Preload Images for WeChat
 // @author       ytzong
 // @match        http://mp.weixin.qq.com/*
@@ -20,17 +20,27 @@ Object.defineProperty(navigator, 'userAgent', {
 GM_addStyle('@media screen and (min-width: 1024px) {.rich_media,.not_in_mm .qr_code_pc_inner {width:80% !important}}.rich_media_content {overflow:visible !important}.rich_media_content p, .rich_media_content p *{font-size:16px !important;line-leight:1.6 !important;letter-spacing:0 !important}.rich_media_content img, .rich_media_thumb{margin-left: auto !important;margin-right: auto !important;display: inherit !important;max-width:100% !important;width:auto !important;height:auto !important} .not_in_mm .qr_code_pc{position:fixed !important;top:auto !important;bottom:0 !important;right:0 !important;padding: 10px 0px !important;}');
 function main() {
     //$('title').text($('#activity-name:eq(0)').text());
-    
+
     $('img').each(function(){
         var dataSrc = $(this).attr('data-src');
         var ext = '?';
-        if(typeof dataSrc !== "undefined")
+        if(typeof dataSrc !== "undefined") {
             if (dataSrc.indexOf('?') !== -1) ext = '&';
-        ext = ext + 'tp=png&wxfrom=5&wx_lazy=1';
-        $(this).attr('src', dataSrc).removeAttr('style');
+            ext = ext + 'tp=png&wxfrom=5&wx_lazy=1';
+            $(this).attr('src', dataSrc).removeAttr('style');
+        }
         //.attr('srcset', dataSrc + ' 2x').removeAttr('data-s').removeAttr('data-w').removeAttr('data-ratio');
     });
-    
+    $('.video_iframe').each(function(){
+        var dataSrc = $(this).attr('data-src');
+        var start = 'vid=';
+        var startIndex = dataSrc.indexOf(start);
+        var end = dataSrc.indexOf('&');
+        var src = dataSrc.substring(startIndex + start.length, end);
+        src = 'https://v.qq.com/x/page/' + src + '.html';
+        html = '<a href="' + src + '" target="_blank">' + src + '</a>';
+        $(this).before(html);
+    });
     if (window.location.host == 'rd.wechat.com') {
         //gotoURL();
         window.location.href = $('#url').text();
