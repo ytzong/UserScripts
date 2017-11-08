@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Just998
-// @version      0.3
+// @version      0.4
 // @author       ytzong
 // @description  Just998
 // @include      http://*just998.com/*
@@ -9,6 +9,8 @@
 // @run-at       document-end
 // @grant        GM_addStyle
 // ==/UserScript==
+
+GM_addStyle('#jGrowl{display:none !important}');
 
 $('.content a').each(function(i){
 	var real = $(this).attr('onclick');
