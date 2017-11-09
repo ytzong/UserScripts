@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Just998
-// @version      0.6
+// @version      0.7
 // @author       ytzong
 // @description  Just998
 // @include      http://*just998.com/*
@@ -16,8 +16,16 @@ if (location.href.includes('xianbao')) {
 }
 
 $('.col-sm-9').removeClass('col-sm-9');
+$('a[href="/xianbao/re"]').parent().parent().hide();
 $('.pp-10').each(function(i){
-	$(this).hide().next().hide();
+    var text = $(this).text();
+    if (text.includes('天猫双11预售会场导航')) {
+        $(this).parent().hide();
+    }
+    if (text.includes('完美支持手机端访问')) {
+        $(this).hide();
+    }
+	//$(this).hide().next().hide();
 });
 $('.panel-heading').each(function(i){
 	$(this).parent().hide();
