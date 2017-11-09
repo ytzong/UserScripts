@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Just998
-// @version      0.4
+// @version      0.5
 // @author       ytzong
 // @description  Just998
 // @include      http://*just998.com/*
@@ -10,8 +10,15 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('#jGrowl{display:none !important}');
+GM_addStyle('.container{max-width:888px !important}#footer, .declare, .youhui-item, .swiper-top, .panel-footer, .side-qr, .bottombar, .hb_pop, .hb_pop_cover,.col-sm-3, #jGrowl{display:none !important}{visibility: hidden!important;}');
 
+$('.col-sm-9').removeClass('col-sm-9');
+$('.pp-10').each(function(i){
+	$(this).hide().next().hide();
+});
+$('.panel-heading').each(function(i){
+	$(this).parent().hide();
+});
 $('.content a').each(function(i){
 	var real = $(this).attr('onclick');
 	var reals = real.split(',');
