@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Just998
-// @version      0.5
+// @version      0.6
 // @author       ytzong
 // @description  Just998
 // @include      http://*just998.com/*
@@ -10,7 +10,10 @@
 // @grant        GM_addStyle
 // ==/UserScript==
 
-GM_addStyle('.container{max-width:888px !important}#footer, .declare, .youhui-item, .swiper-top, .panel-footer, .side-qr, .bottombar, .hb_pop, .hb_pop_cover,.col-sm-3, #jGrowl{display:none !important}{visibility: hidden!important;}');
+GM_addStyle('.container{max-width:888px !important}#footer, .like_tip, .xianbao-tip, .declare, .swiper-top, .panel-footer, .side-qr, .hb_pop, .hb_pop_cover,.col-sm-3, #jGrowl{display:none !important}');
+if (location.href.includes('xianbao')) {
+    GM_addStyle('.youhui-item{display:none!important}.bottombar .favorite{top:0!important;left:auto!important;right:0!important}');
+}
 
 $('.col-sm-9').removeClass('col-sm-9');
 $('.pp-10').each(function(i){
