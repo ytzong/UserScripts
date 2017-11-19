@@ -1,0 +1,20 @@
+// ==UserScript==
+// @name         0818tuan
+// @version      0.1
+// @author       ytzong
+// @description  0818tuan
+// @include      http://*0818tuan.com/*
+// @include      https://*0818tuan.com/*
+// @copyright    2017+
+// @run-at       document-end
+// @grant        GM_addStyle
+// ==/UserScript==
+
+GM_addStyle('');
+
+$('a[isconvert="1"]').each(function(i){
+	var text = $(this).text();
+	if (text.includes('http') && !text.includes('...')) {
+		$(this).attr('href', text);
+	}
+});
