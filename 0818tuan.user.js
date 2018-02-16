@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         0818tuan
-// @version      0.1
+// @version      0.2
 // @author       ytzong
 // @description  0818tuan
 // @include      http://*0818tuan.com/*
@@ -17,4 +17,8 @@ $('a[isconvert="1"]').each(function(i){
 	if (text.includes('http') && !text.includes('...')) {
 		$(this).attr('href', text);
 	}
+	var url = $(this).attr('href');
+	url = url.replace('http://jd.0818tuan.com/url/?u=', '');
+	url = decodeURIComponent(url);
+	$(this).attr('href', url);
 });
