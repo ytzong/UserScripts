@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         0818tuan
-// @version      0.2
+// @version      0.3
 // @author       ytzong
 // @description  0818tuan
 // @include      http://*0818tuan.com/*
@@ -12,7 +12,7 @@
 
 GM_addStyle('');
 
-$('a[isconvert="1"]').each(function(i){
+$('.post-content a').each(function(i){
 	var text = $(this).text();
 	if (text.includes('http') && !text.includes('...')) {
 		$(this).attr('href', text);
