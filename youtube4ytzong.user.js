@@ -2,7 +2,7 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/watch*
-// @version     1.0
+// @version     1.1
 // @grant       GM_addStyle
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
@@ -40,7 +40,7 @@ function main() {
             if (video.paused) video.play();
             else video.pause();
         }
-        var jump = 7;
+        var jump = 2;
         //右箭头
         if (e.keyCode == 39) {
             if (e.metaKey) video.volume = video.volume + 0.1;
