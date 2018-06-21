@@ -40,7 +40,7 @@ function main() {
             if (video.paused) video.play();
             else video.pause();
         }
-        var jump = 2;
+        var jump = 7;
         //右箭头
         if (e.keyCode == 39) {
             if (e.metaKey) video.volume = video.volume + 0.1;
@@ -64,3 +64,4 @@ function main() {
     });
 }
 window.setTimeout(main, 1500);
+

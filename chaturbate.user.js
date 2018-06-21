@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      0.2
+// @version      0.4
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -24,8 +24,15 @@ function main() {
 		$("video").prop('muted', true);
 		$('video').trigger('play');
         GM_addStyle('body{min-width:960px!important}video{max-height:100vh!important}#header, .top-section, .video-box .title,.tip_shell,.chat-holder,.footer-holder{display:none!important}.content{padding-top:0!important}#defchat .section, #player,.video-box{height:auto!important}#player, .video-box{width:100%!important;}.video-box,.block,.info-user{border:0!important;-webkit-border-radius:0!important}.block{padding:0!important}.block .section{margin-bottom:0!important}.info-user{min-height:0!important}');
-	    scrollToPlayer()
+	    scrollToPlayer();
+        window.setInterval(toHD, 3000);
 	}
+}
+function toHD() {
+	var btnLi = $('.vjs-icon-hd li').eq(0);
+    if (!btnLi.hasClass('vjs-selected')) btnLi.trigger('click');
+	var btnHD = $('#hls_stream_source_overlay');
+	if (btnHD.text() == 'HI BW') btnHD.trigger('click');
 }
 function scrollToPlayer() {
 	$('html').animate({

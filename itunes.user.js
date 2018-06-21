@@ -1,18 +1,24 @@
 // ==UserScript==
 // @name         iTunes
 // @namespace    https://twitter.com/ytzong
-// @version      0.8
+// @version      0.9
 // @author       ytzong
 // @include      https://itunes.apple.com/*
 // @grant        GM_addStyle
-// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
+// @run-at       document-end
 // @description Show large icon
 // ==/UserScript==
 
 GM_addStyle('.inline-list__item--bulleted{background-color:yellow !important}');
 
+var url = window.location.href;
+if (url.indexOf('?') != -1) {
+	url = url.substr(0, url.indexOf('?'));
+    window.location.href = url;
+}
+
 var ok = false;
-window.setInterval(main, 1000);
+window.setInterval(main, 2000);
 
 function main(){
 	if (ok == false){
