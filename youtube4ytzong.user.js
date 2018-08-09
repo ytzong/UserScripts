@@ -2,12 +2,12 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/watch*
-// @version     1.2
+// @version     1.3
 // @grant       GM_addStyle
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js
 // ==/UserScript==
-GM_addStyle('#masthead-container.ytd-app {display:none !important; position:absolute!important;top:100vh !important}#page-manager.ytd-app{margin-top:0 !important}@media (min-width: 882px) {#player.ytd-watch,#player-theater-container.ytd-watch-flexy, #player-theater-container.ytd-watch-flexy {height: 100vh !important;max-height:none !important}}');
-GM_addStyle('ytd-watch-flexy:not([theater]):not([fullscreen]) #primary.ytd-watch-flexy, ytd-watch-flexy:not([theater]):not([fullscreen]) #secondary.ytd-watch-flexy{padding:0!important;margin:0!important}ytd-watch-flexy:not([theater]):not([fullscreen]) #player-container-inner{padding-top:100vh!important}ytd-watch-flexy:not([theater]):not([fullscreen]) video{width:100%!important;height:100vh!important}ytd-watch-flexy:not([theater]):not([fullscreen]) .ytp-chrome-bottom{width:100%!important;left:0!important}');
+GM_addStyle('#masthead-container.ytd-app {display:none !important; position:absolute!important;top:100vh !important}#page-manager.ytd-app{margin-top:0 !important}@media (min-width: 882px) {#player.ytd-watch,#player-theater-container.ytd-watch-flexy, #player-theater-container.ytd-watch-flexy {height: 100vh !important;max-height:none !important}}video{left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important}');
+GM_addStyle('ytd-watch-flexy:not([theater]):not([fullscreen]) #primary.ytd-watch-flexy, ytd-watch-flexy:not([theater]):not([fullscreen]) #secondary.ytd-watch-flexy{padding:0!important;margin:0!important}ytd-watch-flexy:not([theater]):not([fullscreen]) #player-container-inner{padding-top:100vh!important}ytd-watch-flexy:not([theater]):not([fullscreen]) .ytp-chrome-bottom{width:100%!important;left:0!important}');
 function main() {
     $('video').attr('loop', 'loop');
     function rotate(deg) {
