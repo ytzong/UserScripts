@@ -1,16 +1,9 @@
 // ==UserScript==
 // @name         JD
 // @namespace    https://twitter.com/ytzong
-// @version      1.1.9
+// @version      1.4
 // @author       ytzong
-// @include      http*://www.jd.com/*
-// @include      http*://re.jd.com/*
-// @include      http*://re.m.jd.com/*
-// @include      http*://m.jd.com/sale/act/*
-// @include      http*://item.m.jd.com/product/*
-// @include      http*://item.jd.com/*
-// @include      http*://wqs.jd.com/*
-// @include      http*://pcashier.jd.com/*
+// @include      http*://*.jd.com/*
 // @run-at       document-end
 // @grant        GM_addStyle
 // @description JD for ytzong
@@ -23,18 +16,22 @@ if (domain == 'pcashier.jd.com') {
     GM_addStyle('.paybox-bankCard{display:block !important}');
 	//window.setInterval(YTPay, 1000);
 }
+if (domain == 'coupon.m.jd.com') {
+    //$('#pcprompt-viewpc').click();
+	var link = location.href;
+	location.href = 'https://api.m.jd.com/client.action?functionId=newBabelAwardCollection&body={"activityId":"3otnUZEkGA4YVeLpTxAfef3gVJn9","from":"H5node","scene":"1","args":"key=' + getUrlParameter('key') + ',roleId=' + getUrlParameter('roleId') + '"}&client=wh5&clientVersion=1.0.0&callback=jsonp';
+}
 if (window.location.href == 'http://www.jd.com/') {
     location.href = 'https://www.jd.com/';
 }
 if (domain == 'm.jd.com') {
     var pathnames = location.pathname.split('/');
-    location.href = 'https://sale.jd.com/act/' + pathnames[pathnames.length - 1];
+	if (!navigator.userAgent.includes('Mobile')) location.href = 'https://sale.jd.com/act/' + pathnames[pathnames.length - 1];
 }
 
 if (domain == 'item.m.jd.com' || domain == 're.jd.com' || domain == 're.m.jd.com') {
-
     var pathnames = location.pathname.split('/');
-    location.href = 'https://item.jd.com/' + pathnames[pathnames.length - 1];
+    if (!navigator.userAgent.includes('Mobile'))  location.href = 'https://item.jd.com/' + pathnames[pathnames.length - 1];
 }
 
 if (domain == 'item.jd.com') {
@@ -56,3 +53,10 @@ function YTPay() {
 		}
 	});
 }
+//https://davidwalsh.name/query-string-javascript
+function getUrlParameter(name) {
+    name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+    var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+    var results = regex.exec(location.search);
+    return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+};

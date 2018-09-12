@@ -1,12 +1,13 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      0.6
+// @version      0.7
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
 // @copyright    2018+
 // @run-at       document-end
 // @grant        GM_addStyle
+// @require      https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.3/string.min.js
 // ==/UserScript==
 GM_addStyle('body, .list{min-width:0!important}.content .c-1{margin-left:0 !important;margin-right:0 !important}');
 
@@ -16,7 +17,7 @@ if (pathname == '/external_link/') {
     location.href = $('#link').attr('href');
 }
 else {
-    window.setTimeout(main, 1000);
+    window.setTimeout(main, 0);
 }
 
 function main() {
@@ -40,6 +41,14 @@ function main() {
 			}
 		})
 	}
+	else {
+		window.setInterval(hideList, 7000);
+	}
+}
+function hideList() {
+	$('.thumbnail_label_c_private_show, .thumbnail_label_offline').each(function(){
+		$(this).parent().hide();
+	})
 }
 function toHD() {
 	var btnLi = $('.vjs-icon-hd li').eq(0);
