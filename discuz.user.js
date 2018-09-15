@@ -5,6 +5,7 @@
 // @version        0.2
 // @author         ytzong
 // @include        http://www.wdsz.net/thread*
+// @include        http://www.wdxxsz.com/thread*
 // @include        http://www.liangyingjie.com/thread*
 // @include        http://www.rilee.cn/forum*
 // @include        http://www.laolaosi.com/forum*
@@ -21,7 +22,7 @@ var bdIndex = 0;
 var url = document.location.href;
 var urls = url.split('/');
 var domain = urls[2];
-if (domain == 'www.wdsz.net' || domain == 'www.liangyingjie.com') {
+if (domain == 'www.wdsz.net' || domain == 'www.wdxxsz.com' || domain == 'www.liangyingjie.com') {
     var listSelector = '#ajaxtable';
     var bdSelector = '#readfloor_tpc';
     var linkSelector = $(listSelector + ' .subject_t');
