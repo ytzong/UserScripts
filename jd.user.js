@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         JD
 // @namespace    https://twitter.com/ytzong
-// @version      1.4
+// @version      1.5
 // @author       ytzong
 // @include      http*://*.jd.com/*
 // @run-at       document-end
@@ -10,6 +10,10 @@
 // ==/UserScript==
 
 GM_addStyle('#bjd_yifenqian_detail, #right_info,.more-prom-ins,.view-all-promotions,.jdm-toolbar-footer, #id-pcprompt-mask{display:none !important}.itemInfo-wrap .summary-price-wrap .z-has-more-promotion .p-promotions-wrap,.itemInfo-wrap .summary-price-wrap .z-has-more-promotion .prom-item, .itemInfo-wrap .summary-price-wrap .z-has-more-promotion .prom-quan,.itemInfo-wrap .summary-price-wrap .z-has-more-promotion{height:auto!important;white-space: normal !important;}.itemInfo-wrap .summary-price-wrap .summary-top .z-promotions-all-show{position:static!important;}.itemInfo-wrap .summary-price-wrap .summary-top .p-promotions-wrap{padding-bottom:5px !important}.summary-service,.free_delivery_zhong{background-color:yellow}');
+
+if (location.protocol == 'http:') {
+    location.href = location.href.replace(/http\:/, 'https:');
+}
 
 var domain = window.location.hostname;
 if (domain == 'pcashier.jd.com') {
@@ -20,9 +24,6 @@ if (domain == 'coupon.m.jd.com') {
     //$('#pcprompt-viewpc').click();
 	var link = location.href;
 	location.href = 'https://api.m.jd.com/client.action?functionId=newBabelAwardCollection&body={"activityId":"3otnUZEkGA4YVeLpTxAfef3gVJn9","from":"H5node","scene":"1","args":"key=' + getUrlParameter('key') + ',roleId=' + getUrlParameter('roleId') + '"}&client=wh5&clientVersion=1.0.0&callback=jsonp';
-}
-if (window.location.href == 'http://www.jd.com/') {
-    location.href = 'https://www.jd.com/';
 }
 if (domain == 'm.jd.com') {
     var pathnames = location.pathname.split('/');
