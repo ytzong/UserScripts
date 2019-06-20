@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      0.8
+// @version      0.9
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -24,7 +24,7 @@ function main() {
 	if ($('#player').length > 0) {
 		$("video").prop('muted', true);
 		$('video').trigger('play');
-        GM_addStyle('#player,.video-box, #still_video_object, video{left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important}#header, .top-section, .video-box .title,.tip_shell,.chat-holder,.footer-holder, .bio a[rel="nofollow"], .bio img[rel="nofollow"]{display:none!important}.content{padding-top:0!important}#defchat .section{height:auto!important}.video-box,.block,.info-user{border:0!important;-webkit-border-radius:0!important}.block{padding:0!important}.block .section{margin-bottom:0!important}.info-user{min-height:0!important}video{background-color:white}');
+        GM_addStyle('#player,.video-box, #still_video_object, video{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important}#header, .top-section, .video-box .title,.tip_shell,.chat-holder,.footer-holder, .bio a[rel="nofollow"], .bio img[rel="nofollow"]{display:none!important}.content{padding-top:0!important}#defchat .section{height:auto!important}.video-box,.block,.info-user{border:0!important;-webkit-border-radius:0!important}.block{padding:0!important}.block .section{margin-bottom:0!important}.info-user{min-height:0!important}video{background-color:white}');
         window.setInterval(toHD, 7000);
 		scrollToPlayer();
 
@@ -78,3 +78,4 @@ function rotate(deg) {
 	}
 	$('video').attr('style', 'transform:rotate(' + deg + 'deg) scale(' + zoom + ', ' + zoom + ');transform-origin:center center;');
 }
+
