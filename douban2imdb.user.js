@@ -30,7 +30,7 @@ if (location.hostname == 'movie.douban.com') {
                 if (imdb.length > 0) {
                     imdb = 'https://www.imdb.com/title/' + imdb + '/#' + score
                     window.open(imdb);
-                    window.setTimeout(function() { window.close() }, 3000);
+                    window.setTimeout(function() { window.close() }, 300);
                 }
             }
         })
@@ -57,7 +57,7 @@ if (location.hostname == 'www.imdb.com') {
                 $('body').append('<div id="yt-message">' + msg + '</div>');
              }); 
         }
-    }, 3000);
+    }, 2000);
 }
 
 /*
