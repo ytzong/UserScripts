@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban Movie Score to IMDb
-// @version      0.1
+// @version      0.2
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/title/*
@@ -18,7 +18,7 @@ if (location.hostname == 'movie.douban.com') {
 
     var status = $('.a_stars').text();
     
-    if (status.includes('我看过这部电影')) {
+    if (status.includes('我看过这部')) {
         var dbscore = $('input[id="n_rating"]').val();
         var score = parseInt(dbscore) * 2;
         var imdb = $('#info a[rel="nofollow"]').text();
@@ -30,7 +30,7 @@ if (location.hostname == 'movie.douban.com') {
                 if (imdb.length > 0) {
                     imdb = 'https://www.imdb.com/title/' + imdb + '/#' + score
                     window.open(imdb);
-                    window.setTimeout(function() { window.close() }, 300);
+                    window.setTimeout(function() { window.close() }, 1000);
                 }
             }
         })
