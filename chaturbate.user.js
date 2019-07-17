@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      0.9
+// @version      19.7.8
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -9,7 +9,7 @@
 // @grant        GM_addStyle
 // @require      https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.3/string.min.js
 // ==/UserScript==
-GM_addStyle('body, .list{min-width:0!important}.content .c-1{margin-left:0 !important;margin-right:0 !important}');
+GM_addStyle('body, .list{min-width:0!important}.list{margin-left:2px!important}.content .c-1{margin-left:0 !important;margin-right:0!important}.room_list_room{width:230px!important;max-height:none!important;margin:0 3px 3px 0 !important;border:none!important}.room_list_room a{color:#f0f1f1!important}.list .title a{color: #0A5B83!important;}.room_list_room img{box-sizing:border-box!important; width:100%!important;height:auto!important;border-width:3px !important;border-style:solid !important;}.list .thumbnail_label{top:152px !important}.list .sub-info li.cams, .list .subject,.message{display:none!important}');
 
 var pathname = window.location.pathname;
 console.log(pathname);
@@ -27,7 +27,16 @@ function main() {
         GM_addStyle('#player,.video-box, #still_video_object, video{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important}#header, .top-section, .video-box .title,.tip_shell,.chat-holder,.footer-holder, .bio a[rel="nofollow"], .bio img[rel="nofollow"]{display:none!important}.content{padding-top:0!important}#defchat .section{height:auto!important}.video-box,.block,.info-user{border:0!important;-webkit-border-radius:0!important}.block{padding:0!important}.block .section{margin-bottom:0!important}.info-user{min-height:0!important}video{background-color:white}');
         window.setInterval(toHD, 7000);
 		scrollToPlayer();
-
+        
+        $('#tabs_content_container dt').each(function(){
+            if ($(this).text() == 'Location:') {
+                $(this).next().css('background-color', 'yellow');
+            }
+        })
+        
+        var recLink = 'https://rec-tube.com/recent/search' + pathname;
+        $('#tabs_content_container h1').html('<a target="_blank" href="' + recLink + '">RECORD</a>');
+        
 		var degree = 0;
 		$(document).keydown(function(e) {
 			var video = $('video')[0];
@@ -42,13 +51,26 @@ function main() {
 		})
 	}
 	else {
-		window.setInterval(hideList, 7000);
+		window.setTimeout(hideList, 3000);
+        window.setTimeout(stopRefresh, 5000);
 	}
 }
+function stopRefresh() {
+    for(i=0; i<100; i++) {
+        window.clearInterval(i);
+    }
+}
 function hideList() {
-	$('.thumbnail_label_c_private_show, .thumbnail_label_offline').each(function(){
+    $('.thumbnail_label_c_private_show, .thumbnail_label_offline').each(function(){
 		$(this).parent().hide();
 	})
+    if (pathname != '/followed-cams/') {
+        GM_addStyle('.room_list_room a:visited {color:yellow!important}.list .title a:visited{color: #0A5B83!important;}');
+        
+        $('.icon_following').each(function(){
+            $(this).parent().hide();
+        })
+    }
 }
 function toHD() {
 	var btnLi = $('.vjs-icon-hd li').eq(0);
