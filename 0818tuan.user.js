@@ -13,15 +13,22 @@
 // ==/UserScript==
 
 GM_addStyle('.hb_pop, .hb_pop_cover{display:none!important}.col-md-4, .col-md-8 {float:none!important;width:auto !important;}.yt-source{margin-top:3em;text-align:center}.post-content img{display:inline !important;vertical-align: top;margin:1em 1em 1em 0;}');
+
+var pathname = location.pathname;
+if (pathname.includes('/list-1')) {
+    $('.col-md-4').hide();
+}
 if (location.pathname.includes('/xbhd/')) {
 	$('img + br').remove();
 
-	var time = 2000;
+	var time = 1000;
 	var images = document.querySelectorAll('.post-content img');
 	for (let image of images) {
 		setTimeout(function() {
-			console.log(image.src);
+//			console.log(image.src);
 			var imgsrc = image.src;
+            //imgsrc = imgsrc.replace(/img.zuanke8.com\/forum/g, 'www.zuanke8.com/data/attachment/forum');
+            console.log(image.src);
 			//imgsrc = imgsrc.replace(/http:\/\/www.0818tuan.com\/jd\/getimg\/z8.php\?url=/g, '');
 			//imgsrc = imgsrc.replace(/http:\/\/jd.0818tuan.com\/getimg\/z8.php\?url=/g, '');
 
@@ -54,7 +61,7 @@ if (location.pathname.includes('/xbhd/')) {
 }
 $('.list-group a').each(function(i) {
 	let title = $(this).text();
-	let blacks = ['促销活动', '必看活动', '微信专享', '：'];
+	let blacks = ['促销活动', '必看活动', '微信专享', '：', '买单吧', 'A股', '快撸京东支付礼包'];
 	let shoudHide = 0;
 	if ($(this).find('img').length) shoudHide = 1;
 	for (let b of blacks) {
@@ -80,14 +87,27 @@ $('.post-content a').each(function(i) {
 	url = S(url)
 		.replaceAll('http://jd.0818tuan.com/url/?u=', '')
 		.replaceAll('http://www.0818tuan.com/jd/url/?u=', '')
+        .replaceAll('http://u.0818tuan.com/jd/?u=', '')
+        .replaceAll('http://m.0818tuan.com/jd/?u=', '')
 		.replaceAll('/jump/uland/?url=', '')
 		.replaceAll('sho___', 'shopId')
+        .replaceAll('sho...', 'shopId')
 		.s;
 	url = decodeURIComponent(url);
 	url = JDMall2Mobile(url);
 	$(this).attr('href', url).attr('rel', 'noreferrer');;
 });
-
+$('.caption a.btn').each(function(){
+    var url = $(this).attr('href');
+	url = S(url)
+		.replaceAll('http://jd.0818tuan.com/url/?u=', '')
+		.replaceAll('http://www.0818tuan.com/jd/url/?u=', '')
+        .replaceAll('http://u.0818tuan.com/jd/?u=', '')
+        .replaceAll('http://m.0818tuan.com/jd/?u=', '')
+		.s;
+	url = decodeURIComponent(url);
+    $(this).attr('href', url).attr('rel', 'noreferrer');;
+})
 var sourceURL = $('.post-content .text-center a').eq(0);
 var sourceHTML = sourceURL.attr('href');
 if (S(sourceHTML).startsWith('http')) {

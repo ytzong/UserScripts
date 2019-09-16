@@ -13,7 +13,7 @@
 
 GM_addStyle('.modal-open{overflow:auto!important}');
 
-if (location.host == 'www.subku.net') {
+if (location.host == 'www.subku.net' || location.pathname.includes('/dld/')) {
 	var url = $('.btn').eq(1).attr('href');
 	location.href = url;
 	window.setInterval(window.close, 10000);
@@ -24,3 +24,5 @@ if (keyword.includes('?')) {
 	keyword = keyword.split('?')[0];
 	location.href = 'https://zimuku.cn/search?q=' + keyword;
 }
+
+$('#down1').removeAttr('target')

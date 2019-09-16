@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         BTBTT
-// @version      0.6
+// @version      0.7
 // @author       ytzong
 // @description  Auto download torrent
-// @include      http://*btbbt.*/*
-// @include      http://*btbtt.*/*
+// @include      http*://*btbbt.*/*
+// @include      http*://*btbtt.*/*
+// @include      http*://*btxiaba.*/*
 // @copyright    2018+
 // @run-at       document-end
 // @grant        GM_addStyle
@@ -18,6 +19,10 @@ let blackList = ['[有广告]', 'TC-MP4'];
 if (location.pathname.includes('attach-dialog')) {
     var url = location.protocol + '//' + location.hostname + '/' + $('.icon-download').parent().attr('href');
     location.href = url;
+    window.setInterval(window.close, 10000);
+}
+if (location.pathname.includes('vod-down-id')) {
+    location.href = $('.p_list_down_link a').attr('href');
     window.setInterval(window.close, 10000);
 }
 $('.subject').each(function(){

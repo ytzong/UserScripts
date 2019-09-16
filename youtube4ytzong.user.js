@@ -38,7 +38,7 @@ function main() {
             if (video.paused) video.play();
             else video.pause();
         }
-        var jump = 7;
+        var jump = 0;
         //右箭头
         if (e.keyCode == 39) {
             if (e.metaKey) video.volume = video.volume + 0.1;
