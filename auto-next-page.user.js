@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Next Page
-// @version      0.1
+// @version      2019.10.18
 // @author       ytzong
 // @namespace    Auto Next Page
 // @include      *://*google.*/*
@@ -21,13 +21,17 @@
 // @include      *://bbs.a9vg.com/*
 // @include      *://*jdbbs.com/*
 // @include      *://*mp4ba.com/*
+
 // @include      *://*xclient.info/*
 // @include      *://tieba.baidu.com/*
+// @include      *://*.douban.com/*
 // @include      *://*cocoachina.com/bbs/*
 // @include      *://*celebsdude.com/*
 // @include      *://*chiphell.com/*
 // @include      *://*koolshare.cn/*
 // @include      *://*right.com.cn/*
+// @include      *://*avsforum.com/forum/*
+
 // @run-at       document-end
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -69,7 +73,11 @@ if (domain.includes('mp4ba')) {
 if (domain.includes('wuhaozhan')) {
 	$next = document.querySelector('.pure-button-primary + a');
 }
-if (domain.includes('xclient')) {
+if (domain.includes('pornhub')) {
+    //有bug
+	$next = document.querySelector('.page_next a');
+}
+if (domain.includes('xclient') || domain.includes('douban.com')) {
 	$next = document.querySelector('.next a');
 }
 if (domain.includes('0818tuan')) {
