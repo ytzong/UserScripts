@@ -1,9 +1,11 @@
 // ==UserScript==
 // @name         JD
 // @namespace    https://twitter.com/ytzong
-// @version      1.5.2
+// @version      2019.12.2
 // @author       ytzong
 // @include      http*://*.jd.com/*
+// @include      http*://item.jd.*/*
+// @include      http*://item.jkcsjd.*/*
 // @run-at       document-end
 // @grant        GM_addStyle
 // @description JD for ytzong
@@ -14,85 +16,66 @@ GM_addStyle('#bjd_yifenqian_detail, #right_info,.more-prom-ins,.view-all-promoti
 if (location.protocol == 'http:') {
     location.href = location.href.replace(/http\:/, 'https:');
 }
-
+var url = location.href;
 var domain = window.location.hostname;
 if (domain == 'pcashier.jd.com') {
     GM_addStyle('.paybox-bankCard{display:block !important}');
 	//window.setInterval(YTPay, 1000);
 }
+if (domain == 'btmkt.jd.com') {
+    GM_addStyle('body{background:none !important}');
+}
+/*
 if (domain == 'coupon.m.jd.com' || domain == 'coupon.jd.com') {
     //$('#pcprompt-viewpc').click();
-	var link = location.href;
-	location.href = 'https://api.m.jd.com/client.action?functionId=newBabelAwardCollection&body={"activityId":"3otnUZEkGA4YVeLpTxAfef3gVJn9","from":"H5node","scene":"1","args":"key=' + getUrlParameter('key') + ',roleId=' + getUrlParameter('roleId') + '"}&client=wh5&clientVersion=1.0.0&callback=jsonp';
+	location.href = 'https://api.m.jd.com/client.action?functionId=newBabelAwardCollection&body={"activityId":"3otnUZEkGA4YVeLpTxAfef3gVJn9","from":"H5node","scene":"1","args":"key=' + getUrlParameter('key', location.search) + ',roleId=' + getUrlParameter('roleId', location.search) + '"}&client=wh5&clientVersion=1.0.0&callback=jsonp';
 }
+*/
 if (domain == 'm.jd.com') {
     var pathnames = location.pathname.split('/');
 	//if (!navigator.userAgent.includes('Mobile')) location.href = 'https://sale.jd.com/act/' + pathnames[pathnames.length - 1];
 }
-
+if (domain == 'search.jd.com') {
+    window.setInterval(function () {
+        $('.hd-shopname').each(function(){
+            var shop = $(this).text();
+            if (shop.includes('东方红大药房') || shop.includes('新兴大药房')) {
+                $(this).parents('.gl-item').hide()
+            }
+        })
+    }, 1000);
+}
 if (domain == 'item.m.jd.com' || domain == 're.jd.com' || domain == 're.m.jd.com') {
     var pathnames = location.pathname.split('/');
     if (!navigator.userAgent.includes('Mobile'))  location.href = 'https://item.jd.com/' + pathnames[pathnames.length - 1];
 }
-
-if (domain == 'item.jd.com') {
+if (domain.includes('item.jd')) {
 	//if ($('#InitCartUrl').hasClass('btn-disable')) {
-    	$('#choose-btns').append('<a class="btn-special1 btn-lg" href="https://cart.jd.com/gate.action?pid=' + window.location.pathname.replace('/', '').replace('.html', '') + '&pcount=1&ptype=1">+ 购物车</a>');
+    	$('#choose-btns').append('<a class="btn-special1 btn-lg" href="https://cart.jd.com/gate.action?pid=' + location.pathname.replace('/', '').replace('.html', '') + '&pcount=1&ptype=1">+ 购物车</a>').append('<a class="btn-special3 btn-lg" target="_blank" href="https://tool.manmanbuy.com/historyLowest.aspx?url=' + encodeURIComponent(location.href) + '">历史价格</a>');
 	//}
 }
-if (domain == 'shop.m.jd.com') {
+if (domain.includes('item.jkcsjd')) {
+	//if ($('#InitCartUrl').hasClass('btn-disable')) {
+    	$('#choose-btns').append('<a class="btn-special1 btn-lg" href="https://med.jkcsjd.com/cart_addItem.action?pid=' + location.pathname.replace('/', '').replace('.html', '') + '&pcount=1&ptype=1">+ 购物车</a>').append('<a class="btn-special3 btn-lg" target="_blank" href="https://tool.manmanbuy.com/historyLowest.aspx?url=' + encodeURIComponent(location.href) + '">历史价格</a>');
+	//}
+}
+if (domain == 'wq.jd.com' || domain == 'wqs.jd.com') {
+    GM_addStyle('.mod_alert_v2_mask{display:none!important}.yt-quan{position:absolute;right:0;bottom:0;height:44px;width:44px;text-align:center; background-color:yellow;}');
     window.setTimeout(function () {
-        $('.shop_gift_modal_button, .wei_shop_gift_button2').trigger('click');
+        $('div[data-api]').each(function(){
+            var link = $(this).attr('data-api');
+            var strings = link.split('?');
+            if (strings.length > 1) link = '?' + strings[1];
+            
+            link = 'https://api.m.jd.com/client.action?functionId=newBabelAwardCollection&body={"activityId":"3otnUZEkGA4YVeLpTxAfef3gVJn9","from":"H5node","scene":"1","args":"key=' + getUrlParameter('key', link) + ',roleId=' + getUrlParameter('roleid', link) + '"}&client=wh5&clientVersion=1.0.0&callback=jsonp';
+            console.log(link);
+            $(this).append('<a href="' + encodeURI(link) + '" target="_blank" class="yt-quan">Fuck</a>');
+            $(this).css('postion', 'relative');
+        })
     }, 3000);
-    window.setTimeout(function () {
-        if ($('.wei_shop_gift_button2 .button').text() == '已领取' || location.href.endsWith('#')) {
-            window.close();
-        }
-    }, 10000);
+
 }
-if (domain == 'mall.jd.com') {
-    var pathname = location.pathname;
-    if (pathname.includes('shopSign')) {
-        window.setTimeout(function () {
-            window.close();
-        }, 5000);
-    }
-    else {
-        location.href = JDMall2Mobile(location.href);
-    }
-/*    
-    if (pathname.includes('index')) {
-        var pathnames = location.pathname.split('/');
-        var pathname = pathnames[pathnames.length - 1];
-        pathnames = pathname.split('.');
-        pathname = pathnames[0];
-        pathname = pathname.replace(/index-/g, '');
-        location.href = 'https://shop.m.jd.com/?shopId=' + pathname;
-    }
-*/    
-}
-if (domain == 'vip.jr.jd.com') {
-    window.setTimeout(function () {
-        $('#index-qian-btn').trigger('click');
-    }, 3000);
-}
-if (domain == 'ljd.m.jd.com') {
-    window.setTimeout(function () {
-        $('#receiveAward').trigger('click');
-    }, 3000);
-}
-if (domain == 'm.jr.jd.com') {
-    window.setTimeout(function () {
-        $('.gangbeng .btn').trigger('click');
-    }, 3000);
-    window.setTimeout(function () {
-        $('.gift-dialog-btn').trigger('click');
-    }, 5000);
-    
-    window.setTimeout(function () {
-        window.close();
-    }, 10000);
-}
+
 function YTPay() {
 	$('.ui-shortPwd-input').eq(0).val('');
 	$('.ui-shortPwd-input').eq(1).val('');
@@ -107,21 +90,9 @@ function YTPay() {
 	});
 }
 //https://davidwalsh.name/query-string-javascript
-function getUrlParameter(name) {
+function getUrlParameter(name, url) {
     name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
     var regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-    var results = regex.exec(location.search);
+    var results = regex.exec(url);
     return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-}
-function JDMall2Mobile(url) {
-    var newURL = url;
-    if (url.includes('mall.jd.com/index')) {
-        var pathnames = url.split('/');
-        var pathname = pathnames[pathnames.length - 1];
-        pathnames = pathname.split('.');
-        pathname = pathnames[0];
-        pathname = pathname.replace(/index-/g, '');
-        newURL = 'https://shop.m.jd.com/?shopId=' + pathname + '#';
-    }
-    return newURL;
 }

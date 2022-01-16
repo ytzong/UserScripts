@@ -7,63 +7,58 @@
 // @copyright    2018+
 // @run-at       document-end
 // @grant        GM_addStyle
-// @require      https://cdn.rawgit.com/jprichardson/string.js/master/dist/string.min.js
+// @grant        GM_xmlhttpRequest
+// @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js
+// @require      https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.3/string.min.js
 // ==/UserScript==
 
-GM_addStyle('body{padding-bottom:25vh}.item-fifth-dl, .actGotop{display:none !important;}.dbscore{color:#12c}.movie-list .des .txt{line-height:1.5!important}.movie-list .des .txt p{position:absolute;bottom:20px;right:20px;text-align: right;}');
+GM_addStyle('body{padding-bottom:25vh}.item-fifth-dl, .actGotop{display:none !important;}.dbscore b{font-size:20px;color:#12c}.movie-list .des .txt{line-height:1.5!important}.movie-list .des .txt p{/*position:absolute;bottom:20px;right:20px;text-align: right;*/}');
 
-let blacks = ['红包', '不要错过', '【日本】', '动画', '纪录片', '歌舞'];
+let blacks = ['红包', '不要错过', '【日本】', '动画', '纪录片', '歌舞', '演唱会', '短片', '真人秀', '音乐剧'];
 
-$('.movie-list li').each(function(){
+$('.movie-list li').each(function(i, e){
     let title = $(this).find('h2').text();
+    console.log(title)
+    let tag = $(this).find('.des .txt p').text();
     let shoudHide = 0;
 	for (let b of blacks) {
 		if (S(title).contains(b)) shoudHide = 1;
+        if (S(tag).contains(b)) shoudHide = 1;
 	}
-	if (shoudHide == 1) $(this).hide();
+    if (shoudHide == 1) $(this).hide();
     
     $(this).find('.des .txt p br').remove();
     
-    let doubanLink = $(this).find('.des .txt p a[rel="nofollow"]').eq(0).attr('href');
-    $(this).find('.dbscore').wrap('<a href="' + doubanLink +  '" target="_blank" />')
+    let doubanLinks = $(this).find('.des .txt p a[rel="nofollow"]');
+    if (doubanLinks.length > 0) {
+        let doubanLink = doubanLinks[0]
+        console.log(doubanLink)
+        if (S(doubanLink).contains('douban.com')) {
+            $(this).find('.dbscore b').wrap('<a href="' + doubanLink +'"></a>')
+        }
+    }
+    
 })
+$('.actGotop').remove()
+/*
+let doubanLink = 'https://movie.douban.com/subject/26636712/';
+setTimeout(function(){
+   //$('body').append('<iframe id="yt-iframe" src ="' + doubanLink + '"></iframe>');
+   //$('.footer').load(doubanLink + ' .a_stars');
+   jQuery.ajax({
+     url: doubanLink,
+     //dataType: 'json',
+     xhrFields: { withCredentials: true },
+     success: function(data) {
+     console.log(data);
+     }
+    });
 
-
-//http://joji.me/zh-cn/blog/how-to-develop-high-performance-onscroll-event
-
-var next = $('a.next').attr('href');
-console.log(next);
-if (next.length > 0) {
-    var $window = $(window);
-    var $document = $(document);
-    var scroll = function () {
-        if($window.scrollTop() + $window.height() == $document.height()) {
-           window.location.href = next;
-        }
-    };
-    var raf = window.requestAnimationFrame ||
-        window.webkitRequestAnimationFrame ||
-        window.mozRequestAnimationFrame ||
-        window.msRequestAnimationFrame ||
-        window.oRequestAnimationFrame;
-    var $window = $(window);
-    var lastScrollTop = $window.scrollTop();
-
-    if (raf) {
-        loop();
-    }
-
-    function loop() {
-        var scrollTop = $window.scrollTop();
-        if (lastScrollTop === scrollTop) {
-            raf(loop);
-            return;
-        } else {
-            lastScrollTop = scrollTop;
-
-            // 如果进行了垂直滚动，执行scroll方法
-            scroll();
-            raf(loop);
-        }
-    }
-}
+}, 3000);
+*/
+/*
+setTimeout(function(){
+   var mine = $('#yt-iframe').contents().find('.a_stars').text();
+   console.log(mine);
+}, 15000);
+*/

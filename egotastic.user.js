@@ -1,10 +1,11 @@
 // ==UserScript==
 // @name         Egotastic
-// @version      0.2
+// @version      2020.01.06
 // @author       ytzong
 // @description  Egotastic
 // @include      http*://*egoallstars.com/*
 // @include      http*://*egotastic.com/*
+
 // @copyright    2018+
 // @run-at       document-end
 // @grant        GM_addStyle
@@ -21,13 +22,16 @@ $('.h-sidecontent').insertBefore('.h-maincontent');
 
 //detail 
 GM_addStyle('@media (min-width: 992px){.col-md-8, .col-md-4, .container, .e-box-comments, .h-box-comments{width:100%!important;}.e-box{width:33.3%!important;}.e-big-pic{margin-bottom:0 !important}}');
-GM_addStyle('.e-circle-image, #e-comments, .p-comments,.e-image-wrapper.whitespace, .h-adholder,.p-wraper-box,div[data-mh="p-group-posts"]{display:none}#yt-img{padding:150px 0 30px;margin:0 -30px -1px;background-color:black;text-align:center;}#yt-img img{display:block;margin:30px auto;/*width:100%;*/max-width:100%}');
+GM_addStyle('.e-circle-image, #e-comments, .p-comments,.e-image-wrapper.whitespace, .h-adholder,.p-wraper-box,div[data-mh="p-group-posts"], .ps-circle-image{display:none}#yt-img{padding:150px 0 30px;margin:0 -30px -1px;background-color:black;text-align:center;}#celebs imag, #yt-img img{display:block;margin:30px auto;/*width:100%;*/max-width:100%}.wp-video, .mejs-video{width:100%!important;height:95vh!important}');
 
 $('.e-right').insertBefore('.e-left');
-$('.e-big-pic').append('<div id="yt-img"></div>');
+$('.e-big-pic, .p-big-pic').append('<div id="yt-img"></div>');
 $('.g-slider').after('<div id="yt-img"></div>');
 
 var next = $('.e-circle-image a').attr('href');
+if (location.host == 'www.wwtdd.com') {
+    next = $('.ps-circle-image a').attr('href');
+}
 if ($('.g-slider').length > 0) {
     $('.g-slider').hide();
     var img = $('.g-fancybox');
@@ -37,16 +41,31 @@ if ($('.g-slider').length > 0) {
 getNext(next);
 
 function getNext(url) {
-    console.log(url);
-    if (url.length > 0) {
-        $.get(url, function(result) {
-            var html = $.parseHTML( result );
-            var img = $(html).find('.g-fancybox');
-            $('#yt-img').append(img);
-            next = $(html).find('#nextLink').attr('href');
-            setTimeout(getNext(next), 1000);
-        }).fail(function() {
-            setTimeout(getNext(url), 2000);
-        });
+    if (url) {
+        console.log(url);
+        if (url.length > 0) {
+            $.get(url, function(result) {
+                var html = $.parseHTML( result );
+                var img = $(html).find('.g-fancybox');
+                $('#yt-img').append(img);
+                next = $(html).find('#nextLink').attr('href');
+                setTimeout(getNext(next), 1000);
+            }).fail(function() {
+                setTimeout(getNext(url), 2000);
+            });
+        }        
     }
 }
+
+if (location.host.includes('egoallstars.com') && location.pathname == '/') {
+    window.setInterval(hideItems, 2000);
+}
+function hideItems() {
+    $('.single-post h1').each(function(){
+        if ($(this).text().includes('Fine Things')) {
+            $(this).parents('.single-post').hide()
+        }
+    })
+}
+
+

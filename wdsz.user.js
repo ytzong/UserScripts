@@ -1,5 +1,3 @@
-/// <reference path="jquery-vsdoc.js" />
-
 // ==UserScript==
 // @name           discuz
 // @namespace      discuz
