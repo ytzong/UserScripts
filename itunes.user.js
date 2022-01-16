@@ -8,35 +8,40 @@
 // @grant        GM_addStyle
 // @run-at       document-end
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
-// @description Show large icon
+// @description  Show large icon
 // ==/UserScript==
 
-
+GM_addStyle('.inline-list__item--bulleted{background-color:yellow !important}');
 
 var url = window.location.href;
 if (url.indexOf('?') != -1) {
-	url = url.substr(0, url.indexOf('?'));
+	url = url.substring(0, url.indexOf('?'));
 	window.location.href = url;
 }
 
-var ok = false;
+let ok = false
+
 window.setInterval(main, 1000);
 
 function main() {
+	console.log('exe')
+	if ($('#yt-icon').length > 0) ok = true
 
-	if ($('#yt-icon').length == 0) {
-		GM_addStyle('.inline-list__item--bulleted{background-color:yellow !important}');
+	if (!ok) {
 
-		console.log('exe')
 		var time = $('.version-history__item__release-date').eq(0).text();
 		if ($('#yt-time').length == 0) $('.product-header').append('<span id="yt-time" style="background:yellow;color:#8e8e93">' + time + '</span>');
 
-		var coverURL = $('source').eq(0).attr('srcset').split(',')[0].replace(' 1x', '')
+		let coverURL = $('source').eq(0).attr('srcset').split(',')[0].replace(' 1x', '')
 		console.log(coverURL);
-		coverURL = coverURL.replace(/230x0w/, "1024x0w");
-		coverURL = coverURL.replace(/.jpg/, ".png")
-		coverURL = coverURL.replace(/.webp/, ".png")
-		if ($('#yt-icon').length == 0) $('.product-hero__artwork').wrap('<a id="yt-icon" href="' + coverURL + '" target="_blank"></a>');
+		coverURL = coverURL.replace(coverURL.split('/').slice(-1)[0], '1024x0w.png');
+		$('.product-hero__artwork').wrap('<a id="yt-icon" href="' + coverURL + '" target="_blank"></a>');
+
+		let publisher = $('.product-header__identity a').eq(0)
+		let publisherID = publisher.attr('href').split('/').slice(-1)[0].replace('id', '')
+		publisher.after(' <a href="' + 'https://app.sensortower.com/ios/publisher/publisher/' + publisherID + '">»</a>')
+
+		ok = true
 	}
 
 }
