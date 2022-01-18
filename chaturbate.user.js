@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2022.01.16
+// @version      2022.01.17
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -23,15 +23,24 @@ else {
   window.setTimeout(main, 1000);
 }
 
+
 function main() {
+  window.setTimeout(stopRefresh, 5000);
+
   //播放页面
   if ($('.chat_room').length > 0) {
     //新版播放器
     GM_addStyle('.BaseRoomContents{margin:0!important;padding:0!important;border:0 none!important}#VideoPanel{border:0 none!important;width:100%!important;}.videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important}')
     GM_addStyle('#header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo{display:none!important}.contentText *{position:static!important;background-image:none!important}#volume-mute + div + span{position:absolute}')
 
-    window.setInterval(toHD, 1000)
-    window.setInterval(reloadPlayer, 3000)
+    // window.setInterval(toHD, 1000)
+    // window.setInterval(reloadPlayer, 3000)
+
+    for (i = 0; i < 20; i++) {
+      window.setTimeout(toHD, i * 1000)
+      window.setTimeout(reloadPlayer, i * 3000)
+    }
+
     var degree = 0;
     $(document).keydown(function (e) {
       var video = $('video')[0];
@@ -45,7 +54,6 @@ function main() {
   }
   else {
     window.setTimeout(hideList, 1500);
-    window.setTimeout(stopRefresh, 5000);
   }
 }
 function reloadPlayer() {

@@ -16,12 +16,12 @@
 //
 
 function getServer() {
-  let nowServer = getUrlParameter('server')
-  if (nowServer) {
-     return nowServer
-  }
+    let nowServer = getUrlParameter('server')
+    if (nowServer) {
+        return nowServer
+    }
     else {
-       return 'line' + Random(1, 3)
+        return 'line' + Random(1, 3)
     }
 
 }
@@ -41,9 +41,9 @@ var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 
 GM_addStyle('.page-jump-to, .jsv, .jsv-g1, #noticeModal, #warningModal, .modal-backdrop{display:none!important}#main{margin:0!important;padding:0!important;max-width:none!important}')
 $('.jsv').prev('.container-fluid').hide()
-  window.setInterval(function(){
+window.setInterval(function () {
     $('body').removeClass('modal-open')
-  }, 1000);
+}, 1000);
 
 $('#videoListPage, #videoShowPage').prevAll('.container-fluid').hide()
 
@@ -61,87 +61,119 @@ if (pathname.includes('/video/view')) {
     if (!nowServer) {
         location.href += '?server=' + getServer()
     }
-/*      window.setTimeout(function(){
-        let msg = $('.vjs-remaining-time-display').text()
-        if (msg.includes('-0:00')) {
-            location.href = location.href.split('?')[0]
-        }
-  }, 7000);
-  */
-  GM_addStyle('header, .alert, .vjs-error-display,.vjs-text-track-display,.vjs-control-bar,.vjs-loading-spinner{display:none!important} .adv-pr, .row{margin-left:0!important;margin-right:0!important;}.container-title, .videoInfos,#nav-tabContent{width:100%!important}#videoShowTabDownload{display:block!important}')
-  GM_addStyle('.videoPlayContainer{width:100vw!important;height:100vh!important;overflow:hidden!important}.yt-download{width:100%;height:50px}')
-  $('.videoPlayContainer').unwrap()
+    /*      window.setTimeout(function(){
+            let msg = $('.vjs-remaining-time-display').text()
+            if (msg.includes('-0:00')) {
+                location.href = location.href.split('?')[0]
+            }
+      }, 7000);
+      */
+    GM_addStyle(`
+    header, .alert, 
+    .vjs-error-display,.vjs-text-track-display,.vjs-control-bar,.vjs-loading-spinner, .vjs-poster,
+    .link-secondary,.fa-bug{display:none!important} 
+  .adv-pr, .row{margin-left:0!important;margin-right:0!important;}.container-title, .videoInfos,#nav-tabContent{width:100%!important}
+  #videoShowTabDownload{display:block!important}
+  `)
+    GM_addStyle('.videoPlayContainer{width:100vw!important;height:100vh!important;overflow:hidden!important}.yt-download{width:100%;height:50px}')
+    $('.videoPlayContainer').unwrap()
     $('#videoShowTabDownload').addClass('show')
-  $('header').removeClass('d-block').removeClass('d-md-block')
-  window.setTimeout(function(){
-    $('#video-play_html5_api').trigger('play').attr('controls', 'controls').attr('loop', 'true').focus()
-    
-    $('.vjs-big-play-button').trigger('click')
-  }, 2000);
-  window.setInterval(function(){
-    
-  }, 2000);
+    $('header').removeClass('d-block').removeClass('d-md-block')
+    window.setTimeout(function () {
+        $('#video-play_html5_api').trigger('play').attr('controls', 'controls').attr('loop', 'true').focus()
 
-  let paths = pathname.split('/')
-  
+        $('.vjs-big-play-button').trigger('click')
+    }, 2000);
+    window.setInterval(function () {
 
-  let id = paths.slice(-1)[0]
-  let user =  $('#videoShowTabAbout .fa-user').next().text().trim() //getUrlParameter('user')
-  let userid = getUrlParameter('userid')
-  let count = getUrlParameter('count')
-  let name =  $('h4.container-title').text().trim() //getUrlParameter('name')
-  let videoURL = $('video').eq(0).attr('data-src')
+    }, 2000);
 
-  if (shouldRedrict) location.href = 'https://rss.ytzong.com/player.htm?url=' + encodeURIComponent(videoURL) + '&id=' + encodeURIComponent(id) + '&user=' + encodeURIComponent(user) + '&userid=' + encodeURIComponent(userid) + '&name=' + encodeURIComponent(name) + '&count=' + encodeURIComponent(count)  + '&from=91porn'
+    let paths = pathname.split('/')
 
-  let videoTitle = user + ' - ' + $('.container-title').eq(0).text().trim() + ' - ' + id
+
+    let id = paths.slice(-1)[0]
+    let user = $('#videoShowTabAbout .fa-user').next().text().trim() //getUrlParameter('user')
+    let userid = getUrlParameter('userid')
+    let count = getUrlParameter('count')
+    let name = $('h4.container-title').text().trim() //getUrlParameter('name')
+    let videoURL = $('video').eq(0).attr('data-src')
+
+    if (shouldRedrict) location.href = 'https://rss.ytzong.com/player.htm?url=' + encodeURIComponent(videoURL) + '&id=' + encodeURIComponent(id) + '&user=' + encodeURIComponent(user) + '&userid=' + encodeURIComponent(userid) + '&name=' + encodeURIComponent(name) + '&count=' + encodeURIComponent(count) + '&from=91porn'
+
+    let videoTitle = user + ' - ' + $('.container-title').eq(0).text().trim() + ' - ' + id
     $('.container-title').eq(0)
-     .after('<textarea class="yt-download">ffmpeg -i "' + videoURL + '" -c copy "' + videoTitle + '.mp4"</textarea>')
-     .text(videoTitle)
-  
-  let mp4 = 1;
-  if (getUrlParameter('mp4') && getUrlParameter('mp4') == '0') mp4 = 0
-  if (mp4 == 1) {
-    window.setTimeout(function(){
-      GM_xmlhttpRequest({
-        method: "GET",
-        url: "/apiDownloadUrl/hd/" + id,
-        onload: function(response) {
-          let mp4 = response.responseText.trim()
-          const url = new URL(mp4);
-          url.searchParams.set('n', videoTitle);
-          mp4 = url.toString();
-          //alert(videoURL)
-          $('#video-play_html5_api').attr('src', mp4).trigger('play')
-          $('.downloadBtn').after('<a href="' + mp4 + '">下载</a>')
-          window.setTimeout(function(){
-             let msg = $('.vjs-error-display').text()
-             if (msg.includes('could not be loaded')) {
-                location.href += '&mp4=0'
-             }
-          }, 4000);
-        }
-      });
-    }, 1000);    
-  }
+        .after('<textarea class="yt-download">ffmpeg -i "' + videoURL + '" -c copy "' + videoTitle + '.mp4"</textarea>')
+        .text(videoTitle)
 
-  //$('#videoShowTabAbout a').attr('href', 'http://91porn.com/uvideos.php?UID=' +  userid).attr('rel', 'noreferrer')
+    let mp4 = 1;
+    if (getUrlParameter('mp4') && getUrlParameter('mp4') == '0') mp4 = 0
+    if (mp4 == 1) {
+        window.setTimeout(function () {
+            GM_xmlhttpRequest({
+                method: "GET",
+                url: "/apiDownloadUrl/hd/" + id,
+                onload: function (response) {
+                    let mp4 = response.responseText.trim()
+                    const url = new URL(mp4);
+                    //url.searchParams.set('n', '');
+                    mp4 = url.toString();
+                    //alert(videoURL)
 
-$('.yt-download, .container-title').click(function(){
-  let magnet = $(this).text()
-  console.log(magnet)
-  copyString(magnet)
-})
+                    $('#video-play_html5_api').crossOrigin = 'anonymous';
 
-function copyString(str){
-  var $temp = $("<input>");
-  $("body").append($temp);
-  $temp.val(str).select();
-  document.execCommand("copy");
-  $temp.remove();
-}
+                    $('#video-play_html5_api').attr('src', mp4).trigger('play')
+                    $('.downloadBtn').after('<a href="' + mp4 + '">下载</a>')
 
-     function rotate(deg) {
+                    $('#video-play_html5_api').on('error', function () {
+                        location.href += '&mp4=0'
+                    });
+                    // window.setTimeout(function () {
+                    //     let msg = $('.vjs-error-display').text()
+                    //     if (msg.includes('could not be loaded')) {
+                    //         location.href += '&mp4=0'
+                    //         //$('#video-play_html5_api').attr('src', videoURL).trigger('play')
+                    //     }
+                    // }, 4000);
+                }
+            });
+        }, 1000);
+    }
+    else {
+        window.setTimeout(function () {
+            if ($('video')[0].currentTime == 0) {
+                const url = new URL(location.href);
+                let server = url.searchParams.get('server')
+                if (server == 'line1') {
+                    url.searchParams.set('server', 'line2');
+                }
+                if (server == 'line2') {
+                    url.searchParams.set('server', 'line3');
+                }
+                if (server == 'line3') {
+                    url.searchParams.set('server', 'line1');
+                }
+                location.href = url
+            }
+        }, 5000);
+    }
+
+    //$('#videoShowTabAbout a').attr('href', 'http://91porn.com/uvideos.php?UID=' +  userid).attr('rel', 'noreferrer')
+
+    $('.yt-download, .container-title').click(function () {
+        let magnet = $(this).text()
+        console.log(magnet)
+        copyString(magnet)
+    })
+
+    function copyString(str) {
+        var $temp = $("<input>");
+        $("body").append($temp);
+        $temp.val(str).select();
+        document.execCommand("copy");
+        $temp.remove();
+    }
+
+    function rotate(deg) {
         var height = $(window).height();
         var width = $('video').eq(0).width();
         /*
@@ -157,13 +189,15 @@ function copyString(str){
         }
         $('video').attr('style', 'transform:rotate(' + deg + 'deg) scale(' + zoom + ', ' + zoom + ');transform-origin:center center;');
     }
+
     var degree = 0;
-    $(document).keydown(function(e) {
+    $(document).keydown(function (e) {
         var video = $('video').eq(0);
         var videoWrapper = $('video').eq(0).parent();
         //video.attr('controls', 'controls');
         //R
         if (e.keyCode == 82) {
+            if (video.paused) video.play();
             degree += 90;
             rotate(degree);
             //$('#yt-top').get(0).scrollIntoView();
@@ -205,12 +239,12 @@ function copyString(str){
             $('.downloadBtn button').get(0).click();
             let fileTitle = $('.container-title').eq(0).text()
             copyString(fileTitle)
-      /*
-      var _videoURL = $('#yt-download').attr('href')
-      var _videoTitle = $('#viewvideo-title a').eq(2).text().trim() + ' - ' + $('#yt-download').text().trim() + ' - ' + getUrlParameter('viewkey') + '.mp4'
-      var arg = { url: _videoURL, name: _videoTitle} ;
-      var result = GM_download(arg);
-      */
+            /*
+            var _videoURL = $('#yt-download').attr('href')
+            var _videoTitle = $('#viewvideo-title a').eq(2).text().trim() + ' - ' + $('#yt-download').text().trim() + ' - ' + getUrlParameter('viewkey') + '.mp4'
+            var arg = { url: _videoURL, name: _videoTitle} ;
+            var result = GM_download(arg);
+            */
         }
 
         function copyTitle() {
@@ -252,7 +286,9 @@ function copyString(str){
         }
         //右箭头
         if (e.keyCode == 39) {
+            if (video.paused) video.play();
             scrollToPlayer();
+            video.currentTime = video.currentTime + 7;
             //ALT
             if (e.keyCode == 18) {
                 video.currentTime = video.currentTime + 25;
@@ -261,8 +297,9 @@ function copyString(str){
         }
         //左箭头
         if (e.keyCode == 37) {
-      if (video.paused) video.play();
+            if (video.paused) video.play();
             scrollToPlayer();
+            video.currentTime = video.currentTime - 7;
             //ALT
             if (e.keyCode == 18) {
                 video.currentTime = video.currentTime - 25;

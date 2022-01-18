@@ -4,7 +4,7 @@
 // @description BTSOW
 // @include     http*://*btsow.*/*
 // @include     http*://*newfanhao.*/*
-// @version     2022.01.16
+// @version     2022.01.18
 // @grant       GM_addStyle
 // @run-at      document-end
 // @require     https://code.jquery.com/jquery-3.5.1.slim.min.js
@@ -17,6 +17,7 @@ let path = location.pathname
 
 if (domain.includes('btsow')) {
   GM_addStyle(`
+  .input-group{width:100%!important}
 .w728c, .search + h3{display:none!important}
 .container h3{font-size:12px !important;font-weight:normal !important}#magnetLink{height:200px!important}
   `)
@@ -28,7 +29,7 @@ if (domain.includes('btsow')) {
 
   if (path.includes('/search/')) {
     GM_addStyle(`
-.data-list{display:none}.tablesorter{width:100%} th, td{padding:15px;} tr{border-bottom:1px #ece4cc solid}
+.data-list{display:none}.tablesorter{width:100%;margin-bottom:100px} th, td{padding:15px;} tr{border-bottom:1px #ece4cc solid}
 .tablesorter a{/*display:block;*/color:black}
 .tablesorter a:hover{text-decoration:none}
 .tablesorter em {color: #d80456;font-style: normal;}.col2, .col3{text-align:right}.col2{width:70px;}.col3{width:150px}    
