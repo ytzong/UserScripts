@@ -10,10 +10,22 @@
 // @run-at       document-idle
 // ==/UserScript==
 
-GM_addStyle('#sample-video img{width:800px !important;height:auto !important}.d-item #list li {float:none !important; width:auto !important} #main-src .tmb:hover .img img{opacity:1 !important} #main-src[class*="digital"] .sample { top: 0!important;  left: 0!important;  margin-left: 0!important;}#main-src .tmb .img {display:inline-block !important;width:auto !important;height:auto !important;margin:auto !important;}#main-src .tmb .img img{display:inline-block !important}');
+GM_addStyle(`
+.area-tablebskt, .vline, .price a{display:none!important}
+.box-rank{clear:both}
+.tmb a{display:block}
+#sample-video img{width:100% !important;height:auto !important}
+.d-item #list li {display:inline-block;float:none !important; width:24% !important;overflow:hidden} 
+#main-src .tmb:hover .img img{opacity:1 !important} 
+#main-src[class*="digital"] .sample { top: 0!important;  left: 0!important;  margin-left: 0!important;}
+#main-src .tmb .img {display:inline-block !important;width:auto !important;height:auto !important;margin:auto !important;}
+#main-src .tmb .img img{display:inline-block !important}
+.highlight{background-color:yellow}
+`);
 
 
 function YTFunc(){
+    $('#sample-video').parent().removeClass('float-l').removeClass('mg-r12')
     $('#sample-video img').each(function(){
         var img = $(this).parent().attr('href');
         //img = img.replace('ps.jpg', 'pl.jpg');
@@ -24,7 +36,7 @@ function YTFunc(){
         var img = $(this).attr('src');
         img = img.replace('pt.jpg', 'pl.jpg');
         $(this).attr('src', img);
-        $(this).attr('style', 'max-width:none;max-height:none;margin-left:12px');
+        $(this).attr('style', 'max-width:100%;max-height:none;margin-left:12px');
     });
     $('.d-item #list a').each(function(){
         $(this).attr('target', '_blank');
@@ -40,14 +52,13 @@ function YTFunc(){
     $('#sample-image-block a').each(function(){
         $(this).attr('style', 'width:auto ;height:auto;').attr('onmouseup', '');
     });
-    $('#sample-image-block').attr('class', '');
-    var numObj = $('table.mg-b20 tr:nth-last-child(3) td:nth-last-child(1)');
-    if ($('#main-ppm').length > 0) numObj = $('table.mg-b20 tr:nth-last-child(4) td:nth-last-child(1)');
+    $('#sample-image-block').attr('class', '')
+    var numObj = $('.dcd-review__anchor_title').parent().prev().addClass('highlight').find('td').eq(1)
 
     var num = numObj.text();
     var mid = num.substring(num.length - 5, num.length - 5 + 2);
     if (mid == '00') num = num.substring(0, num.length - 5) + '-' + num.substring(num.length - 3);
-    numObj.append('<form action="http://btkittyba.org/" method="post" name="search"><input type="text" name="keyword" id="kwd" value="' + num + '"> <button type="submit">搜索BT种子</button></form>');
+    numObj.append(' ' + num);
 }
 
 YTFunc();
