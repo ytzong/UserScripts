@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         DMM Large Photo
 // @namespace    https://twitter.com/ytzong
-// @version      1.7
+// @version      2022.01.31
 // @description  DMM Large Photo
 // @author       ytzong
 // @include      http*://*dmm.co.jp/*
@@ -34,7 +34,7 @@ function YTFunc(){
             var img = $(this).attr('src');
             img = img.replace('-', 'jp-');
             $(this).attr('src', img);
-            $(this).attr('style', 'display:block;position:static; margin-left:auto;margin-right:auto;width:auto ;height:auto;cursor:default;');
+            $(this).attr('style', 'display:block;position:static; margin-left:auto;margin-right:auto;width:auto ;height:auto;cursor:default;max-width:100%');
         }
     });
     $('#sample-image-block a').each(function(){
