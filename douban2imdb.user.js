@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2021.01.16
+// @version      2021.02.15
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -96,7 +96,7 @@ if (location.hostname == 'movie.douban.com') {
 
     let dl_sites = {
         'SubDH': 'https://subdh.com/d/' + id,
-        '片库': 'https://www.mypianku.net/s/go.php?q=' + imdb,
+        '片库': 'https://www.btnull.org/s/go.php?q=' + imdb,
         '片吧': 'http://so.pianbar.net/search.aspx?s=movie&q=' + title,
         //'下片片': 'http://search.xiepp.com/search.aspx?s=movie&q=' + title,
         'BT之家': 'https://www.btbtt17.com/search-index-keyword-' + title + '.htm',
