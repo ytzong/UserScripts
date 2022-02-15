@@ -106,7 +106,7 @@ if (location.hostname == 'movie.douban.com') {
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         //'爱笑聚': 'https://www.aixiaoju.com//app-thread-run?app=search&keywords=' + imdb,
         'BTSOW': 'https://btsow.rest/search/' + title_en,
-        'RARBG': 'http://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
+        'RARBG': 'https://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
         'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/'
     }
     for (name in dl_sites) {
