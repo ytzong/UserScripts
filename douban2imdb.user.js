@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2021.02.15
+// @version      2021.02.16
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -10,7 +10,7 @@
 // @grant        GM_addStyle
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
 // @require      https://cdn.rawgit.com/jprichardson/string.js/master/dist/string.min.js
-//// @require      https://greasyfork.org/scripts/426455-imdb-link-back/code/imdb%20link%20back.user.js
+// @require      https://greasyfork.org/scripts/426455-imdb-link-back/code/imdb%20link%20back.user.js
 // ==/UserScript==
 
 //使用说明在最下面
@@ -18,54 +18,7 @@
 if (location.hostname == 'movie.douban.com') {
     GM_addStyle('#dale_movie_subject_inner_middle{display:none!important}');
 
-    let parseURL = function (url) {
-        var a;
-        a = document.createElement('a');
-        a.href = url;
-        return {
-            source: url,
-            protocol: a.protocol.replace(':', ''),
-            host: a.hostname,
-            port: a.port,
-            query: a.search,
-            params: (function () {
-                var i, len, ret, s, seg;
-                ret = {};
-                seg = a.search.replace(/^\\?/, '').split('&');
-                len = seg.length;
-                i = 0;
-                s = void 0;
-                while (i < len) {
-                    if (!seg[i]) {
-                        i++;
-                        continue;
-                    }
-                    s = seg[i].split('=');
-                    ret[s[0]] = s[1];
-                    i++;
-                }
-                return ret;
-            })(),
-            file: (a.pathname.match(/\\/([^\\/?#]+)$/i) || [, ''])[1],
-                hash: a.hash.replace('#', ''),
-            path: a.pathname.replace(/^([^\\/])/, '/$1'),
-            relative: (a.href.match(/tps?:\\/\\/[^\\/]+(.+)/) || [, ''])[1],
-            segments: a.pathname.replace(/^\\/ /, '').split('/')
-        };
-    };
-
     var status = $('.a_stars').text();
-    /*
-    let imdb = $('#info').contents().eq(-3).text().trim()
-    let imdbLink
-    if (imdb.includes('tt')) {
-          imdbLink = 'https://www.imdb.com/title/' + imdb + '/'
-        }
-    
-    $('#info').contents().eq(-3).wrap('<a href="' + imdbLink + '" target="_blank"></a>')
-    $('#info a').eq(-1).text(imdb)
-    $('#info .pl').eq(-1).text('IMDb: ')
-    */
     let id = location.pathname.split('/')[2]
     let imdb = $('#info a').eq(-1).text().trim()
     let imdbLink
@@ -83,8 +36,8 @@ if (location.hostname == 'movie.douban.com') {
         }
     }
 
-    var title = $('html head title').text();
-    let  title = title.replace('(豆瓣)', '').trim()
+    let title = $('html head title').text();
+    title = title.replace('(豆瓣)', '').trim()
     let title_en = $('span[property="v:itemreviewed"]').text() + ' ' + $('.year').eq(0).text().replace('(', '').replace(')', '')
     title_en = title_en.replace(title, '').trim()
     if (imdb.includes('tt')) { }
@@ -106,14 +59,12 @@ if (location.hostname == 'movie.douban.com') {
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         //'爱笑聚': 'https://www.aixiaoju.com//app-thread-run?app=search&keywords=' + imdb,
         'BTSOW': 'https://btsow.rest/search/' + title_en,
-        'RARBG': 'https://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
+        'RARBG': 'http://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
         'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/'
     }
     for (name in dl_sites) {
         link = dl_sites[name];
-        link_parsed = parseURL(link);
         link = $('<a></a>').attr('href', link);
-        link.attr('data-host', link_parsed.host);
         link.attr('target', '_blank').attr('rel', 'nofollow');
         link.html(name);
         $('#dl-sites').append(link);
@@ -127,9 +78,7 @@ if (location.hostname == 'movie.douban.com') {
     };
     for (name in sub_sites) {
         link = sub_sites[name];
-        link_parsed = parseURL(link);
         link = $('<a></a>').attr('href', link);
-        link.attr('data-host', link_parsed.host);
         link.attr('target', '_blank').attr('rel', 'nofollow');
         link.html(name);
         $('#sub-sites').append(link);
