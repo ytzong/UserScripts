@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2021.02.16
+// @version      2022.05.31
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -49,7 +49,7 @@ if (location.hostname == 'movie.douban.com') {
 
     let dl_sites = {
         'SubDH': 'https://subdh.com/d/' + id,
-        '片库': 'https://www.btnull.org/s/go.php?q=' + imdb,
+        '片库': 'https://www.btnull.org/s/1---1/' + imdb + '.html',
         '片吧': 'http://so.pianbar.net/search.aspx?s=movie&q=' + title,
         //'下片片': 'http://search.xiepp.com/search.aspx?s=movie&q=' + title,
         'BT之家': 'https://www.btbtt17.com/search-index-keyword-' + title + '.htm',
@@ -58,8 +58,8 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         //'爱笑聚': 'https://www.aixiaoju.com//app-thread-run?app=search&keywords=' + imdb,
-        'BTSOW': 'https://btsow.rest/search/' + title_en,
-        'RARBG': 'http://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
+        'BTSOW': 'https://btsow.bar/search/' + title_en,
+        'RARBG': 'https://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
         'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/'
     }
     for (name in dl_sites) {
@@ -71,7 +71,7 @@ if (location.hostname == 'movie.douban.com') {
     }
 
     let sub_sites = {
-        'SubHD': 'http://subhd.tv/d/' + id,
+        'SubHD': 'https://subhd.tv/d/' + id,
         '字幕库': 'http://www.zimuku.org/search?q=' + imdb,
         'A4K': 'https://www.a4k.net/search?term=' + title,
         '伪射手': 'http://assrt.net/sub/?searchword=' + title
@@ -93,7 +93,7 @@ if (location.hostname == 'www.imdb.com') {
         //if (origin.includes('India')) window.close()
 
         let genres = $('li[data-testid="storyline-genres"] ul').text()
-        if (genres.includes('Documentary') || genres.includes('Animation')) window.close()
+        //if (genres.includes('Documentary') || genres.includes('Animation')) window.close()
         //新版
         let id = location.pathname.split('/')[2]
         window.setTimeout(function () {

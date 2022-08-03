@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         jiuse
-// @version      2022.01.16
+// @version      2022.03.05
 // @author       ytzong
 // @description  91Porny
 // @include      http*://*jiuse*/*
@@ -39,7 +39,13 @@ var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 //  shouldRedrict = true
 //}
 
-GM_addStyle('.page-jump-to, .jsv, .jsv-g1, #noticeModal, #warningModal, .modal-backdrop{display:none!important}#main{margin:0!important;padding:0!important;max-width:none!important}')
+GM_addStyle(`
+  .page-jump-to, .jsv, .jsv-g1, .col-lg-1, #noticeModal, #warningModal, .modal-backdrop{display:none!important}
+  #main{margin:0!important;padding:0!important;max-width:none!important}
+  .highlight{background-color:yellow}
+`)
+$('.cateContainer').removeClass('col-lg-11').addClass('col-lg-5')
+$('.col-60').removeClass('col-lg-48').addClass('col-lg-54')
 $('.jsv').prev('.container-fluid').hide()
 window.setInterval(function () {
     $('body').removeClass('modal-open')
@@ -47,6 +53,36 @@ window.setInterval(function () {
 
 $('#videoListPage, #videoShowPage').prevAll('.container-fluid').hide()
 
+$('.video-elem .text-muted').each(function () {
+    let text = $(this).text()
+    if (text.includes('万次播放')) {
+        $(this).parents('.video-elem').addClass('highlight')
+        let playCount = text.split('|').pop().trim()
+        playCount = playCount.replace('次播放', '')
+        console.log(playCount)
+        let html = text.replace(playCount, '<strong>' + playCount + '</strong>')
+        $(this).html(html)
+    }
+})
+
+if (pathname.includes('/author/')) {
+    $(document).keydown(function (e) {
+        //S
+        if (e.keyCode == 83) {
+            let userID = pathname.split('/').pop()
+            let url91 = 'https://91porn.com/search_result.php?search_type=search_users&search_id=' + userID
+            var allLink = url91
+            if (allLink.length > 0)
+                window.location.href = allLink;
+        }
+    })
+    $('.video-elem .text-muted').each(function () {
+        let text = $(this).text()
+        if (text.includes('作者')) {
+            $(this).hide()
+        }
+    })
+}
 if (pathname.includes('/video/view/')) {
     let hdURL = $('.alert-link').eq(0).attr('href')
     if (hdURL && hdURL.includes('/viewhd/')) {
@@ -98,7 +134,9 @@ if (pathname.includes('/video/view')) {
     let name = $('h4.container-title').text().trim() //getUrlParameter('name')
     let videoURL = $('video').eq(0).attr('data-src')
 
-    if (shouldRedrict) location.href = 'https://rss.ytzong.com/player.htm?url=' + encodeURIComponent(videoURL) + '&id=' + encodeURIComponent(id) + '&user=' + encodeURIComponent(user) + '&userid=' + encodeURIComponent(userid) + '&name=' + encodeURIComponent(name) + '&count=' + encodeURIComponent(count) + '&from=91porn'
+    if (shouldRedrict) location.href = 'https://rss.ytzong.com/player.htm?url=' + encodeURIComponent(videoURL) + '&id=' + encodeURIComponent(id)
+        + '&user=' + encodeURIComponent(user) + '&userid=' + encodeURIComponent(userid) + '&name='
+        + encodeURIComponent(name) + '&count=' + encodeURIComponent(count) + '&from=91porn'
 
     let videoTitle = user + ' - ' + $('.container-title').eq(0).text().trim() + ' - ' + id
     $('.container-title').eq(0)
@@ -141,6 +179,8 @@ if (pathname.includes('/video/view')) {
     else {
         window.setTimeout(function () {
             if ($('video')[0].currentTime == 0) {
+                url.searchParams.set('mp4', '1');
+
                 const url = new URL(location.href);
                 let server = url.searchParams.get('server')
                 if (server == 'line1') {

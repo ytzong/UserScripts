@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2022.01.17
+// @version      2022.07.10
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -9,37 +9,71 @@
 // @grant        GM_addStyle
 // @require      https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.3/string.min.js
 // ==/UserScript==
-GM_addStyle('.full-height{height:100vh!important;background:none!important}#defchat>div.section:first-child{overflow:hidden!important}body, .list{min-width:0!important}.list{margin-left:2px!important}.content .c-1{margin-left:0 !important;margin-right:0!important}.room_list_room{/*width:200px!important;*/max-height:none!important;margin:0 !important;border:none!important}.room_list_room a{color:#f0f1f1!important}.list .title a{color: #0A5B83!important;}.room_list_room img{box-sizing:border-box!important; width:100%!important;height:auto!important;border-width:3px !important;border-style:solid !important;}.list .thumbnail_label,.list .thumbnail_label_c_private_show{top:3px !important;left:3px !important;right:auto!important}.list .sub-info li.cams, .list .subject,.message{display:none!important}');
-GM_addStyle('@media (max-width: 800px) {.room_list_room{width:50%!important}}')
-GM_addStyle('@media (min-width: 801px) and (max-width: 1010px) {.room_list_room{width:33%!important}}')
-GM_addStyle('@media (min-width: 1011px) {.room_list_room{width:25%!important}}')
+GM_addStyle(`.full-height{height:100vh!important;background:none!important}
+  #defchat>div.section:first-child{overflow:hidden!important}
+  body, .list{min-width:0!important}
+  .list{margin-left:2px!important}
+  .content .c-1{margin-left:0 !important;margin-right:0!important}
+  .room_list_room{/*width:200px!important;*/max-height:none!important;margin:0 !important;border:none!important}
+  .room_list_room a{color:#f0f1f1!important}
+  .list .title a{color: #0A5B83!important;}
+#discover_root .carousel{margin:0!important;border:0 none !important;background-color:transparent !important}
+#discover_root .carousel-header{margin-left:0!important}
+#discover_root ul.list{display:block!important;width:auto !important;height:auto !important;}
+#discover_root .single-row ul.list>*:first-child,
+#discover_root ul.list>*:first-child{margin-left:0!important}
+  .roomCard{max-height:none !important;margin-right:0!important;height:auto !important;}
+  .room_list_room img, .roomCard img{box-sizing:border-box!important; width:100%!important;height:auto!important;border-width:3px !important;border-style:solid !important;}
+  .list .thumbnail_label,.list .thumbnail_label_c_private_show{top:3px !important;left:3px !important;right:auto!important}
+  .list .sub-info li.cams, .list .subject,.message{display:none!important}
+`);
+GM_addStyle('@media (max-width: 800px) {.room_list_room,.roomCard{width:50%!important}}')
+GM_addStyle('@media (min-width: 801px) and (max-width: 1010px) {.room_list_room,.roomCard{width:33%!important}}')
+GM_addStyle('@media (min-width: 1011px) {.room_list_room,.roomCard{width:25%!important}}')
 var pathname = window.location.pathname;
 console.log(pathname);
-var recLink = 'https://www.rec-tube.com/recent/search' + pathname;
+
+let recSites = {
+  'rec-tube': 'https://www.rec-tube.com/recent/search' + pathname,
+  'onlinestars': 'https://onlinestars.net/models' + pathname,
+  'x1080hd': 'https://x1080hd.com/tags' + pathname,
+  'xcamladyx': 'https://xcamladyx.com/tags' + pathname,
+  'someonesister': 'https://someonesister.com/tags' + pathname,
+  'relaxxxtime': 'https://relaxxxtime.com/search' + pathname,
+  'wxx.wtf': 'https://www.wxx.wtf/search' + pathname
+}
+
 if (pathname == '/external_link/') {
   location.href = $('#link').attr('href');
 }
 else {
   window.setTimeout(main, 1000);
 }
-
-
 function main() {
-  window.setTimeout(stopRefresh, 5000);
-
   //播放页面
   if ($('.chat_room').length > 0) {
+    //window.setTimeout(stopRefresh, 1000);
     //新版播放器
-    GM_addStyle('.BaseRoomContents{margin:0!important;padding:0!important;border:0 none!important}#VideoPanel{border:0 none!important;width:100%!important;}.videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important}')
-    GM_addStyle('#header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo{display:none!important}.contentText *{position:static!important;background-image:none!important}#volume-mute + div + span{position:absolute}')
+    GM_addStyle(`.BaseRoomContents{margin:0!important;padding:0!important;border:0 none!important}#VideoPanel{border:0 none!important;width:100%!important;}
 
-    // window.setInterval(toHD, 1000)
-    // window.setInterval(reloadPlayer, 3000)
+                .videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important}
+`)
+    GM_addStyle(`
+#header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo{display:none!important}
+.contentText *{position:static!important;background-image:none!important}
+#volume-mute + div + span{position:absolute}
+.BioContents h1 a{margin-right:.5em}
+`)
+    $('.draggableCanvasWindow').parent().remove()
+    $('#SplitModeTipCallout').remove()
 
-    for (i = 0; i < 20; i++) {
-      window.setTimeout(toHD, i * 1000)
-      window.setTimeout(reloadPlayer, i * 3000)
-    }
+    window.setInterval(toHD, 1000)
+    window.setInterval(reloadPlayer, 3000)
+
+    // setTimeout(function repeat() {
+    //   toHD();
+    //   setTimeout(repeat, 1000);
+    // }, 1000);
 
     var degree = 0;
     $(document).keydown(function (e) {
@@ -56,6 +90,7 @@ function main() {
     window.setTimeout(hideList, 1500);
   }
 }
+
 function reloadPlayer() {
   let imgURL = $('.videoPlayerDiv img').attr('src')
   if (imgURL.includes('stream?room=')) {
@@ -64,9 +99,10 @@ function reloadPlayer() {
   }
 }
 function stopRefresh() {
-  for (i = 0; i < 100; i++) {
+  for (i = 0; i < 99; i++) {
     window.clearInterval(i);
   }
+  console.log('stop')
 }
 function hideList() {
   // $('.thumbnail_label_c_private_show, .thumbnail_label_offline').each(function(){
@@ -81,22 +117,24 @@ function hideList() {
   }
 }
 function toHD() {
-  //console.log('to HD')
+  console.log('to HD')
+  $('.videoPlayerDiv').parent().css('height', '100vh')
   if ($('#video-mode').text() == 'Theater Mode') $('#video-mode').click()
 
   $('.reportAbuseLink').next().hide()
   if (!$('.roomSubjectTooltip').next().hasClass('full-height')) $('.roomSubjectTooltip').next().addClass('full-height')
   if (!$('.videoPlayerDiv').next().hasClass('full-height')) $('.videoPlayerDiv').next().addClass('full-height')
 
-  var btnHD = $('.roomSubjectTooltip').next().children(':last-child').children(':first-child')
+  var btnHD = $('.vjs-icon-hd').next().children(':last-child').children(':first-child')
   if (btnHD.css('color') == 'rgb(255, 255, 255)') btnHD.trigger('click')
+
 
   if ($('.chatInnerDiv').is(':visible')) {
     $('#chat-btn').click()
   }
 
   $("video").prop('muted', true)
-  $('video').trigger('play')
+  $('video').eq(0).trigger('play')
 
   let T = $('title').text()
   T = S(T)
@@ -106,7 +144,15 @@ function toHD() {
   $('title').text(T)
 
   if ($('.BioContents h1 a').length == 0) {
-    $('.BioContents h1').html('<a target="_blank" href="' + recLink + '">RECORD</a>');
+    $('.BioContents h1').html('')
+    for (let name in recSites) {
+      let link = recSites[name];
+      console.log(link)
+      link = $('<a></a>').attr('href', link);
+      link.attr('target', '_blank').attr('rel', 'nofollow');
+      link.html(name);
+      $('.BioContents h1').append(link);
+    }
 
     $('.BioContents .label').each(function () {
       if ($(this).text() == 'Location:') {
@@ -117,7 +163,6 @@ function toHD() {
         if ($(this).next().text() == 'Trans' || $(this).next().text() == 'Male') window.close()
       }
     })
-
   }
 }
 function scrollToPlayer() {

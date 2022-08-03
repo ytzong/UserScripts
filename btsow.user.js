@@ -3,18 +3,37 @@
 // @namespace   BTSOW
 // @description BTSOW
 // @include     http*://*btsow.*/*
+// @include     http*://*cilipa.*/*
 // @include     http*://*newfanhao.*/*
-// @version     2022.01.18
+// @include     http*://*bt4g.*/*
+// @version     2022.05.08
 // @grant       GM_addStyle
 // @run-at      document-end
 // @require     https://code.jquery.com/jquery-3.5.1.slim.min.js
 // @require     https://cdnjs.cloudflare.com/ajax/libs/jquery.tablesorter/2.31.3/js/jquery.tablesorter.min.js
+// @require     https://cdn.rawgit.com/jprichardson/string.js/master/dist/string.min.js
 // ==/UserScript==
 
 let domain = location.hostname
 let url = location.href
 let path = location.pathname
 
+if (domain.includes('cilipa')) {
+  function cleanMagnet(magnet) {
+    let str = S(magnet).replaceAll('&dn=Www.CiLiPa.Me', '').s
+    return str
+  }
+
+  $('.item-title a').each(function () {
+    let href = $(this).attr('href')
+    $(this).attr('href', cleanMagnet(href))
+  })
+  $('.mag-link').each(function () {
+    let href = $(this).attr('value')
+    $(this).attr('value', cleanMagnet(href))
+  })
+
+}
 if (domain.includes('btsow')) {
   GM_addStyle(`
   .input-group{width:100%!important}
@@ -57,11 +76,6 @@ if (domain.includes('btsow')) {
       sortList: [[2, 1]]
     });
 
-
-
-    GM_addStyle('#magnets{position:fixed;right:0;bottom:0;width:300px;height:300px}.bg-light{background-color:lightgray}')
-
-    $('body').append('<textarea id="magnets" />')
     $('.tablesorter tr').click(function () {
       $(this).addClass('bg-light')
       let magnet = $(this).find('a').attr('href').split('/').slice(-1)
@@ -73,15 +87,50 @@ if (domain.includes('btsow')) {
       $('#magnets').val(magnets)
     })
 
+  }
+}
+if (domain.includes('btsow') || domain.includes('bt4g')) {
+  GM_addStyle('#magnets{position:fixed;right:0;bottom:0;width:300px;height:300px}.bg-light{background-color:lightgray}')
 
+  $('body').append('<textarea id="magnets" />')
 
-    function copyString(str) {
-      var $temp = $("<input>");
-      $("body").append($temp);
-      $temp.val(str).select();
-      document.execCommand("copy");
-      $temp.remove();
-    }
+  function copyString(str) {
+    var $temp = $("<input>");
+    $("body").append($temp);
+    $temp.val(str).select();
+    document.execCommand("copy");
+    $temp.remove();
+  }
+}
+if (domain.includes('bt4g')) {
+
+  if (path.includes('/magnet/')) {
+    let hash = path.split('/').pop()
+    $('main a').eq(0).attr('href', 'magnet:?xt=urn:btih:' + hash)
+  }
+
+  if (path.includes('/search/')) {
+    GM_addStyle(`
+
+    `)
+    $('h5 a').each(function () {
+      let hash = $(this).attr('href').split('/').pop()
+      let mag = 'magnet:?xt=urn:btih:' + hash
+      let href = $(this).attr('href')
+      $(this).attr('href', mag)
+      $(this).after(' <a href="' + href + '" target="_blank">»</a>')
+    })
+
+    $('h5').click(function () {
+      $(this).addClass('bg-light')
+      let magnet = $(this).find('a').attr('href')
+      console.log(magnet)
+      copyString(magnet)
+      let magnets = $('#magnets').val() + '\n' + magnet
+      magnets = magnets.trim()
+      $('#magnets').val(magnets)
+    })
+
   }
 }
 

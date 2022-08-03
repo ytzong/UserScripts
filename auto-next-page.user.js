@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Next Page
-// @version      2022.01.16
+// @version      2022.07.26
 // @author       ytzong
 // @namespace    Auto Next Page
 // @include      *://*google.*/*
@@ -9,6 +9,11 @@
 // @include      *://*jiuse*/*
 // @include      *://*xvideos*/*
 // @include      *://*t66y.com/*
+// @include      *://*fytt*/*
+// @include      *://*javhdporn.*/*
+// @include      *://*bestjavporn.*/*
+// @include      *://*avgle.com/*
+// @include      *://*tokyomotion.*/*
 // @include      *://*chaturbate*/*
 // @include      *://*0818tuan*/*
 // @include      *://tb.zuanke8.com/*
@@ -61,9 +66,11 @@ if (domain.includes('91porny.') || domain.includes('jiuse')) {
     $next = document.querySelector('.pagination a[aria-label="Next »"]');
     if ($next === null) $next = document.querySelector('.page-item.active').nextElementSibling.querySelector('a');
 }
+if (domain.includes('avgle.com') || domain.includes('tokyomotion')) {
+    $next = document.querySelector('.prevnext');
+}
 if (domain.includes('mrskin.com')) {
-    if (pathname == '/') $next = document.querySelector('.load-more-btn');
-    else $next = document.querySelector('.next a');
+    $next = document.querySelector('.next a');
 }
 if (domain.includes('btbbt') || domain.includes('btbtt')) {
     $next = document.querySelector('.page .checked').nextElementSibling;
@@ -114,12 +121,15 @@ if (domain.includes('xclient') || domain.includes('douban.com')) {
 if (domain.includes('0818tuan') || domain.includes('tb.zuanke8') || domain.includes('lanmaoyouhui')) {
     try {
         document.querySelector('.pager a[title="总数"]').remove();
-    } catch {}
+    } catch { }
 
     $next = document.querySelector('.pager b').nextElementSibling;
 }
-if (domain.includes('btsow') ) {
+if (domain.includes('btsow')) {
     $next = document.querySelector('.pagination a[name="nextpage"]')
+}
+if (domain.includes('fytt')) {
+    $next = document.querySelector('.pagination .active').nextElementSibling.querySelector('a');
 }
 if (domain.includes('hxm5')) {
     $next = document.querySelector('.pagebar .disabled').nextElementSibling.querySelector('a');
@@ -144,8 +154,8 @@ if (domain.includes('tgfcer')) {
     $next = document.querySelector('.pages strong').nextElementSibling;
 }
 if (domain.includes('xiepp') || domain.includes('pianbar')) {
-  Array.from(document.querySelectorAll('a[target="_blank"]'))
-  .forEach(link => link.removeAttribute('target'));
+    Array.from(document.querySelectorAll('a[target="_blank"]'))
+        .forEach(link => link.removeAttribute('target'));
 
     $next = document.querySelector('.serch_page strong').nextElementSibling;
 }
@@ -157,17 +167,21 @@ if (domain.includes('t66y')) {
 if (domain.includes('rec-tube')) {
     $next = document.querySelector('.col-xs-12 .pagination li:nth-last-child(2) a');
 }
+if (domain.includes('javhdporn') || domain.includes('bestjavporn')) {
+    $next = document.querySelector('.pagination li:nth-last-child(2) a');
+}
+
 next = $next.getAttribute('href');
 console.log(next);
 
 if (next.length > 0) {
     var debounce_timer;
-    window.onscroll = function() {
+    window.onscroll = function () {
         if (debounce_timer) {
             window.clearTimeout(debounce_timer);
         }
 
-        debounce_timer = window.setTimeout(function() {
+        debounce_timer = window.setTimeout(function () {
             // run your actual function here
             var d = document.documentElement;
             var offset = d.scrollTop + window.innerHeight;
@@ -185,5 +199,5 @@ if (next.length > 0) {
     };
     try {
         document.querySelector('html').setAttribute('style', 'height:auto;padding-bottom:400px');
-    } catch {}
+    } catch { }
 }
