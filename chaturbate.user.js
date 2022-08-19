@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2022.07.10
+// @version      2022.08.19
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -40,7 +40,9 @@ let recSites = {
   'xcamladyx': 'https://xcamladyx.com/tags' + pathname,
   'someonesister': 'https://someonesister.com/tags' + pathname,
   'relaxxxtime': 'https://relaxxxtime.com/search' + pathname,
-  'wxx.wtf': 'https://www.wxx.wtf/search' + pathname
+  'wxx.wtf': 'https://www.wxx.wtf/search' + pathname,
+  'xhomealone': 'https://xhomealone.com/search' + pathname,
+  'webcamleak': 'https://webcamleak.com/search' + pathname
 }
 
 if (pathname == '/external_link/') {
@@ -67,7 +69,7 @@ function main() {
     $('.draggableCanvasWindow').parent().remove()
     $('#SplitModeTipCallout').remove()
 
-    window.setInterval(toHD, 1000)
+    window.setInterval(toHD, 500)
     window.setInterval(reloadPlayer, 3000)
 
     // setTimeout(function repeat() {
@@ -87,7 +89,7 @@ function main() {
     })
   }
   else {
-    window.setTimeout(hideList, 1500);
+    window.setInterval(hideList, 1500);
   }
 }
 
@@ -113,6 +115,14 @@ function hideList() {
 
     $('.icon_following').each(function () {
       $(this).parent().hide();
+    })
+  }
+  if (pathname.includes('/discover/')) {
+    $('.category-title').each(function () {
+      let catTitle = $(this).text()
+      if (catTitle.includes('Recently Watched') || catTitle.includes('Spy Shows') || catTitle.includes('Followed')) {
+        $(this).parents('.carousel-root').hide()
+      }
     })
   }
 }
@@ -160,7 +170,7 @@ function toHD() {
       }
       if ($(this).text() == 'I am:') {
         $(this).parent().css('background-color', 'yellow');
-        if ($(this).next().text() == 'Trans' || $(this).next().text() == 'Male') window.close()
+        if ($(this).next().text().includes('Trans') || $(this).next().text() == 'Male') window.close()
       }
     })
   }
