@@ -4,7 +4,7 @@
 // @namespace   MrSkin
 // @description MsSkin
 // @include     http*://*mrskin.com/*
-// @version     2020.01.13
+// @version     2022.08.28
 // @grant       GM_addStyle
 // @grant       GM_xmlhttpRequest
 // @run-at      document-end
@@ -19,11 +19,35 @@ console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 
 
-GM_addStyle('@media (min-width: 992px){.row-r .col-md-4 {width:20% !important;padding-left: 1px!important;padding-right: 1px!important;}.sk-wallpapereda{max-width:none!important}}a:visited {color:lightgray !important;}.none,#suggestion_box,#subnavigation,.sk-wallpaper-top-container,.sk-wallpaper, #fc_frame{display:none !important}.container,.media-scene-player{max-width:none !important}#watchSceneContainer,#watchSceneView,body.has-adult-network{padding:0!important}#navigation{position:static!important}.video_container_video-dimensions.vjs-fluid{padding-top:100vh!important;}.thumbnail.clip:hover .scene-description, .col-xs-12.col-xxs-12{display:none !important}.title{user-select:text!important}.scene-keywords{background-color:yellow}');
-//
-GM_addStyle('.video-carousel-wrapper,.slick-slider .slick-list,.video-carousel-item {margin-left:0!important;margin-right:0!important}#clips .col-xs-12,.slick-arrow{display:none !important}.slick-track{width:auto!important}.video-carousel-item{float:none!important; display:inline-block !important;vertical-align:top; width:25%!important;height:auto!important}.video-carousel-item .thumbnail{padding-right:10px;}.video-carousel-link{max-height:none!important}.img-responsive{width:100%!important}.slick-track, .video-carousel-item{position:static !important;}.slick-track{transform: translate3d(-0, 0px, 0px) !important;}.thumbnail-column{margin-left:0!important;margin-right:0 !important}.thumbnail{margin-bottom:10px !important}a.clip{display:block;box-sizing: border-box;border-width:3px;border-style: solid;}a.clip:visited {color:yellow !important;}');
+GM_addStyle(`
+@media (min-width: 992px){.row-r .col-md-4 {width:20% !important;padding-left: 1px!important;padding-right: 1px!important;}.sk-wallpapereda{max-width:none!important}}
+a:visited {color:lightgray !important;}
+.none,#suggestion_box,#subnavigation,.sk-wallpaper-top-container,.sk-wallpaper, #fc_frame{display:none !important}
+.container,.media-scene-player{max-width:none !important}
+#watchSceneContainer,#watchSceneView,body.has-adult-network{padding:0!important}
+#navigation{position:static!important}
+.video_container_video-dimensions.vjs-fluid{padding-top:100vh!important;}
+.thumbnail.clip:hover .scene-description, .col-xs-12.col-xxs-12{display:none !important}
+.title{user-select:text!important}.scene-keywords{background-color:yellow}
 
-GM_addStyle('.sk-media-modal{padding-bottom:0!important}.sk-slideshow-modal .sk-media-infobar-container{position:static!important}.sk-media-content{width:100%!important}.sk-media-modal.sk-slideshow-modal .sk-media-content-container .sk-media-controls,.sk-media-modal.sk-slideshow-modal.sk-media-content-scene-media .sk-media-content-container .sk-media-content,.sk-video-player{max-width:none!important}.sk-video-player{height:100%!important}');
+.video-carousel-wrapper,.slick-slider .slick-list,.video-carousel-item {margin-left:0!important;margin-right:0!important}
+#clips .col-xs-12,.slick-arrow{display:none !important}
+.slick-track{width:auto!important}
+.video-carousel-item{float:none!important; display:inline-block !important;vertical-align:top; width:25%!important;height:auto!important}
+.video-carousel-item .thumbnail{padding-right:10px;}
+.video-carousel-link{max-height:none!important}.img-responsive{width:100%!important}
+.slick-track, .video-carousel-item{position:static !important;}.slick-track{transform: translate3d(-0, 0px, 0px) !important;}
+.thumbnail-column{margin-left:0!important;margin-right:0 !important}.thumbnail{margin-bottom:10px !important}
+a.clip{display:block;box-sizing: border-box;border-width:3px;border-style: solid;}
+a.clip:visited {color:yellow !important;}
+.thumbnail-image img.delayed-thumb{opacity:1!important}
+
+.sk-media-modal{padding-bottom:0!important}
+.sk-slideshow-modal .sk-media-infobar-container{position:static!important}
+.sk-media-content{width:100%!important}
+.sk-media-modal.sk-slideshow-modal .sk-media-content-container .sk-media-controls,.sk-media-modal.sk-slideshow-modal.sk-media-content-scene-media .sk-media-content-container .sk-media-content,.sk-video-player{max-width:none!important}
+.sk-video-player{height:100%!important}
+`);
 
 let T = $('title').text()
 T = S(T).replaceAll('Mr. Skin - ', '').s
@@ -39,6 +63,9 @@ window.setTimeout(function () {
 }, 3000);
 
 window.setInterval(function () {
+	var btnHD = $('.vjs-quality-picker-button li:last-child')
+	if (!btnHD.hasClass('vjs-selected')) btnHD.trigger('click')
+
 	/*
 	  $('.media-item').each(function() {
 		  $(this).removeClass('media-item');
