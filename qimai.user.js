@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2022.09.07
+// @version      2022.09.08
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -9,6 +9,7 @@
 // @run-at       document-end
 // @grant        GM_addStyle
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
+// @require      https://cdn.rawgit.com/jprichardson/string.js/master/dist/string.min.js
 // ==/UserScript==
 
 let domain = location.host
@@ -35,6 +36,14 @@ if (domain.includes('qimai')) {
                 $(this).text($(this).text() + ' »')
                 location.href = sensortower
             }
+        })
+
+        $('.app-name').each(function () {
+            let appName = $(this).text()
+            appName = S(appName)
+                .replaceAll('***', 'VPN')
+                .s
+            $(this).text(appName)
         })
 
     }, 2000)
