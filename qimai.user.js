@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2022.09.08
+// @version      2022.10.08
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -34,18 +34,20 @@ if (domain.includes('qimai')) {
                 let sensortower = 'https://app.sensortower.com/ios/publisher/publisher/' + publisherID
                 $(this).attr('href', sensortower)
                 $(this).text($(this).text() + ' »')
-                location.href = sensortower
+                //location.href = sensortower
             }
         })
 
+    }, 2000)
+    window.setInterval(function () {
         $('.app-name').each(function () {
             let appName = $(this).text()
             appName = S(appName)
                 .replaceAll('***', 'VPN')
                 .s
+            appName = appName.replace(/\\'/g, "'");
             $(this).text(appName)
         })
-
     }, 2000)
 }
 if (domain.includes('sensortower')) {
@@ -53,6 +55,7 @@ if (domain.includes('sensortower')) {
     .summary-item:last-child a,
     .yt-highlight{background-color:yellow!important}
   `);
+
     window.setTimeout(function () {
         $('td.app-metric:last-child a').each(function () {
             if (!$(this).text().includes('< $5k')) {
@@ -62,7 +65,7 @@ if (domain.includes('sensortower')) {
         $('.app-icon a').each(function () {
             $(this).attr('target', '_blank')
         })
-        $('.app-info .name').each(function () {
+        $('.app-icon a').each(function () {
             let appID = $(this).attr('href').split('/').slice(-2)[0]
             let appURL = 'https://apps.apple.com/us/app/id' + appID
             $(this).attr('href', appURL).attr('target', '_blank')
