@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Auto Next Page
-// @version      2022.07.26
+// @version      2022.10.17
 // @author       ytzong
 // @namespace    Auto Next Page
 // @include      *://*google.*/*
+// @include      *://*github.com/*
 // @include      *://*91porn*/*
 // @include      *://*91porny*/*
 // @include      *://*jiuse*/*
@@ -46,7 +47,7 @@
 // @include      *://*koolshare.cn/*
 // @include      *://*pianku.*/*
 // @include      *://*hostloc.com/*
-// @include      *://*hao4k.*/*
+// @include      *://*4ksj.*/*
 // @include      *://*hxm5.com/*
 // @include      *://*right.com.cn/*
 // @include      *://*avforums.com/threads/*
@@ -78,7 +79,10 @@ if (domain.includes('btbbt') || domain.includes('btbtt')) {
 if (domain.includes('feng.com')) {
     $next = document.querySelector('.fast_next');
 }
-if (domain.includes('hao4k')) {
+if (domain.includes('github.com')) {
+    $next = document.querySelector('.next_page');
+}
+if (domain.includes('4ksj')) {
     $next = document.querySelector('.nxt');
 }
 if (domain.includes('nga.cn')) {

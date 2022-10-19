@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2022.08.19
+// @version      2022.10.20
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -13,6 +13,7 @@ GM_addStyle(`.full-height{height:100vh!important;background:none!important}
   #defchat>div.section:first-child{overflow:hidden!important}
   body, .list{min-width:0!important}
   .list{margin-left:2px!important}
+  #room_list{display:block!important}
   .content .c-1{margin-left:0 !important;margin-right:0!important}
   .room_list_room{/*width:200px!important;*/max-height:none!important;margin:0 !important;border:none!important}
   .room_list_room a{color:#f0f1f1!important}
@@ -138,7 +139,6 @@ function toHD() {
   var btnHD = $('.vjs-icon-hd').next().children(':last-child').children(':first-child')
   if (btnHD.css('color') == 'rgb(255, 255, 255)') btnHD.trigger('click')
 
-
   if ($('.chatInnerDiv').is(':visible')) {
     $('#chat-btn').click()
   }
@@ -197,4 +197,3 @@ function rotate(deg) {
   }
   $('video').attr('style', 'transform:rotate(' + deg + 'deg) scale(' + zoom + ', ' + zoom + ');transform-origin:center center;');
 }
-

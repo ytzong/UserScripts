@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2022.10.08
+// @version      2022.10.19
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -13,15 +13,50 @@
 // ==/UserScript==
 
 let domain = location.host
+let pathname = location.pathname
 if (domain.includes('qimai')) {
     GM_addStyle(`
-  #footer-guide, .tool-side, a[href="http://u.qimai.cn/3xk"]{display:none!important}
-  #rank-top-list .data-table .app-info-wrap .app-info .app-name{max-width:none!important}
-.data-table tr td .app-info-wrap .icon{position:relative}
+  #footer-guide, .tool-side, a[href="http://u.qimai.cn/3xk"],
+  .data-table th, .data-table tr td:nth-child(1), .data-table tr td:nth-child(3), .data-table tr td:nth-child(5), .data-table tr td:nth-child(6), .data-table tr td:nth-child(8), .data-table tr td .rank-wrap .category,
+  #rank-top-list .data-table .comment-num,
+  #rank-top-list .data-table .app-info-wrap .app-info .company,
+  .ivu-tooltip, .ivu-tooltip-rel,
+  #footer,
+  .no-data,
+  .cm-explain-bottom{display:none!important}
+  .jumbotron>div .container{padding-left:30px!important;padding-right:30px!important}
+.tab-container{width:400px}
+  .data-table tr td .app-info-wrap .rank-day{top:0!important;right:0!important}
+  .data-table tr{box-sizing: content-box;display:inline-block!important;vertical-align:top;position: relative;padding:0 0 15px;margin: 0 0 15px;width: 130px;}
+  .data-table td{display:block;width:auto!important;border:0 none !important}
+  .data-table tr td .app-info-wrap .app-info{margin-left:0!important;float:none!important}
+  #rank-top-list .data-table .app-info-wrap{min-width:0!important}
+  #rank-top-list .data-table .app-info-wrap .app-info .company,
+  #rank-top-list .data-table .rank-wrap{width:auto!important;max-width:100%!important;}
+  #rank-top-list .data-table .app-info-wrap .app-info .app-name{margin-top:5px!important;width:100%;white-space:normal!important;line-height:1.4;max-height:4.5em;-webkit-line-clamp:2;font-size:13px!important;text-align:center!important;font-weight:500}
+  #rank-top-list .data-table .rank-wrap .rank-box,
+  .data-table tr td .rank-wrap .rank{display:inline-block!important;vertical-align:top;position:static!important; float:none!important;width:auto!important;margin-top:0!important}
+  .data-table tr td:nth-child(4){position:absolute;top:0;left:0;font-size:13px!important}
+  #rank-top-list .data-table .comment-rating{display:none;position:absolute;right:0;top:0}
+  .data-table tr td .app-info-wrap{padding:25px 0 0 !important}
+.data-table tr td .app-info-wrap .icon{position:relative;margin-left: 15px;}
 .data-table tr td .app-info-wrap .icon>img{width:100px!important;height:100px!important;border:0 none!important;border-radius:0 !important}
 .data-table tr td .app-info-wrap .icon:after{content: "";width:100px;height:100px;background-image: url("https://rss.ytzong.com/css/img/mask100_2x.png");background-size: cover;position: absolute;top: 0;left: 0;}
   .app-info .basic-info .app-screenshot .screenshot-list .screenshot-box img{max-height:500px!important;height:auto!important}
   `);
+
+    if (pathname.includes('/rank/')) {
+        (function (history) {
+            var pushState = history.pushState;
+            history.pushState = function (state) {
+                window.setTimeout(function () {
+                    location.reload()
+                }, 500)
+                return pushState.apply(history, arguments);
+            };
+        })(window.history);
+    }
+
 
     window.setTimeout(function () {
 
@@ -40,6 +75,18 @@ if (domain.includes('qimai')) {
 
     }, 2000)
     window.setInterval(function () {
+        $('.head').removeClass('fixed')
+
+        $('.data-table a.icon').each(function () {
+            let appid = $(this).attr('href')
+            if (!appid.includes('apple.com')) {
+                appid = S(appid).replaceAll('/app/rank/appid/', '').replaceAll('/country/us', '').s
+                appid = 'https://apps.apple.com/us/app/id' + appid
+                $(this).attr('href', appid)
+            }
+
+        })
+
         $('.app-name').each(function () {
             let appName = $(this).text()
             appName = S(appName)
@@ -48,7 +95,21 @@ if (domain.includes('qimai')) {
             appName = appName.replace(/\\'/g, "'");
             $(this).text(appName)
         })
+        $('.data-table tr td:nth-child(4) .rank-txt').each(function () {
+            let rank = $(this).text()
+
+            rank = S(rank)
+                .replaceAll('新进榜', 'NEW')
+                .s
+            rank = rank.replace(/\\'/g, "'");
+            $(this).text(rank)
+
+            if (S(rank).contains('NEW')) {
+                $(this).parents('tr').css('background-color', 'yellow')
+            }
+        })
     }, 2000)
+
 }
 if (domain.includes('sensortower')) {
     GM_addStyle(`
@@ -57,6 +118,8 @@ if (domain.includes('sensortower')) {
   `);
 
     window.setTimeout(function () {
+        $('th.app-metric').eq(-1).click()
+
         $('td.app-metric:last-child a').each(function () {
             if (!$(this).text().includes('< $5k')) {
                 $(this).parents('tr').addClass('yt-highlight')
