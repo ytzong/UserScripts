@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2022.10.19
+// @version      2022.10.20
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -16,6 +16,7 @@ let domain = location.host
 let pathname = location.pathname
 if (domain.includes('qimai')) {
     GM_addStyle(`
+body{overflow-x:hidden}
   #footer-guide, .tool-side, a[href="http://u.qimai.cn/3xk"],
   .data-table th, .data-table tr td:nth-child(1), .data-table tr td:nth-child(3), .data-table tr td:nth-child(5), .data-table tr td:nth-child(6), .data-table tr td:nth-child(8), .data-table tr td .rank-wrap .category,
   #rank-top-list .data-table .comment-num,
@@ -24,6 +25,7 @@ if (domain.includes('qimai')) {
   #footer,
   .no-data,
   .cm-explain-bottom{display:none!important}
+.layout-header, .head-box .head .container, .head-box .head, .jumbotron, .jumbotron>div .container{min-width:0!important}
   .jumbotron>div .container{padding-left:30px!important;padding-right:30px!important}
 .tab-container{width:400px}
   .data-table tr td .app-info-wrap .rank-day{top:0!important;right:0!important}
