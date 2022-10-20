@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2022.08.18
+// @version      2022.10.20
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -45,7 +45,7 @@ if (location.hostname == 'movie.douban.com') {
         imdb = title
     }
 
-    $('#subject-doulist').before('<div class="tags"><h2><i>下载</i>· · · · · ·</h2><div id="dl-sites" class="tags-body"></div></div><div class="tags"><h2><i>字幕</i>· · · · · ·</h2><div id="sub-sites" class="tags-body"></div></div>')
+    $('.aside').prepend('<div class="tags"><h2><i>下载</i>· · · · · ·</h2><div id="dl-sites" class="tags-body"></div></div><div class="tags"><h2><i>字幕</i>· · · · · ·</h2><div id="sub-sites" class="tags-body"></div></div>')
 
     let dl_sites = {
         'SubDH': 'https://subdh.com/d/' + id,
@@ -58,7 +58,7 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         //'爱笑聚': 'https://www.aixiaoju.com//app-thread-run?app=search&keywords=' + imdb,
-        'BTSOW': 'https://btsow.bar/search/' + title_en,
+        'BTSOW': 'https://btsow.sbs/search/' + title_en,
         'RARBG': 'https://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
         'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/',
         'BD2020': 'https://www.bd2020.co/search.jspx?q=' + imdb
@@ -138,21 +138,23 @@ if (location.hostname == 'www.imdb.com') {
                     }
                     else msg = '错误码：' + data.status.toString();
                     $('body').append('<div id="yt-message">' + msg + '</div>');
-                 }); 
+                 });
+
             }
-        }, 2000);  
+        }, 2000);
+
         */
         /*
           var id = $('meta[property="pageId"]').attr('content')
           var title = $('meta[name="title"]').attr('content')
           title = S(title).replaceAll(' - IMDb', '').s
           $('.title_block').after(insertLinks(id, title))
-          
+
           window.setTimeout(function() {
               var score = location.hash.replace('#', '');
               if (score.length > 0) {
                   var auth = $('#star-rating-widget').attr('data-auth')
-  
+
                   $.post( "/ratings/_ajax/title", { tconst: id, rating: score, auth: auth, tracking_tag: "title-maindetails", pageId: id, pageType: "title", subpageType: "main" } )
                   .done(function( data ) {
                       var msg = '';
@@ -162,9 +164,11 @@ if (location.hostname == 'www.imdb.com') {
                       }
                       else msg = '错误码：' + data.status.toString();
                       $('body').append('<div id="yt-message">' + msg + '</div>');
-                   }); 
+                   });
+
               }
-          }, 2000);    
+          }, 2000);
+
           */
     }
     if (location.pathname.includes('/search/') || location.pathname.includes('/list/')) {
