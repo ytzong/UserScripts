@@ -1,9 +1,10 @@
 // ==UserScript==
 // @name         Lvv2
-// @version      2022.04.01
+// @version      2022.12.22
 // @author       ytzong
 // @description  Lvv2
 // @include      http*://*lvv2.*/*
+// @include      http*://good.news/*
 // @copyright    2022+
 // @run-at       document-start
 // @grant        GM_addStyle

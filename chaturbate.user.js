@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2022.10.20
+// @version      2023.01.27
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -27,6 +27,7 @@ GM_addStyle(`.full-height{height:100vh!important;background:none!important}
   .room_list_room img, .roomCard img{box-sizing:border-box!important; width:100%!important;height:auto!important;border-width:3px !important;border-style:solid !important;}
   .list .thumbnail_label,.list .thumbnail_label_c_private_show{top:3px !important;left:3px !important;right:auto!important}
   .list .sub-info li.cams, .list .subject,.message{display:none!important}
+#discover_root .room-list-carousel ul.list>li {float:left!important;display:block!important}
 `);
 GM_addStyle('@media (max-width: 800px) {.room_list_room,.roomCard{width:50%!important}}')
 GM_addStyle('@media (min-width: 801px) and (max-width: 1010px) {.room_list_room,.roomCard{width:33%!important}}')
@@ -62,7 +63,7 @@ function main() {
                 .videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important}
 `)
     GM_addStyle(`
-#header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo{display:none!important}
+#header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo, .playerTitleBar{display:none!important}
 .contentText *{position:static!important;background-image:none!important}
 #volume-mute + div + span{position:absolute}
 .BioContents h1 a{margin-right:.5em}

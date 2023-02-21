@@ -6,7 +6,7 @@
 // @include     http*://*cilipa.*/*
 // @include     http*://*newfanhao.*/*
 // @include     http*://*bt4g.*/*
-// @version     2022.05.08
+// @version     2023.01.06
 // @grant       GM_addStyle
 // @run-at      document-end
 // @require     https://code.jquery.com/jquery-3.5.1.slim.min.js
@@ -51,7 +51,7 @@ if (domain.includes('btsow')) {
 .data-list{display:none}.tablesorter{width:100%;margin-bottom:100px} th, td{padding:15px;} tr{border-bottom:1px #ece4cc solid}
 .tablesorter a{/*display:block;*/color:black}
 .tablesorter a:hover{text-decoration:none}
-.tablesorter em {color: #d80456;font-style: normal;}.col2, .col3{text-align:right}.col2{width:70px;}.col3{width:150px}    
+.tablesorter em {color: #d80456;font-style: normal;}.col2, .col3{text-align:right}.col2{width:70px;}.col3{width:150px}
     `)
     let table = '<table class="tablesorter">'
     let tbody = "<tbody>"
@@ -90,7 +90,7 @@ if (domain.includes('btsow')) {
   }
 }
 if (domain.includes('btsow') || domain.includes('bt4g')) {
-  GM_addStyle('#magnets{position:fixed;right:0;bottom:0;width:300px;height:300px}.bg-light{background-color:lightgray}')
+  GM_addStyle('#magnets{position:fixed;right:0;bottom:0;width:300px;height:300px;background-color:transparent}.bg-light{background-color:lightgray}')
 
   $('body').append('<textarea id="magnets" />')
 

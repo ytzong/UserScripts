@@ -4,7 +4,7 @@
 // @namespace   MrSkin
 // @description MsSkin
 // @include     http*://*mrskin.com/*
-// @version     2022.08.28
+// @version     2023.01.15
 // @grant       GM_addStyle
 // @grant       GM_xmlhttpRequest
 // @run-at      document-end
@@ -18,18 +18,8 @@ const queryString = window.location.search;
 console.log(queryString);
 const urlParams = new URLSearchParams(queryString);
 
-
-GM_addStyle(`
-@media (min-width: 992px){.row-r .col-md-4 {width:20% !important;padding-left: 1px!important;padding-right: 1px!important;}.sk-wallpapereda{max-width:none!important}}
-a:visited {color:lightgray !important;}
-.none,#suggestion_box,#subnavigation,.sk-wallpaper-top-container,.sk-wallpaper, #fc_frame{display:none !important}
-.container,.media-scene-player{max-width:none !important}
-#watchSceneContainer,#watchSceneView,body.has-adult-network{padding:0!important}
-#navigation{position:static!important}
-.video_container_video-dimensions.vjs-fluid{padding-top:100vh!important;}
-.thumbnail.clip:hover .scene-description, .col-xs-12.col-xxs-12{display:none !important}
-.title{user-select:text!important}.scene-keywords{background-color:yellow}
-
+if (pathname.includes("/clips")) {
+	GM_addStyle(`
 .video-carousel-wrapper,.slick-slider .slick-list,.video-carousel-item {margin-left:0!important;margin-right:0!important}
 #clips .col-xs-12,.slick-arrow{display:none !important}
 .slick-track{width:auto!important}
@@ -41,6 +31,21 @@ a:visited {color:lightgray !important;}
 a.clip{display:block;box-sizing: border-box;border-width:3px;border-style: solid;}
 a.clip:visited {color:yellow !important;}
 .thumbnail-image img.delayed-thumb{opacity:1!important}
+  `)
+}
+
+GM_addStyle(`
+@media (min-width: 992px){.row-r .col-md-4 {width:20% !important;padding-left: 1px!important;padding-right: 1px!important;}.sk-wallpapereda{max-width:none!important}}
+a:visited {color:lightgray !important;}
+.none,#suggestion_box,#subnavigation,.sk-wallpaper-top-container,.sk-wallpaper, #fc_frame, .parallax-container{display:none !important}
+.container,.media-scene-player{max-width:none !important}
+#watchSceneContainer,#watchSceneView,body.has-adult-network{padding:0!important}
+#navigation{position:static!important}
+.video_container_video-dimensions.vjs-fluid{padding-top:100vh!important;}
+.thumbnail.clip:hover .scene-description, .col-xs-12.col-xxs-12{display:none !important}
+.title{user-select:text!important}.scene-keywords{background-color:yellow}
+
+
 
 .sk-media-modal{padding-bottom:0!important}
 .sk-slideshow-modal .sk-media-infobar-container{position:static!important}
@@ -119,8 +124,9 @@ window.setInterval(function () {
 			}
 			else {
 
-				GM_addStyle('video, .plyr video {width: 100%;height: 100vh !important;}.plyr__video-wrapper{position:relative;}')
+
 				if (pathname.includes('/clipplayer/')) {
+					GM_addStyle('video, .plyr video {width: 100%;height: 100vh !important;}.plyr__video-wrapper{position:relative;}')
 					$('video').attr('loop', 'loop')
 				}
 				/*
@@ -128,9 +134,9 @@ window.setInterval(function () {
 						link.rel = 'stylesheet';
 						link.type = 'text/css';
 						link.href = 'https://cdn.plyr.io/3.6.2/plyr.css';
-						document.getElementsByTagName("HEAD")[0].appendChild(link);  
-					  
-						YTPlay();  
+						document.getElementsByTagName("HEAD")[0].appendChild(link);
+
+						YTPlay();
 						*/
 			}
 			videoFlag = 1;
