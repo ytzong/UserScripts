@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2022.10.20
+// @version      2023.03.02
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
-// @include      http*://app.sensortower.com/ios/publisher/publisher/*
+// @include      http*://app.sensortower.com/*
 // @copyright    ytzong
 // @run-at       document-end
 // @grant        GM_addStyle
@@ -61,19 +61,21 @@ body{overflow-x:hidden}
 
 
     window.setTimeout(function () {
-
-        $('.ivu-breadcrumb-item-link a').each(function () {
-            let publisherID = $(this).attr('href')
+        let pub = $('.ivu-breadcrumb-item-link a').eq(0)
+        if (pub.length > 0) {
+            var publisherID = pub.attr('href')
             console.log(publisherID)
             if (publisherID.includes('/publisher/')) {
+                publisherID = publisherID.replace('/cn', '/us')
+                pub.attr('href', publisherID)
                 publisherID = publisherID.split('/')[4]
                 console.log(publisherID)
                 let sensortower = 'https://app.sensortower.com/ios/publisher/publisher/' + publisherID
-                $(this).attr('href', sensortower)
-                $(this).text($(this).text() + ' »')
+                $('.pub').wrap('<a href="' + sensortower + '" target="_blank" />').append(' »')
                 //location.href = sensortower
             }
-        })
+        }
+
 
     }, 2000)
     window.setInterval(function () {
@@ -89,7 +91,7 @@ body{overflow-x:hidden}
 
         })
 
-        $('.app-name').each(function () {
+        $('.app-name, .info-content .medium-txt a').each(function () {
             let appName = $(this).text()
             appName = S(appName)
                 .replaceAll('***', 'VPN')
@@ -110,6 +112,11 @@ body{overflow-x:hidden}
                 $(this).parents('tr').css('background-color', 'yellow')
             }
         })
+        $('.rank-a').each(function () {
+            if ($(this).text() != '-') {
+                $(this).parents('tr').css('background-color', 'yellow')
+            }
+        })
     }, 2000)
 
 }
@@ -120,6 +127,8 @@ if (domain.includes('sensortower')) {
   `);
 
     window.setTimeout(function () {
+
+        $('div[data-test="app-overview-non-unified"]').prev().hide()
         $('th.app-metric').eq(-1).click()
 
         $('td.app-metric:last-child a').each(function () {
@@ -128,13 +137,16 @@ if (domain.includes('sensortower')) {
             }
         })
         $('.app-icon a').each(function () {
-            $(this).attr('target', '_blank')
-        })
-        $('.app-icon a').each(function () {
             let appID = $(this).attr('href').split('/').slice(-2)[0]
             let appURL = 'https://apps.apple.com/us/app/id' + appID
             $(this).attr('href', appURL).attr('target', '_blank')
         })
-    }, 2000)
+        $('.app-info .name').each(function () {
+            let appID = $(this).attr('href').split('/').slice(-2)[0]
+            let appURL = 'https://app.sensortower.com/overview/' + appID + '?country=US'
+            $(this).attr('href', appURL).attr('target', '_blank')
+        })
+
+    }, 1000)
 
 }
