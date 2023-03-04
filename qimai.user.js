@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2023.03.02
+// @version      2023.03.04
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -112,7 +112,7 @@ body{overflow-x:hidden}
                 $(this).parents('tr').css('background-color', 'yellow')
             }
         })
-        $('.rank-a').each(function () {
+        $('td:nth-child(5) .rank-a').each(function () {
             if ($(this).text() != '-') {
                 $(this).parents('tr').css('background-color', 'yellow')
             }
