@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2022.12.12
+// @version      2023.03.14
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -105,13 +105,13 @@ if (location.hostname == 'www.imdb.com') {
         let score = location.hash.replace('#', '')
         if (score.length > 0) {
             window.setTimeout(function () {
-                $('div[data-testid="hero-rating-bar__user-rating"] .ipc-button').click()
+                $('div[data-testid="hero-rating-bar__user-rating"] button').click()
             }, 6000);
             window.setTimeout(function () {
                 $('button[aria-label="Rate ' + score + '"]').click()
             }, 7000);
             window.setTimeout(function () {
-                $('.ipc-starbar + .ipc-button').click()
+                $('.ipc-starbar + button').click()
 
                 $('ul[data-testid="hero-subnav-bar-topic-links"]').append('<li role="presentation" class="ipc-inline-list__item"><a href="https://search.douban.com/movie/subject_search?search_text=' + id + '&cat=1002" class="ipc-link ipc-link--baseAlt ipc-link--inherit-color">Douban</a></li>')
             }, 8000);

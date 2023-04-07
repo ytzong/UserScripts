@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2023.02.22
+// @version      2023.03.26
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -27,11 +27,11 @@ GM_addStyle(`.full-height{height:100vh!important;background:none!important}
   .room_list_room img, .roomCard img{box-sizing:border-box!important; width:100%!important;height:auto!important;border-width:3px !important;border-style:solid !important;}
   .list .thumbnail_label,.list .thumbnail_label_c_private_show{top:3px !important;left:3px !important;right:auto!important;bottom:auto!important}
   .list .sub-info li.cams, .list .subject,.message{display:none!important}
-#discover_root .room-list-carousel ul.list>li {float:left!important;display:block!important}
+#discover_root .room-list-carousel ul.list>li {float:left!important;}
 `);
 GM_addStyle('@media (max-width: 800px) {.room_list_room,.roomCard{width:50%!important}}')
 GM_addStyle('@media (min-width: 801px) and (max-width: 1010px) {.room_list_room,.roomCard{width:33%!important}}')
-GM_addStyle('@media (min-width: 1011px) {.room_list_room,.roomCard{width:25%!important}}')
+GM_addStyle('@media (min-width: 1011px) {.room_list_room,.roomCard{width:24.5%!important}}')
 var pathname = window.location.pathname;
 console.log(pathname);
 
@@ -56,14 +56,14 @@ else {
 function main() {
   //播放页面
   if ($('.chat_room').length > 0) {
-    //window.setTimeout(stopRefresh, 1000);
+
     //新版播放器
     GM_addStyle(`.BaseRoomContents{margin:0!important;padding:0!important;border:0 none!important}#VideoPanel{border:0 none!important;width:100%!important;}
 
                 .videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important}
 `)
     GM_addStyle(`
-#header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo, .playerTitleBar{display:none!important}
+#header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo, .playerTitleBar, .floatingPlayer, #footer-holder{display:none!important}
 .contentText *{position:static!important;background-image:none!important}
 #volume-mute + div + span{position:absolute}
 .BioContents h1 a{margin-right:.5em}
@@ -91,7 +91,8 @@ function main() {
     })
   }
   else {
-    window.setInterval(hideList, 1500);
+    window.setInterval(hideList, 300);
+    // window.setTimeout(stopRefresh, 1000);
   }
 }
 
@@ -113,7 +114,11 @@ function hideList() {
   // 	$(this).parent().hide();
   // })
   if (pathname != '/followed-cams/') {
-    GM_addStyle('.room_list_room a:visited {color:yellow!important}.list .title a:visited{color: #0A5B83!important;}');
+    GM_addStyle(`
+.room_list_room a:visited,
+.room-list-carousel-wrapper a:visited{color:yellow!important}
+.list .title a:visited{color: #0A5B83!important;}
+`);
 
     $('.icon_following').each(function () {
       $(this).parent().hide();
@@ -130,7 +135,7 @@ function hideList() {
 }
 function toHD() {
   console.log('to HD')
-  $('.videoPlayerDiv').parent().css('height', '100vh')
+  $('#VideoPanel .videoPlayerDiv').parent().css('height', '100vh')
   if ($('#video-mode').text() == 'Theater Mode') $('#video-mode').click()
 
   $('.reportAbuseLink').next().hide()

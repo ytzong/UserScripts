@@ -1,40 +1,46 @@
 // ==UserScript==
 // @name         iTunes
 // @namespace    https://twitter.com/ytzong
-// @version      2022.08.18
+// @version      2023.03.13
 // @author       ytzong
-// @include      https://itunes.apple.com/*
-// @include      https://apps.apple.com/*
+// @include      *://apps.apple.com/*
 // @grant        GM_addStyle
-// @run-at       document-end
+// @run-at       document-start
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js
 // @description  Show large icon
 // ==/UserScript==
 
-GM_addStyle('.inline-list__item--bulleted{background-color:yellow !important}');
+GM_addStyle(`
+#globalheader,
+#localnav,
+.we-banner{display:none!important}
+.inline-list__item--bulleted,
+.version-history button{background-color:yellow!important}
+`);
 
-let ok = false
-window.setInterval(main, 1000);
+setInterval(function () {
+	main()
+}, 500);
 
 function main() {
-	console.log('exe')
+
 	let pathname = location.pathname
 	if (pathname.includes('/developer/')) {
-		if ($('#yt-link').length > 0) ok = true
-		if (!ok) {
+		if ($('#yt-link').length == 0) {
 			let publisherID = pathname.split('/').slice(-1)[0].replace('id', '')
 			$('.page-header__title').after(' <a id="yt-link" href="' + 'https://app.sensortower.com/ios/publisher/publisher/' + publisherID + '">»</a>')
 		}
 	}
 	if (pathname.includes('/app/')) {
-		if ($('#yt-icon').length > 0) ok = true
+		$('body').removeClass('has-modal--page-overlay')
 
-		if (!ok) {
+		if ($('#yt-icon').length == 0) {
+			// $('#modal-trigger-ember11').click()
 
 			var time = $('.version-history__item__release-date').eq(0).text();
-			if ($('#yt-time').length == 0) $('.product-header').append('<span id="yt-time" style="background:yellow;color:#8e8e93">' + time + '</span>');
+			if ($('#yt-time').length == 0) $('.product-header').append('<span id="yt-time" style="background-color:yellow;color:#8e8e93">' + time + '</span>');
 
-			let coverURL = $('source').eq(0).attr('srcset').split(',')[0].replace(' 1x', '')
+			let coverURL = $('.product-hero__media source').eq(0).attr('srcset').split(',')[0].split(' ')[0]
 			console.log(coverURL);
 			coverURL = coverURL.replace(coverURL.split('/').slice(-1)[0], '1024x0w.png');
 			$('.product-hero__artwork').wrap('<a id="yt-icon" href="' + coverURL + '" target="_blank"></a>');
@@ -43,9 +49,21 @@ function main() {
 			let publisherID = publisher.attr('href').split('/').slice(-1)[0].replace('id', '')
 			publisher.after(' <a href="' + 'https://app.sensortower.com/ios/publisher/publisher/' + publisherID + '">»</a>')
 
-			ok = true
+			$('.information-list__item .we-truncate__button').eq(-1).click()
+			$('.information-list__item').eq(-1).css('background-color', 'yellow')
+
 		}
+
+		if ($('.yt-screenshot').length == 0) {
+			$('.we-screenshot-viewer__screenshots picture').each(function () {
+				let screenshotURL = $(this).find('source').eq(-1).attr('srcset').split(',')[0].split(' ')[0]
+				console.log(screenshotURL.split('/').slice(-1)[0]);
+				screenshotURL = screenshotURL.replace(screenshotURL.split('/').slice(-1)[0], '5000x0w.png');
+				$(this).wrap('<a class="yt-screenshot" href="' + screenshotURL + '" target="_blank"></a>');
+			})
+
+			$('.whats-new').before($('.section--information'))
+		}
+		$('.section__description .we-truncate__button').click()
 	}
-
-
 }
