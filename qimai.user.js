@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2023.03.04
+// @version      2023.04.13
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -35,7 +35,7 @@ body{overflow-x:hidden}
   #rank-top-list .data-table .app-info-wrap{min-width:0!important}
   #rank-top-list .data-table .app-info-wrap .app-info .company,
   #rank-top-list .data-table .rank-wrap{width:auto!important;max-width:100%!important;}
-  #rank-top-list .data-table .app-info-wrap .app-info .app-name{margin-top:5px!important;width:100%;white-space:normal!important;line-height:1.4;max-height:4.5em;-webkit-line-clamp:2;font-size:13px!important;text-align:center!important;font-weight:500}
+  #rank-top-list .data-table .app-info-wrap .app-info .app-name{margin-top:5px!important;width:100%;white-space:normal!important;line-height:1.4;max-height:4.5em;-webkit-line-clamp:2;font-size:13px!important;text-align:center!important;font-weight:normal}
   #rank-top-list .data-table .rank-wrap .rank-box,
   .data-table tr td .rank-wrap .rank{display:inline-block!important;vertical-align:top;position:static!important; float:none!important;width:auto!important;margin-top:0!important}
   .data-table tr td:nth-child(4){position:absolute;top:0;left:0;font-size:13px!important}
