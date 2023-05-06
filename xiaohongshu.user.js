@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         XiaoHongShu
-// @version      2023.04.25
+// @version      2023.05.02
 // @author       ytzong
 // @description  XiaoHongShu
 // @include      *://*xiaohongshu.*/*
@@ -16,6 +16,7 @@ GM_addStyle(`
 .note-container{transform:none!important;height:100vh!important;width:100vw!important}
 .close-box{left:0!important;top:0!important}
 .right{width: auto!important;}
+.arrow-controller.right{width:36px!important}
 .media-container,.interaction-wrapper{height:100vh!important}
 .media-container{width: calc(100vw - 550px)!important}
 .interaction-wrapper,.interaction-container{width:550px!important}
