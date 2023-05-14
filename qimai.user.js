@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2023.04.13
+// @version      2023.05.14
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -24,7 +24,9 @@ body{overflow-x:hidden}
   .ivu-tooltip, .ivu-tooltip-rel,
   #footer,
   .no-data,
-  .cm-explain-bottom{display:none!important}
+  .cm-explain-bottom,
+.tip-ino,
+#top-banner{display:none!important}
 .layout-header, .head-box .head .container, .head-box .head, .jumbotron, .jumbotron>div .container{min-width:0!important}
   .jumbotron>div .container{padding-left:30px!important;padding-right:30px!important}
 .tab-container{width:400px}

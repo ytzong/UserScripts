@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         jiuse
-// @version      2022.03.05
+// @version      2023.05.13
 // @author       ytzong
 // @description  91Porny
 // @include      http*://*jiuse*/*
@@ -10,7 +10,8 @@
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
 // @require      https://cdnjs.cloudflare.com/ajax/libs/jquery/1.11.3/jquery.min.js
-// @require      https://cdn.plyr.io/3.6.2/plyr.js
+// @require      https://cdn.plyr.io/3.7.8/plyr.js
+// @require      https://cdn.jsdelivr.net/npm/hls.js@1
 // @user-agent   Mozilla/5.0 (iPad; CPU OS 12_3_1 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Mobile/15E148 Safari/604.1
 // ==/UserScript==
 //
@@ -92,6 +93,24 @@ if (pathname.includes('/video/view/')) {
 if (pathname.includes('/video/category')) {
     if ($('.navTab + .row').text().includes('暂无推荐视频')) location.reload()
 }
+function usePlyr() {
+    const player = new Plyr('#yt-video', {
+        keyboard: {
+            focused: false,
+            global: true
+        },
+        hideControls: false,
+        clickToPlay: false,
+        seekTime: 5,
+        disableContextMenu: false,
+        autoplay: true,
+        speed: {
+            selected: 1,
+            options: [0.1, 0.25, 0.5, 0.75, 1, 1.5, 2]
+        }
+        //volume: 0.1
+    });
+}
 if (pathname.includes('/video/view')) {
     let nowServer = getUrlParameter('server')
     if (!nowServer) {
@@ -105,13 +124,20 @@ if (pathname.includes('/video/view')) {
       }, 7000);
       */
     GM_addStyle(`
-    header, .alert, 
+    header, .alert,
     .vjs-error-display,.vjs-text-track-display,.vjs-control-bar,.vjs-loading-spinner, .vjs-poster,
-    .link-secondary,.fa-bug{display:none!important} 
+    .link-secondary,.fa-bug{display:none!important}
   .adv-pr, .row{margin-left:0!important;margin-right:0!important;}.container-title, .videoInfos,#nav-tabContent{width:100%!important}
   #videoShowTabDownload{display:block!important}
   `)
-    GM_addStyle('.videoPlayContainer{width:100vw!important;height:100vh!important;overflow:hidden!important}.yt-download{width:100%;height:50px}')
+    GM_addStyle('.videoPlayContainer{width:100vw!important;height:100vh!important;overflow:hidden!important}.yt-download{width:100%;height:50px}#yt-download{position: absolute;right:0;top:0;padding:3px 6px;}')
+
+    var link = window.document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
+    document.getElementsByTagName("HEAD")[0].appendChild(link);
+
     $('.videoPlayContainer').unwrap()
     $('#videoShowTabDownload').addClass('show')
     $('header').removeClass('d-block').removeClass('d-md-block')
@@ -119,10 +145,25 @@ if (pathname.includes('/video/view')) {
         $('#video-play_html5_api').trigger('play').attr('controls', 'controls').attr('loop', 'true').focus()
 
         $('.vjs-big-play-button').trigger('click')
-    }, 2000);
-    window.setInterval(function () {
 
-    }, 2000);
+
+        let src = $('video').eq(0).attr('data-src')
+        var playerHTML = '<div id="yt-top" style="height:0;overflow:hidden"></div><video id="yt-video" playsinline controls autoplay loop muted="muted" preload="auto"></video>'
+
+        $('.videoPlayContainer').eq(0).html(playerHTML)
+
+        usePlyr();
+
+        var video = document.getElementById('yt-video');
+        if (Hls.isSupported()) {
+            var hls = new Hls();
+            hls.loadSource(src);
+            hls.attachMedia(video);
+        }
+
+        $('#yt-video').trigger('play');
+
+    }, 1000);
 
     let paths = pathname.split('/')
 
@@ -142,39 +183,12 @@ if (pathname.includes('/video/view')) {
     $('.container-title').eq(0)
         .after('<textarea class="yt-download">ffmpeg -i "' + videoURL + '" -c copy "' + videoTitle + '.mp4"</textarea>')
         .text(videoTitle)
+    $('title').text(videoTitle)
 
-    let mp4 = 1;
+    let mp4 = 0;
     if (getUrlParameter('mp4') && getUrlParameter('mp4') == '0') mp4 = 0
     if (mp4 == 1) {
-        window.setTimeout(function () {
-            GM_xmlhttpRequest({
-                method: "GET",
-                url: "/apiDownloadUrl/hd/" + id,
-                onload: function (response) {
-                    let mp4 = response.responseText.trim()
-                    const url = new URL(mp4);
-                    //url.searchParams.set('n', '');
-                    mp4 = url.toString();
-                    //alert(videoURL)
 
-                    $('#video-play_html5_api').crossOrigin = 'anonymous';
-
-                    $('#video-play_html5_api').attr('src', mp4).trigger('play')
-                    $('.downloadBtn').after('<a href="' + mp4 + '">下载</a>')
-
-                    $('#video-play_html5_api').on('error', function () {
-                        location.href += '&mp4=0'
-                    });
-                    // window.setTimeout(function () {
-                    //     let msg = $('.vjs-error-display').text()
-                    //     if (msg.includes('could not be loaded')) {
-                    //         location.href += '&mp4=0'
-                    //         //$('#video-play_html5_api').attr('src', videoURL).trigger('play')
-                    //     }
-                    // }, 4000);
-                }
-            });
-        }, 1000);
     }
     else {
         window.setTimeout(function () {
@@ -196,6 +210,23 @@ if (pathname.includes('/video/view')) {
             }
         }, 5000);
     }
+
+    window.setTimeout(function () {
+        GM_xmlhttpRequest({
+            method: "GET",
+            url: "/apiDownloadUrl/hd/" + id,
+            onload: function (response) {
+                let mp4 = response.responseText.trim()
+                const url = new URL(mp4);
+                //url.searchParams.set('n', '');
+                mp4 = url.toString();
+                //alert(videoURL)
+
+                $('.downloadBtn').after('<a id="yt-download" href="' + mp4 + '">下载</a>')
+                $('#yt-download').crossOrigin = 'anonymous';
+            }
+        });
+    }, 1000);
 
     //$('#videoShowTabAbout a').attr('href', 'http://91porn.com/uvideos.php?UID=' +  userid).attr('rel', 'noreferrer')
 
@@ -276,9 +307,8 @@ if (pathname.includes('/video/view')) {
         //D
         if (e.keyCode == 68) {
             //copyTitle();
-            $('.downloadBtn button').get(0).click();
-            let fileTitle = $('.container-title').eq(0).text()
-            copyString(fileTitle)
+            $('#yt-download').get(0).click();
+            // copyString($('#yt-download').attr('href'));
             /*
             var _videoURL = $('#yt-download').attr('href')
             var _videoTitle = $('#viewvideo-title a').eq(2).text().trim() + ' - ' + $('#yt-download').text().trim() + ' - ' + getUrlParameter('viewkey') + '.mp4'
@@ -290,7 +320,7 @@ if (pathname.includes('/video/view')) {
         function copyTitle() {
             var $temp = $("<input>");
             $("body").append($temp);
-            $temp.val($('#viewvideo-title a').eq(2).text().trim() + ' - ' + $('#yt-download').text().trim() + ' - ' + getUrlParameter('viewkey')).select();
+            $temp.val($('title').text()).select();
             document.execCommand("copy");
             $temp.remove();
         }
