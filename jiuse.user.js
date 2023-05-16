@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         jiuse
-// @version      2023.05.13
+// @version      2023.05.16
 // @author       ytzong
 // @description  91Porny
 // @include      http*://*jiuse*/*
@@ -112,6 +112,12 @@ function usePlyr() {
     });
 }
 if (pathname.includes('/video/view')) {
+    var link = window.document.createElement('link');
+    link.rel = 'stylesheet';
+    link.type = 'text/css';
+    link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
+    document.getElementsByTagName("HEAD")[0].appendChild(link);
+
     let nowServer = getUrlParameter('server')
     if (!nowServer) {
         location.href += '?server=' + getServer()
@@ -130,13 +136,9 @@ if (pathname.includes('/video/view')) {
   .adv-pr, .row{margin-left:0!important;margin-right:0!important;}.container-title, .videoInfos,#nav-tabContent{width:100%!important}
   #videoShowTabDownload{display:block!important}
   `)
-    GM_addStyle('.videoPlayContainer{width:100vw!important;height:100vh!important;overflow:hidden!important}.yt-download{width:100%;height:50px}#yt-download{position: absolute;right:0;top:0;padding:3px 6px;}')
+    GM_addStyle('.videoPlayContainer, .plyr video{width:100vw!important;height:100vh!important;overflow:hidden!important}.yt-download{width:100%;height:50px}#yt-download{position: absolute;right:0;top:0;padding:3px 6px;}')
 
-    var link = window.document.createElement('link');
-    link.rel = 'stylesheet';
-    link.type = 'text/css';
-    link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
-    document.getElementsByTagName("HEAD")[0].appendChild(link);
+
 
     $('.videoPlayContainer').unwrap()
     $('#videoShowTabDownload').addClass('show')
