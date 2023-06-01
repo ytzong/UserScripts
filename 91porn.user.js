@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         91Porn HTML5 Player
-// @version      2023.05.13
+// @version      2023.05.25
 // @author       ytzong
 // @description  91Porn
 // @include      http*://*91porn*/*
@@ -374,7 +374,7 @@ function YTPlay(videoURL) {
 	$('#yt-download').attr('href', src)
 
 	var playerHTML = '<div id="yt-top" style="height:0;overflow:hidden"></div><video id="yt-video" playsinline controls autoplay loop muted="muted" preload="auto"></video>'
-	//if ($('.video-container').length == 0)
+	$('.video-container').remove()
 	$('.videodetails-yakov').eq(0).prepend('<div class="video-container">' + playerHTML + '</div>')
 	// else $('.video-container').html(playerHTML);
 	$('#useraction').prepend('<textarea class="yt-download">ffmpeg -i "' + src + '" -c copy "' + $('title').text() + '.mp4"</textarea>')

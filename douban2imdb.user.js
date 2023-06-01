@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2023.03.14
+// @version      2023.06.01
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -58,8 +58,10 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         //'爱笑聚': 'https://www.aixiaoju.com//app-thread-run?app=search&keywords=' + imdb,
-        'BTSOW': 'https://btsow.beauty/search/' + title_en,
-        'RARBG': 'https://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
+        'BTSOW': 'https://btsow.bond/search/' + title_en,
+        // 'RARBG': 'https://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
+        '1377X': 'https://www.1377x.to/sort-search/' + title_en + '/size/desc/1/',
+        'ThePirateBay': 'https://thepiratebay10.info/search/' + title_en + '/1/5/0',
         'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/',
         'BD2020': 'https://www.bd2020.co/search.jspx?q=' + imdb
     }
