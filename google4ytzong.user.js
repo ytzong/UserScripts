@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Google for ytzong
-// @version      2023.02.16
+// @version      2023.06.19
 // @author       ytzong
 // @description  Google
 // @include      http*://*google.*/search*
@@ -12,7 +12,7 @@
 
 GM_addStyle(`
 .logo+div+div+div{display:none !important}
-#hdtbMenus{display:block!important; top:68px !important;padding-top:3px;padding-bottom:7px; background-color:yellow !important}
+#hdtbMenus{display:block!important;padding-top:3px;padding-bottom:7px; background-color:yellow !important}
 `);
 try {
     // window.setTimeout(function(){

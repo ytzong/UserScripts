@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iTunes
 // @namespace    https://twitter.com/ytzong
-// @version      2023.03.13
+// @version      2023.06.28
 // @author       ytzong
 // @include      *://apps.apple.com/*
 // @grant        GM_addStyle
@@ -48,6 +48,9 @@ function main() {
 			let publisher = $('.product-header__identity a').eq(0)
 			let publisherID = publisher.attr('href').split('/').slice(-1)[0].replace('id', '')
 			publisher.after(' <a href="' + 'https://app.sensortower.com/ios/publisher/publisher/' + publisherID + '">»</a>')
+
+			let appID = $('meta[name="apple:content_id"]').attr('content')
+			$('.badge--product-title').after(' <a href="' + 'https://www.qimai.cn/app/rank/appid/' + appID + '/country/us">»</a>')
 
 			$('.information-list__item .we-truncate__button').eq(-1).click()
 			$('.information-list__item').eq(-1).css('background-color', 'yellow')

@@ -4,7 +4,7 @@
 // @namespace   MrSkin
 // @description MsSkin
 // @include     http*://*mrskin.com/*
-// @version     2023.05.20
+// @version     2023.06.22
 // @grant       GM_addStyle
 // @grant       GM_xmlhttpRequest
 // @run-at      document-end
@@ -86,25 +86,27 @@ window.setInterval(function () {
 	$('button[title="Pause"]').blur();
 	$('#video_container_video').removeClass('vjs-user-inactive').addClass('vjs-user-active');
 }, 1000);
-
+if (pathname != '/') {
+	GM_addStyle('#navigation, #subnavigation{display:none !important}');
+}
 if (pathname.includes('gateway')) {
 	location.href = '/';
 }
-if (pathname.includes('/clip')) {
-	if (urlParams.has('sort')) {
-		const sort = urlParams.get('sort')
-		console.log(sort);
-		let targetSort = 'content_nudity';
-		if (sort != targetSort) {
-			let url = location.href
-			url = url.replace(sort, targetSort)
-			location.href = url
-		}
-	}
-	else {
+// if (pathname.includes('/clip')) {
+// 	if (urlParams.has('sort')) {
+// 		const sort = urlParams.get('sort')
+// 		console.log(sort);
+// 		let targetSort = 'content_nudity';
+// 		if (sort != targetSort) {
+// 			let url = location.href
+// 			url = url.replace(sort, targetSort)
+// 			location.href = url
+// 		}
+// 	}
+// 	else {
 
-	}
-}
+// 	}
+// }
 $('.pagination').click(function () {
 	scrollToPlayer()
 })
@@ -112,6 +114,7 @@ let videoFlag = 0;
 window.setInterval(function () {
 	if (videoFlag == 0) {
 		if ($('video').length > 0) {
+
 			var paths = pathname.split('-')
 			var path = paths[paths.length - 1]
 
@@ -123,16 +126,18 @@ window.setInterval(function () {
 			else {
 
 				if (pathname.includes('/clipplayer/')) {
-					GM_addStyle('#navigation, #subnavigation{display:none !important}');
+
 					GM_addStyle('video, .plyr video {width: 100%;height: 100vh !important;}.plyr__video-wrapper{position:relative;}')
 					$('video').attr('loop', 'loop')
+					var link = window.document.createElement('link');
+					link.rel = 'stylesheet';
+					link.type = 'text/css';
+					link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
+					document.getElementsByTagName("HEAD")[0].appendChild(link);
+
+					YTPlay()
 				}
 
-				var link = window.document.createElement('link');
-				link.rel = 'stylesheet';
-				link.type = 'text/css';
-				link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
-				document.getElementsByTagName("HEAD")[0].appendChild(link);
 
 				// window.setTimeout(YTPlay, 2000);
 
@@ -219,23 +224,23 @@ $(document).keydown(function (e) {
 		else video.pause();
 	}
 	//右箭头
-	if (e.keyCode == 39) {
-		scrollToPlayer();
+	// 	if (e.keyCode == 39) {
+	// 		scrollToPlayer();
 
-		if (e.ctrlKey) video.volume = video.volume + 0.1;
-		else if (e.altKey) $('.icon-angle-right').trigger('click');
-		else if (e.metaKey) $('.icon-angle-right').trigger('click');
-		video.currentTime = video.currentTime + jump;
-	}
-	//左箭头
-	if (e.keyCode == 37) {
-		scrollToPlayer();
+	// 		if (e.ctrlKey) video.volume = video.volume + 0.1;
+	// 		else if (e.altKey) $('.icon-angle-right').trigger('click');
+	// 		else if (e.metaKey) $('.icon-angle-right').trigger('click');
+	// 		video.currentTime = video.currentTime + jump;
+	// 	}
+	// 	//左箭头
+	// 	if (e.keyCode == 37) {
+	// 		scrollToPlayer();
 
-		if (e.ctrlKey) video.volume = 0.1;
-		else if (e.altKey) $('.icon-angle-left').trigger('click');
-		else if (e.metaKey) $('.icon-angle-left').trigger('click');
-		video.currentTime = video.currentTime - jump;
-	}
+	// 		if (e.ctrlKey) video.volume = 0.1;
+	// 		else if (e.altKey) $('.icon-angle-left').trigger('click');
+	// 		else if (e.metaKey) $('.icon-angle-left').trigger('click');
+	// 		video.currentTime = video.currentTime - jump;
+	// 	}
 	//A
 	if (e.keyCode == 65) {
 		var allLink = $('.description a').eq(0).attr('href');
