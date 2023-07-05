@@ -5,8 +5,8 @@
 // @include     http*://*btsow.*/*
 // @include     http*://*cilipa.*/*
 // @include     http*://*newfanhao.*/*
-// @include     http*://*bt4g.*/*
-// @version     2023.01.06
+// @include     http*://*bt4g*.*/*
+// @version     2023.07.02
 // @grant       GM_addStyle
 // @run-at      document-end
 // @require     https://code.jquery.com/jquery-3.5.1.slim.min.js
@@ -89,48 +89,24 @@ if (domain.includes('btsow')) {
 
   }
 }
-if (domain.includes('btsow') || domain.includes('bt4g')) {
+if (domain.includes('btsow')) {
   GM_addStyle('#magnets{position:fixed;right:0;bottom:0;width:300px;height:300px;background-color:transparent}.bg-light{background-color:lightgray}')
 
   $('body').append('<textarea id="magnets" />')
-
-  function copyString(str) {
-    var $temp = $("<input>");
-    $("body").append($temp);
-    $temp.val(str).select();
-    document.execCommand("copy");
-    $temp.remove();
-  }
 }
 if (domain.includes('bt4g')) {
+  if (path.includes('/magnet')) {
+    let link = $('th a').eq(0)
+    let hash = link.attr('href').split('/').pop()
+    hash = hash.split('?')[0]
 
-  if (path.includes('/magnet/')) {
-    let hash = path.split('/').pop()
-    $('main a').eq(0).attr('href', 'magnet:?xt=urn:btih:' + hash)
-  }
+    let magnet = 'magnet:?xt=urn:btih:' + hash
 
-  if (path.includes('/search/')) {
-    GM_addStyle(`
+    link.before('<textarea id="magnets">' + magnet + '</textarea>')
 
-    `)
-    $('h5 a').each(function () {
-      let hash = $(this).attr('href').split('/').pop()
-      let mag = 'magnet:?xt=urn:btih:' + hash
-      let href = $(this).attr('href')
-      $(this).attr('href', mag)
-      $(this).after(' <a href="' + href + '" target="_blank">»</a>')
-    })
-
-    $('h5').click(function () {
-      $(this).addClass('bg-light')
-      let magnet = $(this).find('a').attr('href')
-      console.log(magnet)
+    $('#magnets').click(function () {
       copyString(magnet)
-      let magnets = $('#magnets').val() + '\n' + magnet
-      magnets = magnets.trim()
-      $('#magnets').val(magnets)
     })
-
   }
 }
 
@@ -147,4 +123,11 @@ if (url.includes('newfanhao.com/fan')) {
   let html = '<a href="' + search + '" target="_blank" rel="noreferrer noopener">Google</a> <a href="' + bt + '" target="_blank" rel="noreferrer noopener">BT</a>'
   $('.home').html(html)
 
+}
+function copyString(str) {
+  var $temp = $("<input>");
+  $("body").append($temp);
+  $temp.val(str).select();
+  document.execCommand("copy");
+  $temp.remove();
 }

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2023.05.14
+// @version      2023.06.29
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -28,7 +28,7 @@ body{overflow-x:hidden}
 .tip-ino,
 #top-banner{display:none!important}
 .layout-header, .head-box .head .container, .head-box .head, .jumbotron, .jumbotron>div .container{min-width:0!important}
-  .jumbotron>div .container{padding-left:30px!important;padding-right:30px!important}
+  .jumbotron>div .container{padding-left:25px!important;padding-right:25px!important}
 .tab-container{width:400px}
   .data-table tr td .app-info-wrap .rank-day{top:0!important;right:0!important}
   .data-table tr{box-sizing: content-box;display:inline-block!important;vertical-align:top;position: relative;padding:0 0 15px;margin: 0 0 15px;width: 130px;}
