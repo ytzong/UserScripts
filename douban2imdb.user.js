@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2023.06.01
+// @version      2023.08.14
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -48,22 +48,20 @@ if (location.hostname == 'movie.douban.com') {
     $('.aside').prepend('<div class="tags"><h2><i>下载</i>· · · · · ·</h2><div id="dl-sites" class="tags-body"></div></div><div class="tags"><h2><i>字幕</i>· · · · · ·</h2><div id="sub-sites" class="tags-body"></div></div>')
 
     let dl_sites = {
-        'SubDH': 'https://subdh.com/d/' + id,
-        '片库': 'https://www.btnull.org/s/1---1/' + imdb + '.html',
+        'WebDH': 'https://webhd.cc/d/' + id,
+        '片库': 'https://www.btnull.org/s/1---1/' + imdb,
         '片吧': 'http://so.pianbar.net/search.aspx?s=movie&q=' + title,
         //'下片片': 'http://search.xiepp.com/search.aspx?s=movie&q=' + title,
         'BT之家': 'https://www.btbtt17.com/search-index-keyword-' + title + '.htm',
         '音范丝4K': 'https://www.yinfans.me/?s=' + title,
-        '电影蜜蜂': 'https://www.idybee.com/?post_type=post&s=' + title,
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
-        //'爱笑聚': 'https://www.aixiaoju.com//app-thread-run?app=search&keywords=' + imdb,
-        'BTSOW': 'https://btsow.bond/search/' + title_en,
-        // 'RARBG': 'https://rarbg.to/torrents.php?order=size&by=DESC&search=' + imdb,
+        'XueSouSou': 'https://www.xuesousou.net/search?q=' + title,
+        'BTSOW': 'https://btsow.homes/search/' + title_en,
+        'RARBG': 'https://rargb.to/search/?search=' + title_en + '&order=size&by=DESC',
         '1377X': 'https://www.1377x.to/sort-search/' + title_en + '/size/desc/1/',
         'ThePirateBay': 'https://thepiratebay10.info/search/' + title_en + '/1/5/0',
-        'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/',
-        'BD2020': 'https://www.bd2020.co/search.jspx?q=' + imdb
+        'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/'
     }
     for (name in dl_sites) {
         link = dl_sites[name];

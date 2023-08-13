@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         hao4k
-// @version      2023.05.20
+// @version      2023.08.14
 // @author       ytzong
 // @description  hao4k
 // @include      http*://*hao4k.*/*
@@ -22,9 +22,9 @@ jQuery('.nex_cmo_details a').each(function () {
   jQuery(this).parents('dd').wrap('<a target="_blank" href="' + link + '"/>')
 })
 
-jQuery('.nex_cmi_txt p').each(function () {
+jQuery('.nex_cmi_pic p').each(function () {
   var text = jQuery(this).text()
-  if (text.includes('豆瓣评分：7') || text.includes('豆瓣评分：8') || text.includes('豆瓣评分：9')) {
+  if (text.includes('豆瓣：7') || text.includes('豆瓣：8') || text.includes('豆瓣：9')) {
     jQuery(this).addClass('highlight')
   }
   else {
