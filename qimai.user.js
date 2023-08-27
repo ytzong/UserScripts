@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         QiMai
-// @version      2023.06.29
+// @version      2023.08.27
 // @author       ytzong
 // @description  QiMai
 // @include      http*://*qimai.*/*
@@ -139,12 +139,12 @@ if (domain.includes('sensortower')) {
             }
         })
         $('.app-icon a').each(function () {
-            let appID = $(this).attr('href').split('/').slice(-2)[0]
+            let appID = $(this).attr('href').split('?')[0].split('/').slice(-1)[0]
             let appURL = 'https://apps.apple.com/us/app/id' + appID
             $(this).attr('href', appURL).attr('target', '_blank')
         })
         $('.app-info .name').each(function () {
-            let appID = $(this).attr('href').split('/').slice(-2)[0]
+            let appID = $(this).attr('href').split('?')[0].split('/').slice(-1)[0]
             let appURL = 'https://app.sensortower.com/overview/' + appID + '?country=US'
             $(this).attr('href', appURL).attr('target', '_blank')
         })

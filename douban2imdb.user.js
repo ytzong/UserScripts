@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2023.08.14
+// @version      2023.08.22
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -48,7 +48,7 @@ if (location.hostname == 'movie.douban.com') {
     $('.aside').prepend('<div class="tags"><h2><i>下载</i>· · · · · ·</h2><div id="dl-sites" class="tags-body"></div></div><div class="tags"><h2><i>字幕</i>· · · · · ·</h2><div id="sub-sites" class="tags-body"></div></div>')
 
     let dl_sites = {
-        'WebDH': 'https://webhd.cc/d/' + id,
+        'WebDH': 'https://webhd.top/d/' + id,
         '片库': 'https://www.btnull.org/s/1---1/' + imdb,
         '片吧': 'http://so.pianbar.net/search.aspx?s=movie&q=' + title,
         //'下片片': 'http://search.xiepp.com/search.aspx?s=movie&q=' + title,

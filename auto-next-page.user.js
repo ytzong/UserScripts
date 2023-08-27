@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Next Page
-// @version      2022.10.17
+// @version      2023.08.17
 // @author       ytzong
 // @namespace    Auto Next Page
 // @include      *://*google.*/*
@@ -82,7 +82,8 @@ if (domain.includes('feng.com')) {
 if (domain.includes('github.com')) {
     $next = document.querySelector('.next_page');
 }
-if (domain.includes('4ksj')) {
+
+if (domain.includes('4ksj') || domain.includes('flyert')) {
     $next = document.querySelector('.nxt');
 }
 if (domain.includes('nga.cn')) {
