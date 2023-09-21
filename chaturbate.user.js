@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2023.04.11
+// @version      2023.09.07
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -13,7 +13,7 @@ GM_addStyle(`.full-height{height:100vh!important;background:none!important}
   #defchat>div.section:first-child{overflow:hidden!important}
   body, .list{min-width:0!important}
   .list{margin-left:2px!important}
-  #room_list{display:block!important}
+  #room_list, .topSectionWrapper{display:block!important}
   .content .c-1{margin-left:0 !important;margin-right:0!important}
   .room_list_room{/*width:200px!important;*/max-height:none!important;margin:0 !important;border:none!important}
   .room_list_room a{color:#f0f1f1!important}
@@ -39,7 +39,8 @@ console.log(pathname);
 
 let recSites = {
   'rec-tube': 'https://www.rec-tube.com/recent/search' + pathname,
-  'onlinestars': 'https://onlinestars.net/models' + pathname,
+  'recurbate': 'https://recurbate.com/performer/' + pathname,
+  // 'onlinestars': 'https://onlinestars.net/models' + pathname,
   'x1080hd': 'https://x1080hd.com/tags' + pathname,
   'xcamladyx': 'https://xcamladyx.com/tags' + pathname,
   'someonesister': 'https://someonesister.com/tags' + pathname,
@@ -152,7 +153,7 @@ function toHD() {
     $('#chat-btn').click()
   }
 
-  $("video").prop('muted', true)
+  // $("video").prop('muted', true)
   $('video').eq(0).trigger('play')
 
   let T = $('title').text()

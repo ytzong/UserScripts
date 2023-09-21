@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2023.08.22
+// @version      2023.09.21
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -57,11 +57,14 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         'XueSouSou': 'https://www.xuesousou.net/search?q=' + title,
-        'BTSOW': 'https://btsow.homes/search/' + title_en,
+        'BTSOW': 'https://btsow.motorcycles/search/' + title_en,
         'RARBG': 'https://rargb.to/search/?search=' + title_en + '&order=size&by=DESC',
         '1377X': 'https://www.1377x.to/sort-search/' + title_en + '/size/desc/1/',
         'ThePirateBay': 'https://thepiratebay10.info/search/' + title_en + '/1/5/0',
-        'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/'
+        'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/',
+        'YaPan': 'https://pan.ccof.cc/search?keyword=' + title,
+        'AliPanSou': 'https://www.alipansou.com/search?s=2&t=1&k=' + title,
+        'Google Alipan': 'https://www.google.com/search?q=阿里云盘+' + title
     }
     for (name in dl_sites) {
         link = dl_sites[name];
