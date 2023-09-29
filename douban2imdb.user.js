@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2023.09.21
+// @version      2023.09.29
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -14,8 +14,10 @@
 // ==/UserScript==
 
 //使用说明在最下面
+let pathname = location.pathname
 
 if (location.hostname == 'movie.douban.com') {
+
     GM_addStyle('#dale_movie_subject_inner_middle{display:none!important}');
 
     var status = $('.a_stars').text();
@@ -64,7 +66,10 @@ if (location.hostname == 'movie.douban.com') {
         'IBit': 'https://ibit.to/torrent-search/' + title_en + '/Movies/size:desc/1/',
         'YaPan': 'https://pan.ccof.cc/search?keyword=' + title,
         'AliPanSou': 'https://www.alipansou.com/search?s=2&t=1&k=' + title,
-        'Google Alipan': 'https://www.google.com/search?q=阿里云盘+' + title
+        'Google Alipan': 'https://www.google.com/search?q=阿里云盘+' + title,
+        'Aliyun_4K_Movies': 'https://t.me/s/Aliyun_4K_Movies?q=' + title,
+        'shareAliyun': 'https://t.me/s/shareAliyun?q=' + title,
+        'YunPanPan': 'https://t.me/s/YunPanPan?q=' + title
     }
     for (name in dl_sites) {
         link = dl_sites[name];
