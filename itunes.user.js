@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         iTunes
 // @namespace    https://twitter.com/ytzong
-// @version      2023.06.29
+// @version      2023.10.03
 // @author       ytzong
 // @include      *://apps.apple.com/*
 // @grant        GM_addStyle
@@ -51,6 +51,8 @@ function main() {
 
 			let appID = $('meta[name="apple:content_id"]').attr('content')
 			$('.badge--product-title').after(' <a target="_blank" href="' + 'https://www.qimai.cn/app/rank/appid/' + appID + '/country/us">»</a>')
+
+			$('.app-header__subtitle').append(' <a target="_blank" href="' + 'https://www.data.ai/apps/ios/app/' + appID + '/aso">»</a>')
 
 			$('.information-list__item .we-truncate__button').eq(-1).click()
 			$('.information-list__item').eq(-1).css('background-color', 'yellow')
