@@ -36,7 +36,7 @@ function isInView(el) {
 
 if (pathname.includes('/explore')) {
     GM_addStyle(`
- #content{padding-bottom:300px}   
+ #content{padding-bottom:250px}   
     `)
     window.setInterval(function () {
         hideExplore()
