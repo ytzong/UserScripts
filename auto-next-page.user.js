@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Next Page
-// @version      2023.08.17
+// @version      2023.10.18
 // @author       ytzong
 // @namespace    Auto Next Page
 // @include      *://*google.*/*
@@ -66,6 +66,9 @@ if (domain.includes('91porn.')) {
 if (domain.includes('91porny.') || domain.includes('jiuse')) {
     $next = document.querySelector('.pagination a[aria-label="Next »"]');
     if ($next === null) $next = document.querySelector('.page-item.active').nextElementSibling.querySelector('a');
+}
+if (domain.includes('chaturbate')) {
+    $next = document.querySelector('.page_number_container.active').nextElementSibling.querySelector('a');
 }
 if (domain.includes('avgle.com') || domain.includes('tokyomotion')) {
     $next = document.querySelector('.prevnext');

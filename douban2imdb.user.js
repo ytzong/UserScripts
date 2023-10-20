@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2023.09.29
+// @version      2023.10.19
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -68,6 +68,7 @@ if (location.hostname == 'movie.douban.com') {
         'AliPanSou': 'https://www.alipansou.com/search?s=2&t=1&k=' + title,
         'Google Alipan': 'https://www.google.com/search?q=阿里云盘+' + title,
         'Aliyun_4K_Movies': 'https://t.me/s/Aliyun_4K_Movies?q=' + title,
+        'Aliyundrive_Share': 'https://t.me/s/Aliyundrive_Share_Channel?q=' + title,
         'shareAliyun': 'https://t.me/s/shareAliyun?q=' + title,
         'YunPanPan': 'https://t.me/s/YunPanPan?q=' + title
     }

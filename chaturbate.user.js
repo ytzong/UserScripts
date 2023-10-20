@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2023.09.07
+// @version      2023.10.18
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -28,6 +28,7 @@ GM_addStyle(`.full-height{height:100vh!important;background:none!important}
   .list .thumbnail_label,.list .thumbnail_label_c_private_show{top:3px !important;left:3px !important;right:auto!important;bottom:auto!important}
   .list .sub-info li.cams, .list .subject,.message{display:none!important}
 #discover_root .room-list-carousel ul.list>li {float:left!important;}
+#roomlist_root #room_list, #roomlist_root .roomlist_container ul.list, #roomlist_root .placeholder_roomlist_container ul.list{display:block!important}
 `);
 
 GM_addStyle('@media (max-width: 800px) {.room_list_room,.roomCard{width:50%!important}}')
@@ -180,7 +181,7 @@ function toHD() {
       }
       if ($(this).text() == 'I am:') {
         $(this).parent().css('background-color', 'yellow');
-        if ($(this).next().text().includes('Trans') || $(this).next().text() == 'Male') window.close()
+        // if ($(this).next().text().includes('Trans') || $(this).next().text() == 'Male') window.close()
       }
     })
   }
