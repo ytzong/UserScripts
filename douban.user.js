@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Douban
-// @version      2023.10.20
+// @version      2023.10.21
 // @author       ytzong
 // @description  Douban
 // @include      http*://www.douban.com/doulist/*
 // @include      http*://m.douban.com/subject_collection/*
-// @include      https://movie.douban.com/explore
+// @include      http*://movie.douban.com/explore
+// @include      http*://movie.douban.com/subject/*
 // @copyright    2020+
 // @run-at       document-end
 // @grant        GM_addStyle
@@ -16,6 +17,12 @@ GM_addStyle('.yt-year, .yt-type, .yt-country {background-color:yellow}')
 
 let pathname = location.pathname
 
+if (pathname.includes('/subject/')) {
+    let votes = document.querySelector('span[property="v:votes"]').textContent
+    if (parseInt(votes) < 1000) {
+        window.close()
+    }
+}
 if (pathname.includes('/subject_collection/')) {
     GM_addStyle('.TalionNav-static, .items + div{display:none!important}')
 
@@ -36,7 +43,7 @@ function isInView(el) {
 
 if (pathname.includes('/explore')) {
     GM_addStyle(`
- #content{padding-bottom:250px}   
+ #content{padding-bottom:250px}
     `)
     window.setInterval(function () {
         hideExplore()
