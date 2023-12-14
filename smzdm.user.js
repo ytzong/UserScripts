@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         SMZDM
-// @version      2022.05.11
+// @version      2023.11.11
 // @author       ytzong
 // @description  SMZDM
 // @include      http://*.smzdm.*/*
@@ -12,7 +12,7 @@
 
 GM_addStyle(`
 #focus-notice,.seaAll, #cover{display:none !important}
-.zan,.price-btn-up,.good,.J_zhi_like_fav {background-color:yellow !important}
+.zan,.price-btn-up,.good,.J_zhi_like_fav,.feed-block-extras {background-color:yellow !important}
 .comment_con{height:auto!important}
 `);
 
