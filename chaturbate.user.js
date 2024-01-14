@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2023.10.18
+// @version      2023.12.23
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -40,12 +40,12 @@ console.log(pathname);
 
 let recSites = {
   'rec-tube': 'https://www.rec-tube.com/recent/search' + pathname,
-  'recurbate': 'https://recurbate.com/performer/' + pathname,
+  // 'recurbate': 'https://recurbate.com/performer/' + pathname,
   // 'onlinestars': 'https://onlinestars.net/models' + pathname,
   'x1080hd': 'https://x1080hd.com/tags' + pathname,
   'xcamladyx': 'https://xcamladyx.com/tags' + pathname,
   'someonesister': 'https://someonesister.com/tags' + pathname,
-  'relaxxxtime': 'https://relaxxxtime.com/search' + pathname,
+  // 'relaxxxtime': 'https://relaxxxtime.com/search' + pathname,
   'wxx.wtf': 'https://www.wxx.wtf/search' + pathname,
   'xhomealone': 'https://xhomealone.com/search' + pathname,
   'webcamleak': 'https://webcamleak.com/search' + pathname
@@ -121,6 +121,7 @@ function hideList() {
   if (pathname != '/followed-cams/') {
     GM_addStyle(`
 .room_list_room a:visited,
+.roomCard a:visited,
 .room-list-carousel-wrapper a:visited{color:yellow!important}
 .list .title a:visited{color: #0A5B83!important;}
 `);
