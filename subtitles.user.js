@@ -1,11 +1,12 @@
 // ==UserScript==
 // @name         Subtitles
-// @version      2019.12.23
+// @version      2024.01.02
 // @author       ytzong
 // @description  zimuku
 // @include      http*://*subhd.*/*
 // @include      http*://*zimuku.*/*
 // @include      http*://*zmk.*/*
+// @include      http*://*srtku.*/*
 // @include      http*://www.subku.net/*
 // @copyright    2018+
 // @run-at       document-end
@@ -38,4 +39,4 @@ else {
     }
 
     $('#down1').removeAttr('target')
-}  
+}

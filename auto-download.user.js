@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Download
-// @version      2023.10.21
+// @version      2024.01.01
 // @description  Auto Download
 // @include      *://www.ffh6.com/*
 // @include      *://www.yyyy1.info/*
@@ -31,13 +31,18 @@ function ytDownload() {
     if (domain.includes('lanzou')) document.querySelectorAll('#go a, #sub div')[0].click()
 
     if (domain.includes('webhd')) {
-        document.querySelector('button[control-id="ControlID-4"]').click()
+        document.querySelector('button[tt="magnet"]').click()
     }
 }
 function ytDownload2() {
     if (domain.includes('51svp')) document.querySelector('.btn-success').click();
     //if (domain.includes('lanzou')) document.querySelectorAll('#go a, #sub div')[0].click()
 }
+function copyString(str) {
+    navigator.clipboard.writeText(str);
+}
 window.setTimeout(ytDownload, 2000);
 window.setTimeout(ytDownload2, 5000);
+
+
 
