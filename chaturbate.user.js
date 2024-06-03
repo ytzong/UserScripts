@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2023.12.23
+// @version      2024.04.06
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -158,10 +158,10 @@ function toHD() {
   // $("video").prop('muted', true)
   $('video').eq(0).trigger('play')
 
-  let T = $('title').text()
+  let T = $('meta[property="og:title"]').attr('content')
   T = S(T)
-    .replaceAll('Chat with ', '')
-    .replaceAll(' in a Live Adult Video Chat Room Now', '')
+    .replaceAll('Watch ', '')
+    .replaceAll(' live on Chaturbate!', '')
     .s
   $('title').text(T)
 

@@ -2,7 +2,7 @@
 // @name        Youtube for ytzong
 // @author      ytzong
 // @include     https://www.youtube.com/*
-// @version     2023.12.14
+// @version     2024.04.07
 // @grant       GM_addStyle
 // @require     https://code.jquery.com/jquery-3.6.0.min.js
 // ==/UserScript==
@@ -23,11 +23,20 @@ GM_addStyle(`
     .playing #masthead-container.ytd-app {display:none !important; position:absolute!important;top:100vh !important}
     .playing #page-manager.ytd-app{margin-top:0 !important}
     .playing .html5-video-player, .playing #player-wide-container,
-    .playing ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy {height: 100vh !important;max-height:none !important}
+    .playing ytd-watch-flexy[full-bleed-player] #full-bleed-container.ytd-watch-flexy,
+    .playing body.efyt-wide-player ytd-watch-flexy[theater]:not([fullscreen]) #player-theater-container,
+    .playing body.efyt-wide-player ytd-watch-flexy[theater]:not([fullscreen]) #player-wide-container,
+    .playing body.efyt-wide-player ytd-watch-flexy[full-bleed-player]:not([fullscreen]) #full-bleed-container.ytd-watch-flexy,
+    .playing body.efyt-wide-player ytd-watch-flexy[full-bleed-player]:not([fullscreen]) #player-full-bleed-container.ytd-watch-flexy,
+    .playing body.efyt-wide-player ytd-watch-flexy[theater] #movie_player:not(.ytp-fullscreen) video.html5-main-video,
+    .playing body.efyt-wide-player ytd-watch-flexy[theater] #movie_player:not(.ytp-fullscreen) .ytp-iv-video-content {height: 100vh !important;max-height:none !important}
     .playing video{left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important}');
     .playing ytd-watch-flexy:not([theater]):not([fullscreen]) #primary.ytd-watch-flexy, ytd-watch-flexy:not([theater]):not([fullscreen]) #secondary.ytd-watch-flexy{padding:0!important;margin:0!important}
     .playing ytd-watch-flexy:not([theater]):not([fullscreen]) #player-container-inner{padding-top:100vh!important}
-    .playing ytd-watch-flexy:not([theater]):not([fullscreen]) .ytp-chrome-bottom{width:100%!important;left:0!important} 
+    .playing ytd-watch-flexy:not([theater]):not([fullscreen]) .ytp-chrome-bottom,
+    .playing body.efyt-wide-player ytd-watch-flexy[theater] #movie_player:not(.ytp-fullscreen) video.html5-main-video,
+    .playing body.efyt-wide-player ytd-watch-flexy[theater] #movie_player:not(.ytp-fullscreen) .ytp-iv-video-content{width:100%!important;left:0!important}
+    #progress.ytd-thumbnail-overlay-resume-playback-renderer{border-top:10px yellow solid!important}
   `)
 
 function main() {
