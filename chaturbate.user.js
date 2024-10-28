@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2024.04.06
+// @version      2024.07.01
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -36,19 +36,24 @@ GM_addStyle('@media (max-width: 550px) {.room_list_room,.roomCard{width:100%!imp
 GM_addStyle('@media (min-width: 801px) and (max-width: 1010px) {.room_list_room,.roomCard{width:33%!important}}')
 GM_addStyle('@media (min-width: 1011px) {.room_list_room,.roomCard{width:24.5%!important}}')
 var pathname = window.location.pathname;
-console.log(pathname);
+var username = S(pathname).replaceAll('/', '').s
+console.log(username);
 
 let recSites = {
-  'rec-tube': 'https://www.rec-tube.com/recent/search' + pathname,
-  // 'recurbate': 'https://recurbate.com/performer/' + pathname,
-  // 'onlinestars': 'https://onlinestars.net/models' + pathname,
-  'x1080hd': 'https://x1080hd.com/tags' + pathname,
-  'xcamladyx': 'https://xcamladyx.com/tags' + pathname,
-  'someonesister': 'https://someonesister.com/tags' + pathname,
-  // 'relaxxxtime': 'https://relaxxxtime.com/search' + pathname,
-  'wxx.wtf': 'https://www.wxx.wtf/search' + pathname,
-  'xhomealone': 'https://xhomealone.com/search' + pathname,
-  'webcamleak': 'https://webcamleak.com/search' + pathname
+  'rec-tube': 'https://www.rec-tube.com/recent/search/' + username + '/',
+  'rectube': 'https://www.rectube.webcam/models/' + username,
+  'fuckit': 'https://www.fuckit.cc/models/' + username + '-chaturbate/',
+  // 'recurbate': 'https://recurbate.com/performer/' + username,
+  // 'onlinestars': 'https://onlinestars.net/models/' + username,
+  'x1080hd': 'https://x1080hd.com/tags/' + username,
+  'xcamladyx': 'https://xcamladyx.com/tags/' + username,
+  'someonesister': 'https://someonesister.com/tags/' + username,
+  // 'relaxxxtime': 'https://relaxxxtime.com/search/' + username,
+  'wxx.wtf': 'https://www.wxx.wtf/search/' + username,
+  'xhomealone': 'https://xhomealone.com/search/' + username,
+  'webcamleak': 'https://webcamleak.com/search/' + username,
+  'livecamrips': 'https://www.livecamrips.com/search/' + username + '/1',
+  'archivebate': 'https://archivebate.com/profile/' + username
 }
 
 if (pathname == '/external_link/') {

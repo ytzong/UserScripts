@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Next Page
-// @version      2024.05.27
+// @version      2024.09.23
 // @author       ytzong
 // @namespace    Auto Next Page
 // @include      *://*google.*/*
@@ -51,6 +51,7 @@
 // @include      *://*hxm5.com/*
 // @include      *://*right.com.cn/*
 // @include      *://*avforums.com/threads/*
+// @include      *://livecamrips.su/model/*
 // @run-at       document-end
 // @grant        GM_addStyle
 // ==/UserScript==
@@ -69,6 +70,9 @@ setTimeout(() => {
     }
     if (domain.includes('chaturbate')) {
         $next = document.querySelector('.paging .next')
+    }
+    if (domain.includes('livecamrips')) {
+        $next = document.querySelector('.tm-btn-next')
     }
     if (domain.includes('avgle.com') || domain.includes('tokyomotion')) {
         $next = document.querySelector('.prevnext');

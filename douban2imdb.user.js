@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2024.05.14
+// @version      2024.10.28
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -51,11 +51,11 @@ if (location.hostname == 'movie.douban.com') {
 
     let dl_sites = {
         'WebDH': 'https://webhd.top/d/' + id,
-        '片库': 'https://www.btnull.org/s/1---1/' + imdb,
+        '观影': 'https://www.gying.net/s/1---1/' + imdb,
         '片源': 'https://pianyuan.org/search?q=' + imdb,
         '片吧': 'http://so.pianbar.net/search.aspx?s=movie&q=' + title,
         //'下片片': 'http://search.xiepp.com/search.aspx?s=movie&q=' + title,
-        'BT之家': 'https://www.btbtt17.com/search-index-keyword-' + title + '.htm',
+        'BT之家': 'https://www.1lou.me/search-' + title + '.htm',
         '音范丝4K': 'https://www.yinfans.me/?s=' + title,
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
