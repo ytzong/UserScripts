@@ -6,7 +6,7 @@
 // @include     http*://*cilipa.*/*
 // @include     http*://*newfanhao.*/*
 // @include     http*://*bt4g*.*/*
-// @version     2023.07.02
+// @version     2025.01.27
 // @grant       GM_addStyle
 // @run-at      document-end
 // @require     https://code.jquery.com/jquery-3.5.1.slim.min.js
@@ -96,7 +96,9 @@ if (domain.includes('btsow')) {
 }
 if (domain.includes('bt4g')) {
   if (path.includes('/magnet')) {
-    let link = $('th a').eq(0)
+    GM_addStyle('#magnets{display:block;width:100%;margin-bottom:10px;}')
+
+    let link = $('.card-body .btn').eq(0)
     let hash = link.attr('href').split('/').pop()
     hash = hash.split('?')[0]
 
