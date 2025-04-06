@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2024.10.28
+// @version      2025.04.06
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -60,7 +60,7 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         'XueSouSou': 'https://www.xuesousou.net/search?q=' + title,
-        'BTSOW': 'https://btsow.motorcycles/search/' + title_en,
+        'BTSOW': 'https://btsow.pics/search/' + title_en,
         'BTDigg': 'https://www.btdig.com/search?order=3&q=' + title_en,
         'RARBG': 'https://rargb.to/search/?search=' + title_en + '&order=size&by=DESC',
         '1377X': 'https://www.1377x.to/sort-search/' + title_en + '/size/desc/1/',
@@ -208,7 +208,7 @@ if (location.hostname == 'www.imdb.com') {
 function insertLinks(id, title) {
     var entitle = encodeURIComponent(title)
     var douban = '<a href="https://movie.douban.com/subject_search?search_text=' + id + '&cat=1002" target="_blank">douban</a>'
-    var sub1 = '<a href="https://www.zimuku.la/search?q=' + id + '" target="_blank">zimuku</a>'
+    var sub1 = '<a href="https://www.zimuku.org/search?q=' + id + '" target="_blank">zimuku</a>'
     var sub2 = '<a href="https://subhd.tv/search0/' + entitle + '" target="_blank">subhd</a>'
     var dl1 = '<a href="http://search.xiepp.com/search.aspx?q=' + entitle + '" target="_blank">xiepp</a>'
     var dl2 = '<a href="https://www.88btbtt.com/search-index-keyword-' + entitle + '.htm" target="_blank">btbtt</a>'
