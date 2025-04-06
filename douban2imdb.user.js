@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2025.04.06
+// @version      2025.04.06.2
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -82,7 +82,7 @@ if (location.hostname == 'movie.douban.com') {
 
     let sub_sites = {
         'SubHD': 'https://subhd.tv/d/' + id,
-        '字幕库': 'http://www.zimuku.org/search?q=' + imdb,
+        '字幕库': 'https://zimuku.org/search?chost=zimuku.org&q=' + imdb,
         'A4K': 'https://www.a4k.net/search?term=' + title,
         '伪射手': 'http://assrt.net/sub/?searchword=' + title
     };
