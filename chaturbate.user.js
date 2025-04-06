@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2024.07.01
+// @version      2025.04.06
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -60,7 +60,9 @@ if (pathname == '/external_link/') {
   location.href = $('#link').attr('href');
 }
 else {
-  window.setTimeout(main, 1000);
+  if (document.querySelector('.ray-id')) {
+    window.setTimeout(main, 1000);
+  }
 }
 function main() {
   //播放页面
@@ -101,6 +103,7 @@ div[id^="neatDiv"],
     })
   }
   else {
+
     window.setInterval(hideList, 300);
     // window.setTimeout(stopRefresh, 1000);
   }
@@ -120,6 +123,7 @@ function stopRefresh() {
   console.log('stop')
 }
 function hideList() {
+
   // $('.thumbnail_label_c_private_show, .thumbnail_label_offline').each(function(){
   // 	$(this).parent().hide();
   // })
