@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2025.04.06
+// @version      2025.07.27
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -25,7 +25,8 @@ GM_addStyle(`.full-height{height:100vh!important;background:none!important}
 #discover_root ul.list>*:first-child{margin-left:0!important}
   .roomCard{max-height:none !important;margin-right:0!important;height:auto !important;}
   .room_list_room img, .roomCard img{box-sizing:border-box!important; width:100%!important;height:auto!important;border-width:3px !important;border-style:solid !important;}
-  .list .thumbnail_label,.list .thumbnail_label_c_private_show{top:3px !important;left:3px !important;right:auto!important;bottom:auto!important}
+  .list .thumbnail_label,.list .thumbnail_label_c_private_show,
+  .content div.labelContainer, .MoreRooms div.labelContainer{top:3px !important;left:3px !important;right:auto!important;bottom:auto!important}
   .list .sub-info li.cams, .list .subject,.message{display:none!important}
 #discover_root .room-list-carousel ul.list>li {float:left!important;}
 #roomlist_root #room_list, #roomlist_root .roomlist_container ul.list, #roomlist_root .placeholder_roomlist_container ul.list{display:block!important}
@@ -60,13 +61,13 @@ if (pathname == '/external_link/') {
   location.href = $('#link').attr('href');
 }
 else {
-  if (document.querySelector('.ray-id')) {
+  if (!document.querySelector('.ray-id')) {
     window.setTimeout(main, 1000);
   }
 }
 function main() {
   //播放页面
-  if ($('.chat_room').length > 0) {
+  if ($('.chat_room').length > 0 || $('.chat_roomlogin').length > 0) {
 
     //新版播放器
     GM_addStyle(`.BaseRoomContents{margin:0!important;padding:0!important;border:0 none!important}#VideoPanel{border:0 none!important;width:100%!important;}
@@ -78,7 +79,7 @@ div[id^="neatDiv"],
 #header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo, .playerTitleBar, .floatingPlayer, #footer-holder{display:none!important}
 .contentText *{position:static!important;background-image:none!important}
 #volume-mute + div + span{position:absolute}
-.BioContents h1 a{margin-right:.5em}
+.BioContents h1 a, #tsContent h1 a{margin-right:.5em}
 `)
     $('.draggableCanvasWindow').parent().remove()
     $('#SplitModeTipCallout').remove()
@@ -174,15 +175,15 @@ function toHD() {
     .s
   $('title').text(T)
 
-  if ($('.BioContents h1 a').length == 0) {
-    $('.BioContents h1').html('')
+  if ($('.BioContents h1 a, #tsContent h1 a').length == 0) {
+    $('.BioContents h1, #tsContent h1').html('')
     for (let name in recSites) {
       let link = recSites[name];
       console.log(link)
       link = $('<a></a>').attr('href', link);
       link.attr('target', '_blank').attr('rel', 'nofollow');
       link.html(name);
-      $('.BioContents h1').append(link);
+      $('.BioContents h1, #tsContent h1').append(link);
     }
 
     $('.BioContents .label').each(function () {

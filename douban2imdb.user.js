@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2025.04.06.2
+// @version      2025.07.31
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -50,7 +50,7 @@ if (location.hostname == 'movie.douban.com') {
     $('.aside').prepend('<div class="tags"><h2><i>下载</i>· · · · · ·</h2><div id="dl-sites" class="tags-body"></div></div><div class="tags"><h2><i>字幕</i>· · · · · ·</h2><div id="sub-sites" class="tags-body"></div></div>')
 
     let dl_sites = {
-        'WebDH': 'https://webhd.top/d/' + id,
+        'IMBT': 'https://imbt.one/i/' + imdb,
         '观影': 'https://www.gying.net/s/1---1/' + imdb,
         '片源': 'https://pianyuan.org/search?q=' + imdb,
         '片吧': 'http://so.pianbar.net/search.aspx?s=movie&q=' + title,
@@ -60,8 +60,8 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         'XueSouSou': 'https://www.xuesousou.net/search?q=' + title,
-        'BTSOW': 'https://btsow.pics/search/' + title_en,
-        'BTDigg': 'https://www.btdig.com/search?order=3&q=' + title_en,
+        'BTSOW': 'https://btsow.lol/#/search/' + title_en,
+        'BTDigg': 'https://www.btdig.com/search?order=0&q=' + title_en,
         'RARBG': 'https://rargb.to/search/?search=' + title_en + '&order=size&by=DESC',
         '1377X': 'https://www.1377x.to/sort-search/' + title_en + '/size/desc/1/',
         'ThePirateBay': 'https://thepiratebay10.info/search/' + title_en + '/1/5/0',
