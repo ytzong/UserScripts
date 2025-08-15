@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2025.08.14
+// @version      2025.08.15
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -75,6 +75,19 @@ if (pathname === '/external_link/') {
   if (linkEl) location.href = linkEl.getAttribute('href');
 }
 
+// -------------------- Bio 高亮 --------------------
+function highlightBioLabels() {
+  document.querySelectorAll('.BioContents .label').forEach(label => {
+    const text = label.textContent.trim();
+    if (text === 'Location:' || text === 'I am:') {
+      label.parentElement.style.backgroundColor = 'yellow';
+      // 如果需要屏蔽某些用户，可以取消下面的注释
+      // const nextText = label.nextElementSibling?.textContent?.trim() || '';
+      // if (nextText.includes('Trans') || nextText === 'Male') window.close();
+    }
+  });
+}
+
 // -------------------- 主函数 --------------------
 function main() {
   const observer = new MutationObserver(() => {
@@ -105,6 +118,9 @@ function initPlayerPage() {
   document.querySelectorAll('.draggableCanvasWindow')?.forEach(el => el.parentElement?.remove());
   document.getElementById('SplitModeTipCallout')?.remove();
 
+  // 首次执行 Bio 高亮
+  highlightBioLabels();
+
   // -------------------- 按键检测 --------------------
   let degree = 0;
   document.addEventListener('keydown', e => { if (e.key === 'r' || e.key === 'R') { degree += 90; rotate(degree); } });
@@ -115,6 +131,7 @@ function initPlayerPage() {
     adjustUI();
     setTitleAndLinks();
     freezeChatFloatingWindow();
+    highlightBioLabels(); // 保证动态加载也高亮
   }
 
   const playerContainer = document.querySelector('.videoPlayerDiv');
@@ -174,8 +191,14 @@ function setTitleAndLinks() {
     if (!document.querySelector('.BioContents h1 a,#tsContent h1 a')) {
       const bioH1 = document.querySelector('.BioContents h1,#tsContent h1');
       if (bioH1) {
-        bioH1.innerHTML = ''; for (let name in recSites) {
-          const link = document.createElement('a'); link.href = recSites[name]; link.target = '_blank'; link.rel = 'nofollow'; link.textContent = name; bioH1.appendChild(link);
+        bioH1.innerHTML = '';
+        for (let name in recSites) {
+          const link = document.createElement('a');
+          link.href = recSites[name];
+          link.target = '_blank';
+          link.rel = 'nofollow';
+          link.textContent = name;
+          bioH1.appendChild(link);
         }
       }
     }
@@ -187,7 +210,6 @@ function freezeChatFloatingWindow() {
   const chatEl = document.querySelector('[data-testid="chat-floating-window"]');
   if (chatEl) {
     chatEl.style.display = 'none';
-    // 阻止新增节点
     const observer = new MutationObserver(mutations => {
       mutations.forEach(m => {
         if (m.addedNodes.length > 0) {
@@ -254,14 +276,30 @@ function initM3U8Catcher() {
       let h1 = document.querySelector("h1.bioHeader");
       if (!h1) return false;
       if (document.querySelector("#ffmpegCommandBox")) return true;
-      let container = document.createElement("div"); container.style.marginBottom = "10px"; container.style.position = "relative";
-      let textarea = document.createElement("textarea"); textarea.id = "ffmpegCommandBox"; textarea.style.width = "100%"; textarea.style.height = "60px"; textarea.style.cursor = "pointer"; textarea.value = command;
-      let label = document.createElement("span"); label.textContent = ""; label.style.position = "absolute"; label.style.right = "3px"; label.style.top = "3px";
+      let container = document.createElement("div");
+      container.style.marginBottom = "10px";
+      container.style.position = "relative";
+      let textarea = document.createElement("textarea");
+      textarea.id = "ffmpegCommandBox";
+      textarea.style.width = "100%";
+      textarea.style.height = "60px";
+      textarea.style.cursor = "pointer";
+      textarea.value = command;
+      let label = document.createElement("span");
+      label.textContent = "";
+      label.style.position = "absolute";
+      label.style.right = "3px";
+      label.style.top = "3px";
       textarea.onclick = () => {
         const copyAction = () => { label.textContent = "✅ 复制成功"; setTimeout(() => { label.textContent = ""; }, 1500); };
-        if (navigator.clipboard && navigator.clipboard.writeText) { navigator.clipboard.writeText(textarea.value).then(copyAction).catch(() => { GM_setClipboard(textarea.value); copyAction(); }); } else { GM_setClipboard(textarea.value); copyAction(); }
+        if (navigator.clipboard && navigator.clipboard.writeText) {
+          navigator.clipboard.writeText(textarea.value).then(copyAction).catch(() => { GM_setClipboard(textarea.value); copyAction(); });
+        } else { GM_setClipboard(textarea.value); copyAction(); }
       };
-      container.appendChild(textarea); container.appendChild(label); h1.parentNode.insertBefore(container, h1); return true;
+      container.appendChild(textarea);
+      container.appendChild(label);
+      h1.parentNode.insertBefore(container, h1);
+      return true;
     }
     if (!createUI()) {
       const observer = new MutationObserver(() => { if (createUI()) observer.disconnect(); });
@@ -271,14 +309,21 @@ function initM3U8Catcher() {
 
   function handleM3U8(url) {
     if (!url.includes(".m3u8")) return;
-    let cmd = generateCommand(url); console.log("%c[FFmpeg Command]", "color:green;font-weight:bold;", cmd);
+    let cmd = generateCommand(url);
+    console.log("%c[FFmpeg Command]", "color:green;font-weight:bold;", cmd);
     insertUI(cmd);
   }
 
   const origFetch = window.fetch;
-  window.fetch = function (...args) { if (args[0] && typeof args[0] === "string" && args[0].includes(".m3u8")) handleM3U8(args[0]); return origFetch.apply(this, args); };
+  window.fetch = function (...args) {
+    if (args[0] && typeof args[0] === "string" && args[0].includes(".m3u8")) handleM3U8(args[0]);
+    return origFetch.apply(this, args);
+  };
   const origOpen = XMLHttpRequest.prototype.open;
-  XMLHttpRequest.prototype.open = function (method, url, ...rest) { if (url && typeof url === "string" && url.includes(".m3u8")) handleM3U8(url); return origOpen.call(this, method, url, ...rest); };
+  XMLHttpRequest.prototype.open = function (method, url, ...rest) {
+    if (url && typeof url === "string" && url.includes(".m3u8")) handleM3U8(url);
+    return origOpen.call(this, method, url, ...rest);
+  };
   console.log("%c[Userscript] Chaturbate M3U8 catcher running...", "color: blue; font-weight: bold;");
 }
 
