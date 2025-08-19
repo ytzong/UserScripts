@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2025.08.15
+// @version      2025.08.18
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -8,6 +8,7 @@
 // @grant        GM_setClipboard
 // @require      https://cdnjs.cloudflare.com/ajax/libs/string.js/3.3.3/string.min.js
 // ==/UserScript==
+
 
 // -------------------- CSS 注入 --------------------
 GM_addStyle(`
@@ -147,11 +148,19 @@ function initPlayerPage() {
 
 // -------------------- 非播放页初始化 --------------------
 function initListPage() {
+  // 初次执行一次
+  hideList();
+
+  // 监听 room_list 容器
   const listContainer = document.querySelector('#room_list, .roomlist_container, .carousel-root');
   if (listContainer) {
-    const listObserver = new MutationObserver(throttle(hideList, 500));
+    const listObserver = new MutationObserver(throttle(hideList, 1000));
     listObserver.observe(listContainer, { childList: true, subtree: true });
   }
+
+  // 额外监听 body，确保 AJAX 动态注入时也会调用 hideList
+  const bodyObserver = new MutationObserver(throttle(hideList, 1500));
+  bodyObserver.observe(document.body, { childList: true, subtree: true });
 }
 
 // -------------------- switchToHD / adjustUI / setTitleAndLinks --------------------
