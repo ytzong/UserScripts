@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         UFI
 // @namespace    UFI
-// @version      2025-10-09
+// @version      2025.10.10
 // @description  Custom UFI-TOOLS
 // @author       ytzong
 // @match        http://192.168.0.1:2333/
@@ -25,6 +25,7 @@ body{text-shadow:none!important}
 .deviceList strong:hover, .deviceList strong:active, .deviceList .card-item:hover, .deviceList .card-item:active{box-shadow:none!important;}
 .title{padding-left:0!important}
 button{cursor: pointer;}
+.toolbar,
 .footer{display:none!important}
 
 `);
