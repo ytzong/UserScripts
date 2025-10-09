@@ -38,7 +38,7 @@ a.clip:visited {color:yellow !important;}
 GM_addStyle(`
 @media (min-width: 992px){.row-r .col-md-4 {width:20% !important;padding-left: 1px!important;padding-right: 1px!important;}.sk-wallpapereda{max-width:none!important}}
 a:visited {color:lightgray !important;}
-.none,#suggestion_box,.sk-wallpaper-top-container,.sk-wallpaper, #fc_frame, .parallax-container{display:none !important}
+.none,#suggestion_box,.sk-wallpaper-top-container,.sk-wallpaper, #fc_frame, .parallax-container, .az-container{display:none !important}
 .container,.media-scene-player{max-width:none !important}
 #watchSceneContainer,#watchSceneView,body.has-adult-network{padding:0!important}
 #navigation{position:static!important}

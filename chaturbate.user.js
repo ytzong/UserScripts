@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2025.08.18
+// @version      2025.09.03
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -33,8 +33,9 @@ body, .list{min-width:0!important}
 .list .sub-info li.cams, .list .subject,.message{display:none!important}
 #discover_root .room-list-carousel ul.list>li {float:left!important;}
 #roomlist_root #room_list, #roomlist_root .roomlist_container ul.list, #roomlist_root .placeholder_roomlist_container ul.list{display:block!important}
+#header .ad,
 /* 隐藏浮动聊天窗口 */
-[data-testid="chat-floating-window"]{display:none!important !important;}
+[data-testid="chat-floating-window"]{display:none!important;}
 `);
 
 // -------------------- 响应式 --------------------
@@ -89,19 +90,96 @@ function highlightBioLabels() {
   });
 }
 
-// -------------------- 主函数 --------------------
+// -------------------- 优化后的节流函数 --------------------
+function throttle(fn, wait) {
+  let lastTime = 0;
+  let timeoutId = null;
+
+  return function (...args) {
+    const now = Date.now();
+    const remaining = wait - (now - lastTime);
+
+    if (remaining <= 0) {
+      // 立即执行
+      if (timeoutId) {
+        clearTimeout(timeoutId);
+        timeoutId = null;
+      }
+      lastTime = now;
+      fn.apply(this, args);
+    } else if (!timeoutId) {
+      // 设置延迟执行
+      timeoutId = setTimeout(() => {
+        lastTime = Date.now();
+        timeoutId = null;
+        fn.apply(this, args);
+      }, remaining);
+    }
+  }
+}
+
+// -------------------- 防抖函数（用于快速连续触发的场景）--------------------
+function debounce(fn, wait) {
+  let timeoutId = null;
+  return function (...args) {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => fn.apply(this, args), wait);
+  };
+}
+
+// -------------------- 优化后的主函数 --------------------
 function main() {
-  const observer = new MutationObserver(() => {
+  // 使用更精确的检测
+  const checkPageType = () => {
     const chatRoom = document.querySelector('.chat_room, .chat_roomlogin');
+    const hasBody = document.body;
+
     if (chatRoom) {
       initPlayerPage();
-      observer.disconnect();
-    } else if (document.body) {
+      return 'player';
+    } else if (hasBody) {
       initListPage();
-      observer.disconnect();
+      return 'list';
     }
-  });
-  observer.observe(document.documentElement, { childList: true, subtree: true });
+    return null;
+  };
+
+  // 立即检查一次
+  const pageType = checkPageType();
+
+  if (!pageType) {
+    // 如果页面还没准备好，使用优化的观察器
+    const observer = new MutationObserver((mutations, obs) => {
+      // 只检查添加的节点，忽略属性变化
+      const hasSignificantChange = mutations.some(mutation =>
+        mutation.addedNodes.length > 0 &&
+        Array.from(mutation.addedNodes).some(node =>
+          node.nodeType === Node.ELEMENT_NODE &&
+          (node.classList?.contains('chat_room') ||
+           node.classList?.contains('chat_roomlogin') ||
+           node === document.body)
+        )
+      );
+
+      if (hasSignificantChange && checkPageType()) {
+        obs.disconnect();
+      }
+    });
+
+    observer.observe(document.documentElement, {
+      childList: true,
+      subtree: true,
+      attributes: false  // 不监听属性变化
+    });
+
+    // 设置超时保护，避免观察器永远不断开
+    setTimeout(() => {
+      observer.disconnect();
+      if (!checkPageType()) {
+        initListPage(); // 默认初始化为列表页
+      }
+    }, 5000);
+  }
 }
 
 // -------------------- 播放页面初始化 --------------------
@@ -140,27 +218,101 @@ function initPlayerPage() {
     const obs = new MutationObserver(throttle(updateAll, 3000));
     obs.observe(playerContainer, { childList: true, subtree: true, attributes: true });
   }
-  setInterval(updateAll, 3000);
+  setInterval(updateAll, 1000);
 
   // -------------------- 捕获 m3u8 --------------------
   initM3U8Catcher();
 }
 
-// -------------------- 非播放页初始化 --------------------
+// -------------------- 优化后的非播放页初始化 --------------------
 function initListPage() {
-  // 初次执行一次
+  // 立即执行一次
   hideList();
 
-  // 监听 room_list 容器
-  const listContainer = document.querySelector('#room_list, .roomlist_container, .carousel-root');
-  if (listContainer) {
-    const listObserver = new MutationObserver(throttle(hideList, 1000));
-    listObserver.observe(listContainer, { childList: true, subtree: true });
+  // 创建优化的节流/防抖函数
+  const throttledHideList = throttle(hideList, 300);  // 减少到300ms
+  const debouncedHideList = debounce(hideList, 100);   // 100ms防抖用于快速连续变化
+
+  // 监听具体的房间列表容器，减少监听范围
+  const specificSelectors = [
+    '#room_list',
+    '.roomlist_container',
+    '.carousel-root',
+    '#discover_root',
+    '.room-list-carousel-wrapper'
+  ];
+
+  specificSelectors.forEach(selector => {
+    const container = document.querySelector(selector);
+    if (container) {
+      const observer = new MutationObserver((mutations) => {
+        // 检查是否有相关的DOM变化
+        const hasRelevantChanges = mutations.some(mutation =>
+          Array.from(mutation.addedNodes).some(node =>
+            node.nodeType === Node.ELEMENT_NODE &&
+            (node.classList?.contains('room_list_room') ||
+             node.classList?.contains('roomCard') ||
+             node.querySelector?.('.room_list_room, .roomCard'))
+          )
+        );
+
+        if (hasRelevantChanges) {
+          debouncedHideList(); // 使用防抖处理快速连续的变化
+        }
+      });
+
+      observer.observe(container, {
+        childList: true,
+        subtree: true,
+        attributes: false  // 不监听属性变化，只监听DOM结构变化
+      });
+    }
+  });
+
+  // 监听路由变化（SPA应用）
+  let lastPath = window.location.pathname;
+  const checkPathChange = () => {
+    if (window.location.pathname !== lastPath) {
+      lastPath = window.location.pathname;
+      // 路由变化时立即执行
+      setTimeout(hideList, 50);
+    }
+  };
+
+  // 监听浏览器历史变化
+  window.addEventListener('popstate', checkPathChange);
+
+  // 重写pushState和replaceState以捕获SPA路由变化
+  const originalPushState = history.pushState;
+  const originalReplaceState = history.replaceState;
+
+  history.pushState = function(...args) {
+    originalPushState.apply(this, args);
+    setTimeout(checkPathChange, 50);
+  };
+
+  history.replaceState = function(...args) {
+    originalReplaceState.apply(this, args);
+    setTimeout(checkPathChange, 50);
+  };
+
+  // 使用 requestAnimationFrame 优化初始加载
+  const optimizedInitialHide = () => {
+    requestAnimationFrame(() => {
+      hideList();
+      // 再次检查，确保动态加载的内容也被处理
+      setTimeout(hideList, 200);
+    });
+  };
+
+  // 监听DOMContentLoaded和load事件
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', optimizedInitialHide);
+  } else {
+    optimizedInitialHide();
   }
 
-  // 额外监听 body，确保 AJAX 动态注入时也会调用 hideList
-  const bodyObserver = new MutationObserver(throttle(hideList, 1500));
-  bodyObserver.observe(document.body, { childList: true, subtree: true });
+  window.addEventListener('load', optimizedInitialHide);
 }
 
 // -------------------- switchToHD / adjustUI / setTitleAndLinks --------------------
@@ -232,21 +384,60 @@ function freezeChatFloatingWindow() {
   }
 }
 
-// -------------------- hideList --------------------
+// -------------------- 优化后的 hideList 函数 --------------------
 function hideList() {
-  if (pathname !== '/followed-cams/') {
-    GM_addStyle(`
-      .room_list_room a:visited, .roomCard a:visited, .room-list-carousel-wrapper a:visited{color:yellow!important}
-      .list .title a:visited{color: #0A5B83!important;}
-    `);
-    document.querySelectorAll('.icon_following')?.forEach(el => el.parentElement?.style?.setProperty('display', 'none'));
-  }
-  if (pathname.includes('/discover/')) {
-    document.querySelectorAll('.category-title')?.forEach(titleEl => {
-      const catTitle = titleEl.textContent || '';
-      if (catTitle.includes('Recently Watched') || catTitle.includes('Spy Shows') || catTitle.includes('Followed')) {
-        titleEl.closest('.carousel-root')?.style?.setProperty('display', 'none');
+  const currentPath = window.location.pathname;
+
+  // 缓存选择器结果，避免重复查询
+  const cache = new Map();
+  const cachedQuery = (selector) => {
+    if (!cache.has(selector)) {
+      cache.set(selector, document.querySelectorAll(selector));
+    }
+    return cache.get(selector);
+  };
+
+  // 批量处理样式，减少重排重绘
+  const stylesToApply = [];
+
+  if (currentPath !== '/followed-cams/') {
+    // 添加访问过的链接样式（只添加一次）
+    if (!document.querySelector('#visitedLinksStyle')) {
+      const style = document.createElement('style');
+      style.id = 'visitedLinksStyle';
+      style.textContent = `
+        .room_list_room a:visited, .roomCard a:visited, .room-list-carousel-wrapper a:visited{color:yellow!important}
+        .list .title a:visited{color: #0A5B83!important;}
+      `;
+      document.head.appendChild(style);
+    }
+
+    // 隐藏关注图标
+    cachedQuery('.icon_following').forEach(el => {
+      if (el.parentElement && el.parentElement.style.display !== 'none') {
+        stylesToApply.push(() => el.parentElement.style.setProperty('display', 'none'));
       }
+    });
+  }
+
+  if (currentPath.includes('/discover/')) {
+    cachedQuery('.category-title').forEach(titleEl => {
+      const catTitle = titleEl.textContent || '';
+      if (catTitle.includes('Recently Watched') ||
+          catTitle.includes('Spy Shows') ||
+          catTitle.includes('Followed')) {
+        const carousel = titleEl.closest('.carousel-root');
+        if (carousel && carousel.style.display !== 'none') {
+          stylesToApply.push(() => carousel.style.setProperty('display', 'none'));
+        }
+      }
+    });
+  }
+
+  // 批量应用样式变更，减少重排重绘
+  if (stylesToApply.length > 0) {
+    requestAnimationFrame(() => {
+      stylesToApply.forEach(styleFunction => styleFunction());
     });
   }
 }
@@ -261,9 +452,6 @@ function rotate(deg) {
   videoEl.style.transform = `rotate(${deg}deg) scale(${zoom},${zoom})`;
   videoEl.style.transformOrigin = 'center center';
 }
-
-// -------------------- 节流函数 --------------------
-function throttle(fn, wait) { let lastTime = 0; return function (...args) { const now = Date.now(); if (now - lastTime > wait) { lastTime = now; fn.apply(this, args); } } }
 
 // -------------------- m3u8 捕获 --------------------
 function initM3U8Catcher() {
