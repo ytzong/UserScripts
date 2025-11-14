@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         jiuse
-// @version      2023.05.16
+// @version      2025.11.5
 // @author       ytzong
 // @description  91Porny
 // @include      http*://*jiuse*/*
@@ -16,20 +16,6 @@
 // ==/UserScript==
 //
 
-function getServer() {
-    let nowServer = getUrlParameter('server')
-    if (nowServer) {
-        return nowServer
-    }
-    else {
-        return 'line' + Random(1, 3)
-    }
-
-}
-function Random(min, max) {
-    return Math.round(Math.random() * (max - min)) + min;
-}
-
 var pathname = window.location.pathname
 let shouldRedrict = false
 
@@ -41,6 +27,12 @@ var is_safari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
 //}
 
 GM_addStyle(`
+    #rd0,
+    #rd1,
+    #rd2,
+    #rd7,
+    #btm-tags,
+    a[href='https://xhdwp1044.com'],
   .page-jump-to, .jsv, .jsv-g1, .col-lg-1, #noticeModal, #warningModal, .modal-backdrop{display:none!important}
   #main{margin:0!important;padding:0!important;max-width:none!important}
   .highlight{background-color:yellow}
@@ -85,9 +77,15 @@ if (pathname.includes('/author/')) {
     })
 }
 if (pathname.includes('/video/view/')) {
-    let hdURL = $('.alert-link').eq(0).attr('href')
-    if (hdURL && hdURL.includes('/viewhd/')) {
-        location.href = hdURL + '?server=' + getServer()
+    let hd = $('.tabs.is-centered a').eq(-1)
+    if (hd.text() == '高清') {
+        let hdURL = hd.attr('href')
+        if (hdURL && hdURL.includes('/viewhd/')) {
+            let redirect = getUrlParameter('redirect')
+            if (redirect != '0') {
+                //location.href = hdURL
+            }
+        }
     }
 }
 if (pathname.includes('/video/category')) {
@@ -118,10 +116,10 @@ if (pathname.includes('/video/view')) {
     link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
     document.getElementsByTagName("HEAD")[0].appendChild(link);
 
-    let nowServer = getUrlParameter('server')
-    if (!nowServer) {
-        location.href += '?server=' + getServer()
-    }
+    // let nowServer = getUrlParameter('server')
+    // if (!nowServer) {
+    //     location.href += '?server=' + getServer()
+    // }
     /*      window.setTimeout(function(){
             let msg = $('.vjs-remaining-time-display').text()
             if (msg.includes('-0:00')) {
@@ -131,14 +129,35 @@ if (pathname.includes('/video/view')) {
       */
     GM_addStyle(`
     header, .alert,
+    .notification,
     .vjs-error-display,.vjs-text-track-display,.vjs-control-bar,.vjs-loading-spinner, .vjs-poster,
     .link-secondary,.fa-bug{display:none!important}
+    #videoShowPage{max-width:none!important}
+    .downloadBtn, #video .is-danger{float:right}
   .adv-pr, .row{margin-left:0!important;margin-right:0!important;}.container-title, .videoInfos,#nav-tabContent{width:100%!important}
   #videoShowTabDownload{display:block!important}
-  `)
-    GM_addStyle('.videoPlayContainer, .plyr video{width:100vw!important;height:100vh!important;overflow:hidden!important}.yt-download{width:100%;height:50px}#yt-download{position: absolute;right:0;top:0;padding:3px 6px;}')
+  #video-play,
+ .videoPlayContainer, .plyr video{width:100vw!important;height:100vh!important;overflow:hidden!important}
+ .yt-download{width:100%;height:50px}#yt-download{position: absolute;right:0;top:0;padding:3px 6px;}')
+`)
+    $('#video-play').parent().css('height', '100vh').css('padding-top', '0')
 
+    let paths = pathname.split('/')
+    let id = paths.slice(-1)[0]
+    let user = $('.content.is-size-7 a').text().trim() //getUrlParameter('user')
+    let userid = getUrlParameter('userid')
+    let count = getUrlParameter('count')
+    let name = $('h4.container-title').text().trim() //getUrlParameter('name')
+    let videoURL = $('video').eq(0).attr('data-src')
 
+    if (pathname.includes('/video/viewhd')) {
+        $('#video .column').eq(0).hide()
+        $('#video .column').eq(1).addClass('is-full').removeClass('is-offset-2').removeClass('is-8')
+        $('.tabs.is-centered ul').append('<li><a href="/video/view/' + id + '?redirect=0">默认</a></li>')
+    }
+    else {
+        $('#video .column').eq(0).addClass('is-full').removeClass('is-offset-2').removeClass('is-8')
+    }
 
     $('.videoPlayContainer').unwrap()
     $('#videoShowTabDownload').addClass('show')
@@ -167,21 +186,13 @@ if (pathname.includes('/video/view')) {
 
     }, 1000);
 
-    let paths = pathname.split('/')
 
-
-    let id = paths.slice(-1)[0]
-    let user = $('#videoShowTabAbout .fa-user').next().text().trim() //getUrlParameter('user')
-    let userid = getUrlParameter('userid')
-    let count = getUrlParameter('count')
-    let name = $('h4.container-title').text().trim() //getUrlParameter('name')
-    let videoURL = $('video').eq(0).attr('data-src')
 
     if (shouldRedrict) location.href = 'https://rss.ytzong.com/player.htm?url=' + encodeURIComponent(videoURL) + '&id=' + encodeURIComponent(id)
         + '&user=' + encodeURIComponent(user) + '&userid=' + encodeURIComponent(userid) + '&name='
         + encodeURIComponent(name) + '&count=' + encodeURIComponent(count) + '&from=91porn'
 
-    let videoTitle = user + ' - ' + $('.container-title').eq(0).text().trim() + ' - ' + id
+    let videoTitle = user + ' - ' + $('h1').eq(0).text().trim() + ' - ' + id
     $('.container-title').eq(0)
         .after('<textarea class="yt-download">ffmpeg -i "' + videoURL + '" -c copy "' + videoTitle + '.mp4"</textarea>')
         .text(videoTitle)
@@ -340,16 +351,23 @@ if (pathname.includes('/video/view')) {
             copyTitle();
             window.location.href = window.location.href.replace('view_video.php', 'view_video_hd.php');
         }
+        //F
+        if (e.keyCode == 70) {
+            var hdLink = $('.tabs.is-centered a').eq(-1).attr('href');
+            if (hdLink.length > 0) {
+                window.location.href = hdLink;
+            }
+        }
         //A
         if (e.keyCode == 65) {
-            var authorLink = $('#videoShowTabAbout a').eq(0).attr('href');
+            var authorLink = $('.content.is-size-7 a').eq(0).attr('href');
             if (authorLink.length > 0) {
                 window.location.href = authorLink;
             }
         }
         //S
         if (e.keyCode == 83) {
-            let userID = $('#videoShowTabAbout .fa-user').next().text().trim();
+            let userID = $('.content.is-size-7 a').text().trim();
             if (pathname.includes('/author/')) userID = pathname.split('/').slice(-1)[0]
             let url91 = 'https://91porn.com/search_result.php?search_type=search_users&search_id=' + userID
             var allLink = url91

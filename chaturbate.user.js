@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2025.09.03
+// @version      2025.10.30
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -35,6 +35,7 @@ body, .list{min-width:0!important}
 #roomlist_root #room_list, #roomlist_root .roomlist_container ul.list, #roomlist_root .placeholder_roomlist_container ul.list{display:block!important}
 #header .ad,
 /* 隐藏浮动聊天窗口 */
+[data-testid="messaging-entrypoint"],
 [data-testid="chat-floating-window"]{display:none!important;}
 `);
 
@@ -44,9 +45,11 @@ GM_addStyle('@media (max-width: 550px) {.room_list_room,.roomCard{width:100%!imp
 GM_addStyle('@media (min-width: 801px) and (max-width: 1010px) {.room_list_room,.roomCard{width:33%!important}}');
 GM_addStyle('@media (min-width: 1011px) {.room_list_room,.roomCard{width:24.5%!important}}');
 
-// -------------------- 用户名 --------------------
+// -------------------- 全局变量 --------------------
 const pathname = window.location.pathname;
 const username = S(pathname).replaceAll('/', '').s;
+let currentM3U8Url = ''; // 存储当前的m3u8地址
+let ffmpegCommandBox = null; // 存储textarea元素的引用
 
 // -------------------- 通用函数：生成 recSites URL --------------------
 function makeRecURL(site, username) {
@@ -156,8 +159,8 @@ function main() {
         Array.from(mutation.addedNodes).some(node =>
           node.nodeType === Node.ELEMENT_NODE &&
           (node.classList?.contains('chat_room') ||
-           node.classList?.contains('chat_roomlogin') ||
-           node === document.body)
+            node.classList?.contains('chat_roomlogin') ||
+            node === document.body)
         )
       );
 
@@ -251,8 +254,8 @@ function initListPage() {
           Array.from(mutation.addedNodes).some(node =>
             node.nodeType === Node.ELEMENT_NODE &&
             (node.classList?.contains('room_list_room') ||
-             node.classList?.contains('roomCard') ||
-             node.querySelector?.('.room_list_room, .roomCard'))
+              node.classList?.contains('roomCard') ||
+              node.querySelector?.('.room_list_room, .roomCard'))
           )
         );
 
@@ -286,12 +289,12 @@ function initListPage() {
   const originalPushState = history.pushState;
   const originalReplaceState = history.replaceState;
 
-  history.pushState = function(...args) {
+  history.pushState = function (...args) {
     originalPushState.apply(this, args);
     setTimeout(checkPathChange, 50);
   };
 
-  history.replaceState = function(...args) {
+  history.replaceState = function (...args) {
     originalReplaceState.apply(this, args);
     setTimeout(checkPathChange, 50);
   };
@@ -424,8 +427,8 @@ function hideList() {
     cachedQuery('.category-title').forEach(titleEl => {
       const catTitle = titleEl.textContent || '';
       if (catTitle.includes('Recently Watched') ||
-          catTitle.includes('Spy Shows') ||
-          catTitle.includes('Followed')) {
+        catTitle.includes('Spy Shows') ||
+        catTitle.includes('Followed')) {
         const carousel = titleEl.closest('.carousel-root');
         if (carousel && carousel.style.display !== 'none') {
           stylesToApply.push(() => carousel.style.setProperty('display', 'none'));
@@ -453,74 +456,154 @@ function rotate(deg) {
   videoEl.style.transformOrigin = 'center center';
 }
 
-// -------------------- m3u8 捕获 --------------------
-function initM3U8Catcher() {
-  function generateCommand(url) {
-    let userMatch = url.match(/amlst:([^-\s]+)/);
-    let username = userMatch ? userMatch[1] : "unknown";
-    let now = new Date();
-    let timestamp = now.getFullYear() + "-" +
-      String(now.getMonth() + 1).padStart(2, '0') + "-" +
-      String(now.getDate()).padStart(2, '0') + "-" +
-      String(now.getHours()).padStart(2, '0') + "." +
-      String(now.getMinutes()).padStart(2, '0') + "." +
-      String(now.getSeconds()).padStart(2, '0');
-    return `mkdir -p ~/Downloads/Video/${username}/\nffmpeg -i "${url}" -c copy ~/Downloads/Video/${username}/${timestamp}.mp4`;
-  }
+// -------------------- m3u8 捕获和UI更新 --------------------
+function generateCommand(url) {
+  let userMatch = url.match(/amlst:([^-\s]+)/);
+  let username = userMatch ? userMatch[1] : "unknown";
+  let now = new Date();
+  let timestamp = now.getFullYear() + "-" +
+    String(now.getMonth() + 1).padStart(2, '0') + "-" +
+    String(now.getDate()).padStart(2, '0') + "-" +
+    String(now.getHours()).padStart(2, '0') + "." +
+    String(now.getMinutes()).padStart(2, '0') + "." +
+    String(now.getSeconds()).padStart(2, '0');
+  return `mkdir -p ~/Downloads/Video/${username}/\nffmpeg -i "${url}" -c copy ~/Downloads/Video/${username}/${timestamp}.mp4`;
+}
 
-  function insertUI(command) {
-    function createUI() {
-      let h1 = document.querySelector("h1.bioHeader");
-      if (!h1) return false;
-      if (document.querySelector("#ffmpegCommandBox")) return true;
-      let container = document.createElement("div");
-      container.style.marginBottom = "10px";
-      container.style.position = "relative";
-      let textarea = document.createElement("textarea");
-      textarea.id = "ffmpegCommandBox";
-      textarea.style.width = "100%";
-      textarea.style.height = "60px";
-      textarea.style.cursor = "pointer";
-      textarea.value = command;
-      let label = document.createElement("span");
-      label.textContent = "";
-      label.style.position = "absolute";
-      label.style.right = "3px";
-      label.style.top = "3px";
-      textarea.onclick = () => {
-        const copyAction = () => { label.textContent = "✅ 复制成功"; setTimeout(() => { label.textContent = ""; }, 1500); };
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-          navigator.clipboard.writeText(textarea.value).then(copyAction).catch(() => { GM_setClipboard(textarea.value); copyAction(); });
-        } else { GM_setClipboard(textarea.value); copyAction(); }
+// 更新FFmpeg命令框内容
+function updateFFmpegCommand(url) {
+  if (ffmpegCommandBox) {
+    const newCommand = generateCommand(url);
+    ffmpegCommandBox.value = newCommand;
+    console.log("%c[FFmpeg Command Updated]", "color:orange;font-weight:bold;", newCommand);
+  }
+}
+
+function insertUI(command) {
+  function createUI() {
+    let h1 = document.querySelector("h1.bioHeader");
+    if (!h1) return false;
+    if (document.querySelector("#ffmpegCommandBox")) return true;
+
+    let container = document.createElement("div");
+    container.style.marginBottom = "10px";
+    container.style.position = "relative";
+
+    let textarea = document.createElement("textarea");
+    textarea.id = "ffmpegCommandBox";
+    textarea.style.width = "100%";
+    textarea.style.height = "60px";
+    textarea.style.cursor = "pointer";
+    textarea.value = command;
+
+    // 保存textarea的引用
+    ffmpegCommandBox = textarea;
+
+    let label = document.createElement("span");
+    label.textContent = "";
+    label.style.position = "absolute";
+    label.style.right = "3px";
+    label.style.top = "3px";
+
+    textarea.onclick = () => {
+      const copyAction = () => {
+        label.textContent = "✅ 复制成功";
+        setTimeout(() => { label.textContent = ""; }, 1500);
       };
-      container.appendChild(textarea);
-      container.appendChild(label);
-      h1.parentNode.insertBefore(container, h1);
-      return true;
-    }
-    if (!createUI()) {
-      const observer = new MutationObserver(() => { if (createUI()) observer.disconnect(); });
-      observer.observe(document.body, { childList: true, subtree: true });
-    }
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(textarea.value).then(copyAction).catch(() => {
+          GM_setClipboard(textarea.value);
+          copyAction();
+        });
+      } else {
+        GM_setClipboard(textarea.value);
+        copyAction();
+      }
+    };
+
+    container.appendChild(textarea);
+    container.appendChild(label);
+    h1.parentNode.insertBefore(container, h1);
+    return true;
   }
 
-  function handleM3U8(url) {
-    if (!url.includes(".m3u8")) return;
+  if (!createUI()) {
+    const observer = new MutationObserver(() => {
+      if (createUI()) observer.disconnect();
+    });
+    observer.observe(document.body, { childList: true, subtree: true });
+  }
+}
+
+function handleM3U8(url) {
+  if (!url.includes(".m3u8")) return;
+
+  // 检查是否为新的m3u8地址
+  if (currentM3U8Url !== url) {
+    currentM3U8Url = url;
     let cmd = generateCommand(url);
     console.log("%c[FFmpeg Command]", "color:green;font-weight:bold;", cmd);
-    insertUI(cmd);
-  }
 
+    // 如果UI已存在，则更新内容；否则创建UI
+    if (ffmpegCommandBox) {
+      updateFFmpegCommand(url);
+    } else {
+      insertUI(cmd);
+    }
+  }
+}
+
+function initM3U8Catcher() {
+  // 劫持fetch请求
   const origFetch = window.fetch;
   window.fetch = function (...args) {
-    if (args[0] && typeof args[0] === "string" && args[0].includes(".m3u8")) handleM3U8(args[0]);
+    if (args[0] && typeof args[0] === "string" && args[0].includes(".m3u8")) {
+      handleM3U8(args[0]);
+    }
     return origFetch.apply(this, args);
   };
+
+  // 劫持XMLHttpRequest
   const origOpen = XMLHttpRequest.prototype.open;
   XMLHttpRequest.prototype.open = function (method, url, ...rest) {
-    if (url && typeof url === "string" && url.includes(".m3u8")) handleM3U8(url);
+    if (url && typeof url === "string" && url.includes(".m3u8")) {
+      handleM3U8(url);
+    }
     return origOpen.call(this, method, url, ...rest);
   };
+
+  // 监听视频质量切换按钮
+  function monitorQualityChanges() {
+    // 监听HD按钮区域的点击事件
+    const qualityContainer = document.querySelector('.vjs-icon-hd')?.parentElement;
+    if (qualityContainer) {
+      qualityContainer.addEventListener('click', () => {
+        // 质量切换后延迟一点时间让新的m3u8请求发出
+        setTimeout(() => {
+          console.log("%c[Quality Change] Waiting for new m3u8 URL...", "color:blue;font-weight:bold;");
+        }, 500);
+      }, true);
+    }
+
+    // 监听所有quality相关的按钮
+    document.addEventListener('click', (e) => {
+      const target = e.target;
+      if (target && (
+        target.classList.contains('vjs-menu-item') ||
+        target.closest('.vjs-menu-item') ||
+        target.textContent?.includes('HD') ||
+        target.textContent?.includes('Auto')
+      )) {
+        setTimeout(() => {
+          console.log("%c[Quality Menu Click] Waiting for new m3u8 URL...", "color:blue;font-weight:bold;");
+        }, 500);
+      }
+    }, true);
+  }
+
+  // 延迟执行监听器设置，确保视频播放器已加载
+  setTimeout(monitorQualityChanges, 2000);
+
   console.log("%c[Userscript] Chaturbate M3U8 catcher running...", "color: blue; font-weight: bold;");
 }
 

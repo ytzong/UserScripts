@@ -1,24 +1,39 @@
 // ==UserScript==
 // @name         rectube
-// @version      0.1
+// @version      2025.11.7
 // @author       ytzong
-// @description  rectube
+// @description  rectube - auto play all animations
 // @include      http*://*rec-tube.com/*
 // @copyright    2018+
 // @run-at       document-end
 // @grant        GM_addStyle
 // ==/UserScript==
 
-let pathname = location.pathname
+(function () {
+    'use strict';
 
-GM_addStyle('@media (min-width: 1200px) {.container {width: 96% !important;}}.container {margin-left:0 !important;}');
-$('.images-rotation').trigger('mouseover');
-$('*').unbind('mouseout');
+    let pathname = location.pathname;
 
-//$('.col-md-3').removeClass('col-md-3').addClass('col-md-4')
+    GM_addStyle('@media (min-width: 1200px) {.container {width: 96% !important;}}.container {margin-left:0 !important;}');
 
-//alert($("iframe").contents().find("a").attr('href'))
+    if (pathname.includes('/watch/')) {
+        GM_addStyle('center{display:none}');
+    }
 
-if (pathname.includes('/watch/')) {
-    GM_addStyle('center{display:none}')
-}
+    function startAutoPlay() {
+        // 触发所有图片的 mouseover
+        $('.images-rotation').each(function () {
+            $(this).trigger('mouseover');
+        });
+
+        // 移除所有可能导致暂停的鼠标事件
+        $('*').unbind('mouseout mouseleave');
+    }
+
+    // 立即执行
+    startAutoPlay();
+
+    // 延迟再执行一次
+    setTimeout(startAutoPlay, 1000);
+
+})();
