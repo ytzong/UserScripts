@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2025.07.31
+// @version      2026.01.26
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -60,7 +60,7 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         'XueSouSou': 'https://www.xuesousou.net/search?q=' + title,
-        'BTSOW': 'https://btsow.lol/#/search/' + title_en,
+        'BTSOW': 'https://btsow.lol/search/' + title_en,
         'BTDigg': 'https://www.btdig.com/search?order=0&q=' + title_en,
         'RARBG': 'https://rargb.to/search/?search=' + title_en + '&order=size&by=DESC',
         '1377X': 'https://www.1377x.to/sort-search/' + title_en + '/size/desc/1/',

@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2025.10.30
+// @version      2026.02.02
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -190,8 +190,8 @@ function initPlayerPage() {
   GM_addStyle(`
     .BaseRoomContents{margin:0!important;padding:0!important;border:0 none!important}
     #VideoPanel{border:0 none!important;width:100%!important;}
-    .videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important}
-    div[id^="neatDiv"], #header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo, .playerTitleBar, .floatingPlayer, #footer-holder{display:none!important}
+    .videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important;background-color:transparent!important}
+    div[id^="neatDiv"], #header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo, .playerTitleBar, .floatingPlayer, #footer-holder,.videoPlayerDiv canvas{display:none!important}
     .contentText *{position:static!important;background-image:none!important}
     #volume-mute + div + span{position:absolute}
     .BioContents h1 a, #tsContent h1 a{margin-right:.5em}
@@ -321,9 +321,45 @@ function initListPage() {
 // -------------------- switchToHD / adjustUI / setTitleAndLinks --------------------
 function switchToHD() {
   try {
-    const btnHD = document.querySelector('.vjs-icon-hd')?.nextElementSibling?.children?.[0]?.children?.[0];
-    if (btnHD && getComputedStyle(btnHD).color !== 'rgb(244, 115, 33)') btnHD.click();
-  } catch (e) { console.log('switchToHD error', e); }
+    // === 1. 等价于 jQuery: $('.unfollowButton').is(":visible") ===
+    const unfollowBtn = document.querySelector('.unfollowButton');
+    const isVisible = unfollowBtn &&
+      !!(unfollowBtn.offsetWidth || unfollowBtn.offsetHeight || unfollowBtn.getClientRects().length);
+
+    // === 2. 等价于 jQuery: $('.notification-btn-icon').hasClass('smart') ===
+    const icon = document.querySelector('.notification-btn-icon');
+
+    if (isVisible && icon && icon.classList.contains('smart')) {
+      icon.click();
+    }
+
+    // === 3. 延时 1 秒执行原 .notification-item 逻辑 ===
+    setTimeout(() => {
+      const items = document.querySelectorAll('.notification-item');
+
+      items.forEach((item) => {
+        if (item.classList.contains('selected') &&
+          item.textContent.trim() === 'Auto') {
+
+          const third = items[2];
+          if (third) third.click();
+        }
+      });
+    }, 1000);
+
+    // === 4. 原 HD 切换逻辑 ===
+    const btnHD = document.querySelector('.vjs-icon-hd')
+      ?.nextElementSibling
+      ?.children?.[0]
+      ?.children?.[0];
+
+    if (btnHD && getComputedStyle(btnHD).color !== 'rgb(244, 115, 33)') {
+      btnHD.click();
+    }
+
+  } catch (e) {
+    console.log('switchToHD error', e);
+  }
 }
 
 function adjustUI() {
@@ -467,7 +503,7 @@ function generateCommand(url) {
     String(now.getHours()).padStart(2, '0') + "." +
     String(now.getMinutes()).padStart(2, '0') + "." +
     String(now.getSeconds()).padStart(2, '0');
-  return `mkdir -p ~/Downloads/Video/${username}/\nffmpeg -i "${url}" -c copy ~/Downloads/Video/${username}/${timestamp}.mp4`;
+  return `mkdir -p ~/Downloads/Video/${username}/\nffmpeg -i "${url}" -c copy -movflags separate_moof ~/Downloads/Video/${username}/${timestamp}.mp4`;
 }
 
 // 更新FFmpeg命令框内容
