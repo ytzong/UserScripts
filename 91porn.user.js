@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         91Porn HTML5 Player
-// @version      2023.05.25
+// @version      2026.3.19
 // @author       ytzong
 // @description  91Porn
 // @include      http*://*91porn*/*
@@ -104,6 +104,8 @@ if (window.localStorage.getItem('hd') == '0') alwaysHD = 0;
 */
 
 if (pathname == '/view_video_hd.php' || pathname == '/view_video.php') {
+	location.href = 'https://jiuse.ai/video/view/' + getUrlParameter('viewkey')
+	/*
 	GM_addStyle('.top-nav,.navbar,#search_form,.col-md-4, #videodetails h4,#videodetails br{display:none!important}#videodetails{padding:0!important;border:0!important}.video-container{padding:0!important;background-color:black!important}.row{margin:0!important}');
 
 	GM_addStyle('.video-container video {width: 100%;height: 100vh !important;}.plyr__video-wrapper{position:relative;}.yt-download{width:100%;height:50px}')
@@ -112,6 +114,7 @@ if (pathname == '/view_video_hd.php' || pathname == '/view_video.php') {
 	link.type = 'text/css';
 	link.href = 'https://cdn.plyr.io/3.7.8/plyr.css';
 	document.getElementsByTagName("HEAD")[0].appendChild(link);
+	*/
 }
 
 function usePlyr() {

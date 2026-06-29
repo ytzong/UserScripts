@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         jiuse
-// @version      2025.11.6-fixed
+// @version      2026.3.8
 // @author       ytzong
-// @description  91Porny - Fixed Plyr Integration
+// @description  91Porny
 // @include      http*://*jiuse*/*
 // @include      http*://*91porny*/*
 // @copyright    2016+
@@ -26,7 +26,8 @@
     GM_addStyle(`
         #rd0, #rd1, #rd2, #rd7, #btm-tags,
         a[href='https://xhdwp1044.com'],
-        .page-jump-to, .jsv, .jsv-g1, .col-lg-1, 
+        .notification.is-warning,
+        .page-jump-to, .jsv, .jsv-g1, .col-lg-1,
         #noticeModal, #warningModal, .modal-backdrop {
             display: none !important;
         }
@@ -37,6 +38,15 @@
         }
         .highlight {
             background-color: yellow;
+        }
+        .pagination{padding-bottom:30px}
+        @media screen and (min-width: 769px) {
+              .column.is-10, .column.is-10-tablet {
+                  width: 90%!important;
+              }
+              .column.is-2, .column.is-2-tablet {
+                  width: 10%!important;
+              }
         }
     `);
 
@@ -78,12 +88,12 @@
 
     // 高清重定向检查
     if (pathname.includes('/video/view/')) {
-        let hd = $('.tabs.is-centered a').eq(-1);
-        if (hd.text() == '高清') {
+        let hd = $('.notification.is-success a').eq(0);
+        if (hd.text().includes('高清')) {
             let hdURL = hd.attr('href');
             if (hdURL && hdURL.includes('/viewhd/')) {
                 let redirect = getUrlParameter('redirect');
-                // if (redirect != '0') location.href = hdURL;
+                if (redirect != '0') location.href = hdURL;
             }
         }
     }
@@ -175,11 +185,17 @@
         $('#videoShowTabDownload').addClass('show');
         $('header').removeClass('d-block').removeClass('d-md-block');
 
+
         // 等待 DOM 稳定后初始化播放器
         setTimeout(function () {
-            initPlayer();
-        }, 3000);
+            initPlayer2();
+        }, 1500);
 
+        function initPlayer2() {
+            const video = $('video').eq(0)
+            video.prop("muted", true);
+            video.attr('controls', '').trigger('play');
+        }
         function initPlayer() {
 
             // 获取视频源

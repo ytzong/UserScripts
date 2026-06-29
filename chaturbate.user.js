@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Chaturbate
-// @version      2026.02.02
+// @version      2026.05.26
 // @author       ytzong
 // @description  Chaturbate
 // @include      http*://*chaturbate*/*
@@ -12,6 +12,7 @@
 
 // -------------------- CSS 注入 --------------------
 GM_addStyle(`
+/*
 .full-height{height:100vh!important;background:none!important}
 #defchat>div.section:first-child{overflow:hidden!important}
 body, .list{min-width:0!important}
@@ -33,17 +34,30 @@ body, .list{min-width:0!important}
 .list .sub-info li.cams, .list .subject,.message{display:none!important}
 #discover_root .room-list-carousel ul.list>li {float:left!important;}
 #roomlist_root #room_list, #roomlist_root .roomlist_container ul.list, #roomlist_root .placeholder_roomlist_container ul.list{display:block!important}
+
 #header .ad,
-/* 隐藏浮动聊天窗口 */
 [data-testid="messaging-entrypoint"],
 [data-testid="chat-floating-window"]{display:none!important;}
-`);
+*/
+/* discover */
+.content{width:100%!important}
+#main.discover.SrchEvlv{padding:0!important}
+#discover_root .carousel-header{margin:0!important;padding:16px 0 8px 16px !important}
+#discover_root .carousel{margin-left:0 !important;margin-right:0 !important;border:0 !important}
+.circle-container{display:none!important}
+#discover_root .double-rows ul.list{height:auto!important}
+#discover_root .room-list-carousel ul.list > li{float:left!important}
+#discover_root .single-row ul.list > *:first-child,
+#discover_root .triple-rows ul.list > *:nth-child(-n + 3){margin-left:0 !important}
+.list li{min-width:377px !important;max-height:none !important;margin:0 !important;border:0 !important}
+.room_thumbnail{min-width:377px !important; height:auto!important}
+#discover_root .single-row ul.list{height:auto!important}
 
-// -------------------- 响应式 --------------------
-GM_addStyle('@media (max-width: 800px) {.room_list_room,.roomCard{width:50%!important}}');
-GM_addStyle('@media (max-width: 550px) {.room_list_room,.roomCard{width:100%!important}}');
-GM_addStyle('@media (min-width: 801px) and (max-width: 1010px) {.room_list_room,.roomCard{width:33%!important}}');
-GM_addStyle('@media (min-width: 1011px) {.room_list_room,.roomCard{width:24.5%!important}}');
+#discover_root .room-list-carousel ul.list,
+.RoomCardGrid{display:grid !important; grid-gap:0!important;grid-template-columns:repeat(auto-fill, minmax(310px, 1fr))!important}
+.main-content-wrapper{padding:0!important}
+
+`);
 
 // -------------------- 全局变量 --------------------
 const pathname = window.location.pathname;
@@ -188,13 +202,34 @@ function main() {
 // -------------------- 播放页面初始化 --------------------
 function initPlayerPage() {
   GM_addStyle(`
+/*
     .BaseRoomContents{margin:0!important;padding:0!important;border:0 none!important}
     #VideoPanel{border:0 none!important;width:100%!important;}
     .videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important;background-color:transparent!important}
     div[id^="neatDiv"], #header, .top-section, .reportAbuseLink, .tooltip.modern, .cbLogo, .playerTitleBar, .floatingPlayer, #footer-holder,.videoPlayerDiv canvas{display:none!important}
     .contentText *{position:static!important;background-image:none!important}
     #volume-mute + div + span{position:absolute}
-    .BioContents h1 a, #tsContent h1 a{margin-right:.5em}
+
+*/
+#desktop-spa-header,
+.playerTitleBar,
+.cbLogo,
+#draggableCanvasChatWindow,
+.videoPlayerDiv canvas{display:none!important}
+.top-section.SrchEvlv.roomPage{padding-top:0 !important}
+.main-content-wrapper{padding:0 !important;margin:0 !important;}
+#TheaterModeRoomContents{padding:0 !important;margin:0 !important;border:0 !important}
+#theatermode-root{margin-right:0 !important}
+#VideoPanel{border:0!important;width:100vw!important}
+
+#VideoPanel,
+#TheaterModePlayer,
+.videoPlayerDiv,
+#chat-player,
+#chat-player_html5_api{height:100vh!important}
+.videoPlayerDiv{position:relative;left:50%!important;top:0!important;margin-left:-89vh!important;width:178vh!important;height:100vh!important;background-image:none!important;background-color:transparent!important}
+.BioContents h1 a, #tsContent h1 a{margin-right:.5em}
+
   `);
 
   document.querySelectorAll('.draggableCanvasWindow')?.forEach(el => el.parentElement?.remove());
@@ -224,7 +259,7 @@ function initPlayerPage() {
   setInterval(updateAll, 1000);
 
   // -------------------- 捕获 m3u8 --------------------
-  initM3U8Catcher();
+  //  initM3U8Catcher();
 }
 
 // -------------------- 优化后的非播放页初始化 --------------------
@@ -440,19 +475,20 @@ function hideList() {
   const stylesToApply = [];
 
   if (currentPath !== '/followed-cams/') {
-    // 添加访问过的链接样式（只添加一次）
-    if (!document.querySelector('#visitedLinksStyle')) {
-      const style = document.createElement('style');
-      style.id = 'visitedLinksStyle';
-      style.textContent = `
-        .room_list_room a:visited, .roomCard a:visited, .room-list-carousel-wrapper a:visited{color:yellow!important}
-        .list .title a:visited{color: #0A5B83!important;}
-      `;
-      document.head.appendChild(style);
-    }
-
+    /*
+        // 添加访问过的链接样式（只添加一次）
+        if (!document.querySelector('#visitedLinksStyle')) {
+          const style = document.createElement('style');
+          style.id = 'visitedLinksStyle';
+          style.textContent = `
+            .room_list_room a:visited, .roomCard a:visited, .room-list-carousel-wrapper a:visited{display:block;color:yellow!important}
+            .list .title a:visited{color: #0A5B83!important;}
+          `;
+          document.head.appendChild(style);
+        }
+    */
     // 隐藏关注图标
-    cachedQuery('.icon_following').forEach(el => {
+    cachedQuery('button[title="Unfollow"], div[title="Unfollow"]').forEach(el => {
       if (el.parentElement && el.parentElement.style.display !== 'none') {
         stylesToApply.push(() => el.parentElement.style.setProperty('display', 'none'));
       }
@@ -494,8 +530,19 @@ function rotate(deg) {
 
 // -------------------- m3u8 捕获和UI更新 --------------------
 function generateCommand(url) {
-  let userMatch = url.match(/amlst:([^-\s]+)/);
-  let username = userMatch ? userMatch[1] : "unknown";
+
+  // ✅ 新格式：origin.username.xxx
+  let m1 = url.match(/origin\.([^.\/]+)\./);
+  if (m1) {
+    username = m1[1];
+  } else {
+    // ✅ 兼容旧格式：amlst:username
+    let m2 = url.match(/amlst:([^-\s]+)/);
+    if (m2) {
+      username = m2[1];
+    }
+  }
+
   let now = new Date();
   let timestamp = now.getFullYear() + "-" +
     String(now.getMonth() + 1).padStart(2, '0') + "-" +
@@ -503,7 +550,7 @@ function generateCommand(url) {
     String(now.getHours()).padStart(2, '0') + "." +
     String(now.getMinutes()).padStart(2, '0') + "." +
     String(now.getSeconds()).padStart(2, '0');
-  return `mkdir -p ~/Downloads/Video/${username}/\nffmpeg -i "${url}" -c copy -movflags separate_moof ~/Downloads/Video/${username}/${timestamp}.mp4`;
+  return `mkdir -p ~/Downloads/Video/${username}/\nffmpeg -i "${url}" -c copy ~/Downloads/Video/${username}/${timestamp}.ts`;
 }
 
 // 更新FFmpeg命令框内容
@@ -573,6 +620,9 @@ function insertUI(command) {
 
 function handleM3U8(url) {
   if (!url.includes(".m3u8")) return;
+
+  // ❗只保留 video 流
+  if (url.includes("_audio_")) return;
 
   // 检查是否为新的m3u8地址
   if (currentM3U8Url !== url) {

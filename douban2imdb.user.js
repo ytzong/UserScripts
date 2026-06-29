@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Douban to IMDb
-// @version      2026.01.26
+// @version      2026.6.12
 // @author       ytzong
 // @description  Douban Movie Score to IMDb
 // @include      http*://www.imdb.com/*
@@ -51,7 +51,7 @@ if (location.hostname == 'movie.douban.com') {
 
     let dl_sites = {
         'IMBT': 'https://imbt.one/i/' + imdb,
-        '观影': 'https://www.gying.net/s/1---1/' + imdb,
+        '观影': 'https://www.xn--74qz10cqsltibh40akss.com/search?mode=1&q=' + imdb,
         '片源': 'https://pianyuan.org/search?q=' + imdb,
         '片吧': 'http://so.pianbar.net/search.aspx?s=movie&q=' + title,
         //'下片片': 'http://search.xiepp.com/search.aspx?s=movie&q=' + title,
@@ -60,7 +60,7 @@ if (location.hostname == 'movie.douban.com') {
         '极影': 'https://www.jiyingw.net/?s=' + title,
         'Mini4K': 'https://www.mini4k.com/search?term=' + title,
         'XueSouSou': 'https://www.xuesousou.net/search?q=' + title,
-        'BTSOW': 'https://btsow.lol/search/' + title_en,
+        'BTSOW': 'https://btsow.pics/search/' + title_en,
         'BTDigg': 'https://www.btdig.com/search?order=0&q=' + title_en,
         'RARBG': 'https://rargb.to/search/?search=' + title_en + '&order=size&by=DESC',
         '1377X': 'https://www.1377x.to/sort-search/' + title_en + '/size/desc/1/',
@@ -227,7 +227,7 @@ function openNewBackgroundTab(url) {
 /*
 使用说明：
 
-1. 安装扩展 https://chrome.google.com/webstore/detail/lfpjkncokllnfokkgpkobnkbkmelfefj 此扩展的作用是按 shift + 鼠标左键批量打开链接，注意设置页面打开间隔为3秒以上
+1. 安装扩展 https://chromewebstore.google.com/detail/linkclump-plus/ainlglbojoodfdbndbfofojhmjbmelmm 此扩展的作用是按 shift + 鼠标左键批量打开链接，注意设置页面打开间隔为3秒以上
 2. 在我看过的电影页面批量打开看过电影，脚本就开始执行了，执行完会自动关闭页面。没做自动翻页，需手动翻页
 3. 转移完成后记得关闭脚本
 */

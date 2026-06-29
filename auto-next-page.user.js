@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name         Auto Next Page
-// @version      2024.09.23
+// @version      2026.02.26
 // @author       ytzong
 // @namespace    Auto Next Page
 // @include      *://*google.*/*
@@ -15,7 +15,6 @@
 // @include      *://*bestjavporn.*/*
 // @include      *://*avgle.com/*
 // @include      *://*tokyomotion.*/*
-// @include      *://*chaturbate*/*
 // @include      *://*0818tuan*/*
 // @include      *://tb.zuanke8.com/*
 // @include      *://*lanmaoyouhui.com/*
@@ -31,7 +30,7 @@
 // @include      *://*zuanke8.com/*
 // @include      *://*rec-tube.com/*
 // @include      *://*tgfcer.com/*
-//// @include      *://*nga.cn/*
+// @include      *://*nga.cn/*
 // @include      *://bbs.a9vg.com/*
 // @include      *://*jdbbs.com/*
 // @include      *://*zimuku.*/*
@@ -65,8 +64,7 @@ setTimeout(() => {
         $next = document.querySelector('span.pagingnav').nextElementSibling;
     }
     if (domain.includes('91porny.') || domain.includes('jiuse')) {
-        $next = document.querySelector('.pagination a[aria-label="Next »"]');
-        if ($next === null) $next = document.querySelector('.page-item.active').nextElementSibling.querySelector('a');
+        $next = document.querySelector('.pagination .is-current').nextElementSibling.querySelector('a');
     }
     if (domain.includes('chaturbate')) {
         $next = document.querySelector('.paging .next')
